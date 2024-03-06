@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Report;
+use App\Models\Teacher;
 use Illuminate\Support\Carbon;
 
 class ReportController extends Controller
@@ -11,7 +12,9 @@ class ReportController extends Controller
     public function report() 
     {
         $reports = Report::all();
-
+        // $teachers = Teacher::find(1);
+        // $reports = Report::find(1);
+        // dd($reports->teachers);
         return view('reports.reports', compact('reports'));
     }
 

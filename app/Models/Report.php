@@ -15,4 +15,9 @@ class Report extends Model
     protected $guarded = [];
     protected $fillable = ['teachers_id', 'student','course', 'topic', 'date', 'lesson_description', 'comments'];
 
+    public function teachers() 
+    {
+        return $this->belongsTo(Teacher::class, 'teachers_id', 'id');
+    }
+
 }

@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Roster;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Teacher;
 
 class RosterController extends Controller
 {
     public function roster()
     {
         $rosters = Roster::all();
-
+        // $teachers = Teacher::find(1);
+        // $rosters = Roster::find(1);
+        // dd($rosters->teachers);
         return view('rosters.rosters', compact('rosters'));
     }
 

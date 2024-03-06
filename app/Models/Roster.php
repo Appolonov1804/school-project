@@ -15,4 +15,9 @@ class Roster extends Model
     protected $table = 'rosters';
     protected $guarded = [];
     protected $fillable = ['teachers_id', 'student','course','topic','date','attendance'];
+
+    public function teachers() 
+    {
+        return $this->belongsTo(Teacher::class, 'teachers_id', 'id');
+    }
 }
