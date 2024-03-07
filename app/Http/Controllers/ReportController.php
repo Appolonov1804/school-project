@@ -12,28 +12,29 @@ class ReportController extends Controller
     public function report() 
     {
         $reports = Report::all();
-        // $teachers = Teacher::find(1);
+        return view('reports.reports', compact('reports'));
+          // $teachers = Teacher::find(1);
         // $reports = Report::find(1);
         // dd($reports->teachers);
-        return view('reports.reports', compact('reports'));
     }
 
     public function create(Report $report) 
     {
-        return view('reports.create');
+        $teachers = Teacher::all();
+        return view('reports.create', compact('teachers'));
        
     }
 
     public function store() 
     {
         $data = request()->validate([
-            'teachers_id' => ['nullable', 'integer'],
             'student' => 'string',
             'course' => 'string',
             'topic' => 'string',
             'date' => 'date',
             'lesson_description' => 'string',
             'comments' => 'nullable',
+            'teachers_id' => ['nullable', 'integer'], 
         ]);
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         Report::create($data);
@@ -53,17 +54,17 @@ class ReportController extends Controller
     public function update(Report $report) 
     {
         $data = request()->validate([
-            'teachers_id' => ['nullable', 'integer'],
             'student' => 'string',
             'course' => 'string',
             'topic' => 'string',
             'date' => 'date',
             'lesson_description' => 'string',
             'comments' => 'nullable',
+            'teachers_id' => ['nullable', 'integer'], 
         ]);
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         $report->update($data);
-        return redirect()->route('reports.show', $report->teachers_id);
+        return redirect()->route('reports.show', $report->id);
     }
 
     public function delete() 

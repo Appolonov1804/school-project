@@ -12,26 +12,27 @@ class RosterController extends Controller
     public function roster()
     {
         $rosters = Roster::all();
-        // $teachers = Teacher::find(1);
+        return view('rosters.rosters', compact('rosters'));
+          // $teachers = Teacher::find(1);
         // $rosters = Roster::find(1);
         // dd($rosters->teachers);
-        return view('rosters.rosters', compact('rosters'));
     }
 
     public function create()
     {
-        return view('rosters.create');
+        $teachers = Teacher::all();
+        return view('rosters.create', compact('teachers'));
     }
 
     public function store()
     {
         $data = request()->validate([
-            'teachers_id' => ['nullable', 'integer'], 
             'student' => 'string',
             'course' => 'string',
             'topic' => 'string',
             'date' => 'date',
             'attendance' => 'string',
+            'teachers_id' => ['nullable', 'integer'], 
         ]);
 
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
@@ -55,12 +56,12 @@ class RosterController extends Controller
     {
 
         $data = request()->validate([
-            'teachers_id' => ['nullable', 'integer'],
             'student' => 'string',
             'course' => 'string',
             'topic' => 'string',
             'date' => 'date',
-            'attendance' => 'string'
+            'attendance' => 'string',
+            'teachers_id' => ['nullable', 'integer'], 
         ]);
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         $roster->update($data);
