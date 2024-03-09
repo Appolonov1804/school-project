@@ -39,6 +39,18 @@
     <label for="inputComments">Замечания</label>
     <input type="text" class="form-control" id="inputComments" placeholder="Введите замечания" name="comments" value=" {{ $report->comments }}">
   </div>
+  <div class="form-group">
+    <label for="teachers">Выбрать преподавателя</label>
+      <select class="form-control" id="teachers" name="teachers_id">
+    <?php foreach ($teachers as $teacher) : ?>
+      <option 
+
+      {{ $teacher->id === $report->teachers_id ? ' selected' : '' }}
+
+        value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+    <?php endforeach ; ?>
+      </select>
+  </div>
   <button type="submit" class="btn btn-primary">Обновить</button>
 </form>
         

@@ -48,7 +48,8 @@ class RosterController extends Controller
 
     public function edit(Roster $roster)
     {
-        return view('rosters.edit', compact('roster'));
+        $teachers = Teacher::all();
+        return view('rosters.edit', compact('roster', 'teachers'));
     }
 
 

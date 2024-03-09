@@ -43,12 +43,12 @@
     <input type="text" class="form-control" id="inputComments" name="comments" placeholder="Введите замечания">
   </div>
   <div class="form-group">
-  <select class="form-control" id="teachers" name="teachers_id"> 
-  <label for="teachers">Выбрать преподавателя</label>
+    <select class="form-control" id="teachers" name="teachers_id"> 
+      <label for="teachers">Выбрать преподавателя</label>
   <?php foreach ($teachers as $teacher) : ?>
-  <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+      <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
   <?php endforeach ; ?>
-  </select>
+    </select>
   </div>
   <button type="submit" class="btn btn-primary">Добавить</button>
 </form>

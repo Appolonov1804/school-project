@@ -48,7 +48,8 @@ class ReportController extends Controller
 
     public function edit(Report $report) 
     {
-        return view('reports.edit', compact('report'));
+        $teachers = Teacher::all();
+        return view('reports.edit', compact('report', 'teachers')); 
     }
 
     public function update(Report $report) 

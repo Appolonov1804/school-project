@@ -32,11 +32,11 @@
   </div>
   <div class="form-group">
     <label for="teachers">Выбрать преподавателя</label>
-    <select class="form-control" id="teachers" name="teachers_id">
-      <?php foreach ($teachers as $teacher) : ?>
+      <select class="form-control" id="teachers" name="teachers_id">
+    <?php foreach ($teachers as $teacher) : ?>
       <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-      <?php endforeach ; ?>
-    </select>
+    <?php endforeach ; ?>
+      </select>
   </div>
   <button type="submit" class="btn btn-primary">Добавить</button>
 </form>
