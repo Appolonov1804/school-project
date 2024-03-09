@@ -35,6 +35,14 @@
     <label for="inputAttendance">Посещаемость</label>
     <input type="text" class="form-control" id="inputAttendance" placeholder="был, была, не было" name="attendance" value=" {{ $roster->attendance }}">
   </div>
+  <div class="form-group">
+    <label for="teachers">Выбрать преподавателя</label>
+      <select class="form-control" id="teachers" name="teachers_id">
+    <?php foreach ($teachers as $teacher) : ?>
+      <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+    <?php endforeach ; ?>
+      </select>
+  </div>
   <button type="submit" class="btn btn-primary">Обновить</button>
 </form>
 </body>

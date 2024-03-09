@@ -6,6 +6,8 @@ use App\Models\Roster;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Teacher;
+use App\Http\Requests\Controllers\StoreRosterRequest;
+use App\Http\Requests\Controllers\UpdateRosterRequest;
 
 class RosterController extends Controller
 {
@@ -24,16 +26,10 @@ class RosterController extends Controller
         return view('rosters.create', compact('teachers'));
     }
 
-    public function store()
+    public function store(StoreRosterRequest $request)
     {
-        $data = request()->validate([
-            'student' => 'string',
-            'course' => 'string',
-            'topic' => 'string',
-            'date' => 'date',
-            'attendance' => 'string',
-            'teachers_id' => ['nullable', 'integer'], 
-        ]);
+        $data = $request->validated();
+      
 
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
 
@@ -53,17 +49,10 @@ class RosterController extends Controller
     }
 
 
-    public function update(Roster $roster)
+    public function update(UpdateRosterRequest $request, Roster $roster)
     {
 
-        $data = request()->validate([
-            'student' => 'string',
-            'course' => 'string',
-            'topic' => 'string',
-            'date' => 'date',
-            'attendance' => 'string',
-            'teachers_id' => ['nullable', 'integer'], 
-        ]);
+        $data = $request->validated();
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         $roster->update($data);
         return redirect()->route('rosters.show', $roster->id);
