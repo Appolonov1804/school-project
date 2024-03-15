@@ -6,7 +6,7 @@
               <i class="nav-icon fas fa-calendar-alt"></i>
               <p>
                 Календарь
-                <span class="badge badge-info right">2</span>
+                <span class="badge badge-info right"></span>
               </p>
             </a>
           </li>
@@ -16,6 +16,7 @@
               <i class="fa-solid fa-user"></i>
               <p>
                 Преподаватели
+                <span class="badge badge-info right">{{ $teachers->count() }}</span>
               </p>
             </a>
           </li>
@@ -25,6 +26,7 @@
               <p>
                 Журналы
                 <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right">{{ $rosters->count() }}</span>
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -55,6 +57,7 @@
               <p>
                 Отчёты
                 <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right">{{ $reports->count() }}</span>
               </p>
             </a>
             <ul class="nav nav-treeview">

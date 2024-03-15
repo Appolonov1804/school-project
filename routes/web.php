@@ -56,9 +56,25 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['namespace' => 'Controllers', 'prefix' => 'admin'], function() {
 
+
+Route::group(['namespace' => 'Controllers', 'prefix' => 'admin'], function() {
 Route::group(['namespace' => 'Controllers'], function() {
-    Route::get('/roster', [App\Http\Controllers\AdminController::class, 'admin'])->name('admin.roster.roster');
+    Route::get('/roster', [App\Http\Controllers\AdminRosterController::class, 'store'])->name('admin.roster.roster');
    });
+});
+
+
+
+Route::group(['namespace' => 'Controllers', 'prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Controllers'], function() { 
+    Route::get('/report', [App\Http\Controllers\AdminReportController::class, 'store'])->name('admin.report.report');
+    });
+});
+
+
+Route::group(['namespace' => 'Controllers', 'prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Controllers'], function() { 
+    Route::get('/teacher', [App\Http\Controllers\AdminTeacherController::class, 'store'])->name('admin.teacher.teacher');
+    });
 });
