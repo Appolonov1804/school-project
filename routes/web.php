@@ -52,6 +52,13 @@ Route::patch('/reports/{report}', [\App\Http\Controllers\ReportController::class
 Route::delete('/reports/{report}', [\App\Http\Controllers\ReportController::class, 'destroy'])->name('reports.delete'); 
 
 Route::get('/reports/delete', [\App\Http\Controllers\ReportController::class, 'delete']); 
-// Auth::routes();
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['namespace' => 'Controllers', 'prefix' => 'admin'], function() {
+
+Route::group(['namespace' => 'Controllers'], function() {
+    Route::get('/roster', [App\Http\Controllers\AdminController::class, 'admin'])->name('admin.roster.roster');
+   });
+});
