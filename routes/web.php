@@ -56,7 +56,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
-Route::group(['namespace' => 'Controllers', 'prefix' => 'admin'], function() {
+Route::group(['namespace' => 'Controllers', 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 Route::group(['namespace' => 'Controllers'], function() {
     Route::get('/roster', [App\Http\Controllers\AdminRosterController::class, 'store'])->name('admin.roster.roster');
    });
@@ -64,14 +64,14 @@ Route::group(['namespace' => 'Controllers'], function() {
 
 
 
-Route::group(['namespace' => 'Controllers', 'prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Controllers', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
 Route::group(['namespace' => 'Controllers'], function() { 
     Route::get('/report', [App\Http\Controllers\AdminReportController::class, 'store'])->name('admin.report.report');
     });
 });
 
 
-Route::group(['namespace' => 'Controllers', 'prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Controllers', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
 Route::group(['namespace' => 'Controllers'], function() { 
     Route::get('/teacher', [App\Http\Controllers\AdminTeacherController::class, 'store'])->name('admin.teacher.teacher');
     });
