@@ -7,6 +7,7 @@ use App\Http\Requests\Controllers\UpdateReportRequest;
 use Illuminate\Http\Request;
 use App\Models\Report;
 use App\Models\Teacher;
+use App\Models\Roster;
 use Illuminate\Support\Carbon;
 
 class ReportController extends Controller
@@ -14,7 +15,9 @@ class ReportController extends Controller
     public function report() 
     {
         $reports = Report::all();
-        return view('reports.reports', compact('reports'));
+        $rosters = Roster::all();
+        $teachers = Teacher::all();
+        return view('reports.reports', compact('reports', 'rosters', 'teachers'));
           // $teachers = Teacher::find(1);
         // $reports = Report::find(1);
         // dd($reports->teachers);

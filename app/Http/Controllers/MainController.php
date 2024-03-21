@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use App\Models\Roster;
+use App\Models\Report;
 
 class MainController extends Controller
 {
     public function main() 
     {
         $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
        
-        return view('teachers.index', compact('teachers'));
+        return view('teachers.index', compact('teachers', 'rosters', 'reports'));
     }
 
     public function create() 

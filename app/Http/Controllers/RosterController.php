@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Roster;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Teacher;
+use App\Models\Report;
+use App\Models\Roster;
 use App\Http\Requests\Controllers\StoreRosterRequest;
 use App\Http\Requests\Controllers\UpdateRosterRequest;
 
@@ -14,7 +15,9 @@ class RosterController extends Controller
     public function roster()
     {
         $rosters = Roster::all();
-        return view('rosters.rosters', compact('rosters'));
+        $reports = Report::all();
+        $teachers = Teacher::all();
+        return view('rosters.rosters', compact('rosters', 'reports', 'teachers'));
           // $teachers = Teacher::find(1);
         // $rosters = Roster::find(1);
         // dd($rosters->teachers);

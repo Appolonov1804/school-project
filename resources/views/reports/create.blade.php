@@ -1,21 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('content')
 <form action="{{ route('reports.store') }}" method="post">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div>
@@ -52,8 +37,4 @@
   </div>
   <button type="submit" class="btn btn-primary">Добавить</button>
 </form>
-        
-</body>
-</html>
-</body>
-</html>
+@endsection
