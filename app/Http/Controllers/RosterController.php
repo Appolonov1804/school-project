@@ -25,12 +25,17 @@ class RosterController extends Controller
 
     public function create()
     {
+        $rosters = Roster::all();
+        $reports = Report::all();
         $teachers = Teacher::all();
-        return view('rosters.create', compact('teachers'));
+        return view('rosters.create', compact('teachers', 'rosters', 'reports'));
     }
 
     public function store(StoreRosterRequest $request)
     {
+        $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
         $data = $request->validated();
       
 
@@ -40,20 +45,28 @@ class RosterController extends Controller
         return redirect()->route('rosters.rosters');
     }
 
-    public function show(Roster $roster)
-    {
-        return view('rosters.show', compact('roster'));
-    }
-
-    public function edit(Roster $roster)
+    public function show(Roster $roster, Report $report, Teacher $teacher)
     {
         $teachers = Teacher::all();
-        return view('rosters.edit', compact('roster', 'teachers'));
+        $rosters = Roster::all();
+        $reports = Report::all();
+        return view('rosters.show', compact('roster', 'teacher', 'report', 'teachers', 'reports'));
+    }
+
+    public function edit(Roster $roster, Report $report, Teacher $teacher)
+    {
+        $rosters = Roster::all();
+        $reports = Report::all();
+        $teachers = Teacher::all();
+        return view('rosters.edit', compact('roster', 'teacher', 'report', 'teachers', 'reports'));
     }
 
 
-    public function update(UpdateRosterRequest $request, Roster $roster)
+    public function update(UpdateRosterRequest $request, Roster $roster, Report $report, Teacher $teacher)
     {
+        $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
 
         $data = $request->validated();
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();

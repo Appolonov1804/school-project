@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
+@section('content')
     <div>
         <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать</a>
     </div>
@@ -23,8 +16,6 @@
         <div>{{ $roster->topic }}. {{ $roster->date }}. {{ $roster->attendance }}</div>
     </div>
     <div>
-        <a href="{{ route('rosters.rosters') }}">Назад</a>
+        <a href="{{ route('admin.roster.roster') }}">Назад</a>
     </div>
-</body>
-
-</html>
+@endsection

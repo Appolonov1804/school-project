@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/resources/css/app.css">
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('content')
 <form action="{{ route('teachers.update', $teacher->id) }}" method="post">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 @method('patch')
@@ -20,5 +14,4 @@
   <button type="submit" class="btn btn-primary">Обновить</button>
 </form>
         
-</body>
-</html>
+@endsection

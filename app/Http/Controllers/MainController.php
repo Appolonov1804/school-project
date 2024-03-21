@@ -20,12 +20,18 @@ class MainController extends Controller
 
     public function create() 
     {
+        $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
         return view('teachers.create');   
     
     }
 
     public function store() 
     {
+        $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
         $data = request()->validate([
             'name' => 'string',
             'email' => 'email'
@@ -34,18 +40,27 @@ class MainController extends Controller
         return redirect()->route('teachers.index');
     }
     
-    public function show(Teacher $teacher) 
+    public function show(Teacher $teacher, Roster $roster, Report $report) 
     {
-       return view('teachers.show', compact('teacher'));
+        $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
+       return view('teachers.show', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
     }
 
-    public function edit(Teacher $teacher) 
+    public function edit(Teacher $teacher, Roster $roster, Report $report) 
     {
-        return view('teachers.edit', compact('teacher'));
+        $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
+        return view('teachers.edit', compact('teacher', 'roster', 'report', 'teachers', 'rosters', 'reports'));
     }
 
-    public function update(Teacher $teacher) 
+    public function update(Teacher $teacher, Roster $roster, Report $report) 
     { 
+        $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
         $data = request()->validate([
             'name' => 'string',
             'email' => 'email'

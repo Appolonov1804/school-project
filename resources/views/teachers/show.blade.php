@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
+@section('content')
     <div>
         <a href="{{ route('teachers.edit', $teacher->id) }}">Редактировать</a>
     </div>
@@ -23,8 +16,9 @@
         <div>{{ $teacher->name }}</div>
     </div>
     <div>
-        <a href="{{ route('teachers.index') }}">Назад</a>
+        
     </div>
-</body>
-
-</html>
+    <div>
+        <a href="{{ route('admin.teacher.teacher') }}">Назад</a>
+    </div>
+@endsection

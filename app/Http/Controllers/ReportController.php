@@ -23,34 +23,47 @@ class ReportController extends Controller
         // dd($reports->teachers);
     }
 
-    public function create(Report $report) 
+    public function create(Report $report, Roster $roster, Teacher $teacher) 
     {
+        $reports = Report::all();
+        $rosters = Roster::all();
         $teachers = Teacher::all();
-        return view('reports.create', compact('teachers'));
+        return view('reports.create', compact('teachers', 'reports', 'rosters'));
        
     }
 
     public function store(StoreReportRequest $request) 
     {
+        $reports = Report::all();
+        $rosters = Roster::all();
+        $teachers = Teacher::all();
         $data = $request->validated();
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         Report::create($data);
         return redirect()->route('reports.reports');
     }
 
-    public function show(Report $report) 
+    public function show(Report $report, Roster $roster, Teacher $teacher) 
     {
-        return view('reports.show', compact('report'));
-    }
-
-    public function edit(Report $report) 
-    {
+        $reports = Report::all();
+        $rosters = Roster::all();
         $teachers = Teacher::all();
-        return view('reports.edit', compact('report', 'teachers')); 
+        return view('reports.show', compact('report', 'teacher', 'roster', 'reports', 'teachers', 'rosters'));
     }
 
-    public function update(UpdateReportRequest $request, Report $report) 
+    public function edit(Report $report, Roster $roster, Teacher $teacher) 
     {
+        $reports = Report::all();
+        $rosters = Roster::all();
+        $teachers = Teacher::all();
+        return view('reports.edit', compact('report', 'teacher', 'roster', 'reports', 'teachers', 'rosters')); 
+    }
+
+    public function update(UpdateReportRequest $request, Report $report, Roster $roster, Teacher $teacher) 
+    {
+        $reports = Report::all();
+        $rosters = Roster::all();
+        $teachers = Teacher::all();
         $data = $request->validated();
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         $report->update($data);
