@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Report;
+use App\Models\Roster;
+use App\Models\Teacher;
 
 class HomeController extends Controller
 {
@@ -21,8 +24,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Roster $roster, Report $report, Teacher $teacher)
     {
-        return view('home');
+        $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
+        return view('home', compact('teachers', 'rosters', 'reports'));
     }
 }

@@ -36,7 +36,6 @@ Route::get('/rosters/{roster}/edit', [\App\Http\Controllers\RosterController::cl
 Route::patch('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'update'])->name('rosters.update');
 Route::delete('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'destroy'])->name('rosters.delete');
 
-// Route::get('/rosters/update', [\App\Http\Controllers\RosterController::class, 'update']); 
 
 Route::get('/rosters/delete', [\App\Http\Controllers\RosterController::class, 'delete']); 
 
@@ -54,7 +53,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+Route::get('/teachers/{teacher}/reports', [\App\Http\Controllers\MainController::class, 'showTeachersReports'])->name('teachers.reportShow');
 
 Route::group(['namespace' => 'Controllers', 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 Route::group(['namespace' => 'Controllers'], function() {

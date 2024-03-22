@@ -17,11 +17,11 @@ class Teacher extends Model
 
     public function rosters() 
     {
-        return $this->hasMany(Roster::class, 'id');
+        return $this->hasMany(Roster::class, 'teachers_id');
     }
 
     public function reports() 
     {
-        return $this->hasMany(Report::class, 'id');
+        return $this->hasMany(Report::class, 'teachers_id'); 
     }
 }

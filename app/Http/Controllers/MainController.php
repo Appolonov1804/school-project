@@ -45,7 +45,17 @@ class MainController extends Controller
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
+        $rosters = $teacher->rosters;
        return view('teachers.show', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
+    }
+
+    public function showTeachersReports(Teacher $teacher, Roster $roster, Report $report) 
+    {
+        $teachers = Teacher::all();
+        $rosters = Roster::all();
+        $reports = Report::all();
+        $reports = $teacher->reports;
+       return view('teachers.reportShow', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
     }
 
     public function edit(Teacher $teacher, Roster $roster, Report $report) 

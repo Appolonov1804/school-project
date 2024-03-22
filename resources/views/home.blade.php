@@ -20,12 +20,5 @@
         </div>
     </div>
 </div>
-<div>
-    <a href="{{ route('admin.teacher.teacher') }}">Преподаватели</a>
-    <br>
-    <a href="{{ route('admin.roster.roster') }}">Журналы</a>
-    <br>
-    <a href="{{ route('admin.report.report') }}">Отчёты</a>
-    <br>
-</div>
+
 @endsection

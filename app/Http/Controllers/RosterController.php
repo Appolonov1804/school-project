@@ -50,15 +50,21 @@ class RosterController extends Controller
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
-        return view('rosters.show', compact('roster', 'teacher', 'report', 'teachers', 'reports'));
+        return view('rosters.show', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters'));
     }
+
+    // public function showTeachersRosters(Teacher $teacher) 
+    // {
+    //     $rosters = $teacher->rosters->get();
+    //     return view('rosters.rosters', compact('rosters', 'teacher'));
+    // }
 
     public function edit(Roster $roster, Report $report, Teacher $teacher)
     {
         $rosters = Roster::all();
         $reports = Report::all();
         $teachers = Teacher::all();
-        return view('rosters.edit', compact('roster', 'teacher', 'report', 'teachers', 'reports'));
+        return view('rosters.edit', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters'));
     }
 
 
