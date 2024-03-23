@@ -1,14 +1,30 @@
 @extends('layouts.admin')
 
 @section('content')
+
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 5px; 
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+  
+</style>
     <div>
         <a href="{{ route('teachers.edit', $teacher->id) }}">Изменить имя преподавателя</a>
     </div>
     <div>
         <form action="{{ route('teachers.delete', $teacher->id) }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        @method('delete')
-        <input type="submit" value="Удалить" class="btn btn-danger">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            @method('delete')
+            <input type="submit" value="Удалить" class="btn btn-danger">
         </form>
     </div>
     <div>
@@ -16,20 +32,43 @@
         <div>{{ $teacher->name }}</div>
     </div>
     <div>
-    <h2>Журналы учителя {{ $teacher->name }}</h2>
-        @foreach($rosters as $roster)
-            <div>{{ $roster->id }}. {{ $roster->student }}. {{ $roster->course }}</div>
-            <div>{{ $roster->topic }}. {{ $roster->date }}. {{ $roster->attendance }}</div>
-        @endforeach
+        <h2>Журналы учителя {{ $teacher->name }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Студент</th>
+                    <th>Курс</th>
+                    <th>Тема</th>
+                    <th>Дата</th>
+                    <th>Посещение</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($rosters as $roster)
+                    <tr>
+                        <td>{{ $roster->id }}</td>
+                        <td>{{ $roster->student }}</td>
+                        <td>{{ $roster->course }}</td>
+                        <td>{{ $roster->topic }}</td>
+                        <td>{{ $roster->date }}</td>
+                        <td>{{ $roster->attendance }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
     <div>
         <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать журналы</a>
     </div>
     <div>
+        <a href="{{ route('rosters.create') }}">Добавить журнал</a> 
+    </div>
+    <div>
         <form action="{{ route('rosters.delete', $roster->id) }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        @method('delete')
-        <input type="submit" value="Удалить" class="btn btn-danger">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            @method('delete')
+            <input type="submit" value="Удалить" class="btn btn-danger">
         </form>
     </div>
     <div>
