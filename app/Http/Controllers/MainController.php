@@ -37,7 +37,7 @@ class MainController extends Controller
             'email' => 'email'
         ]);
         Teacher::create($data);
-        return redirect()->route('teachers.index');
+        return redirect()->route('admin.teacher.teacher');
     }
     
     public function show(Teacher $teacher, Roster $roster, Report $report) 

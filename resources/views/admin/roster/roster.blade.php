@@ -11,5 +11,8 @@
         </div>
         <?php endforeach ; ?>
     </div>
+    <div>
+        <a href="{{ route('rosters.create') }}">Создать журнал</a>
+    </div>
 </div>
 @endsection

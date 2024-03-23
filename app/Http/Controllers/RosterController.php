@@ -42,7 +42,7 @@ class RosterController extends Controller
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
 
         Roster::create($data);
-        return redirect()->route('rosters.rosters');
+        return redirect()->route('admin.roster.roster');
     }
 
     public function show(Roster $roster, Report $report, Teacher $teacher)
@@ -79,6 +79,7 @@ class RosterController extends Controller
         $roster->update($data);
         return redirect()->route('rosters.show', $roster->id);
     }
+
 
     public function delete()
     {

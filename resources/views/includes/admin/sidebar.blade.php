@@ -15,8 +15,8 @@
             <a href="{{ route('admin.teacher.teacher') }}" class="nav-link">
               <i class="fa-solid fa-user"></i>
               <p>
-                Преподаватели
-                <span class="badge badge-info right">{{ $teachers->count() }}</span>
+                Учителя 
+
               </p>
             </a>
           </li>
@@ -26,7 +26,7 @@
               <p>
                 Журналы
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">{{ $rosters->count() }}</span>
+
               </p>
             </a>
           </li>
@@ -37,7 +37,7 @@
               <p>
                 Отчёты
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">{{ $reports->count() }}</span>
+
               </p>
             </a>
           </li>

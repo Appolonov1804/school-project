@@ -11,6 +11,9 @@
         </div>
         <?php endforeach ; ?>
     </div>
+    <div>
+        <a href="{{ route('teachers.create') }}">Добавить учителя</a>
+    </div>
 </div>
 
 @endsection
