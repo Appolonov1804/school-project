@@ -20,4 +20,9 @@ class Roster extends Model
     {
         return $this->belongsTo(Teacher::class, 'teachers_id', 'id');
     }
+
+    public function lessonDetails()
+{
+    return $this->hasMany(LessonDetail::class);
+}
 }

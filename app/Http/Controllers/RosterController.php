@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Teacher;
 use App\Models\Report;
 use App\Models\Roster;
+use App\Models\LessonDetail;
 use App\Http\Requests\Controllers\StoreRosterRequest;
 use App\Http\Requests\Controllers\UpdateRosterRequest;
 
@@ -38,10 +39,12 @@ class RosterController extends Controller
         $reports = Report::all();
         $data = $request->validated();
       
-
-        $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
-
-        Roster::create($data);
+        $roster = Roster::create([
+            'student' => $data['student'],
+            'course' => $data['course'],
+            'teachers_id' => $data['teachers_id'],
+        ]);
+    
         return redirect()->route('admin.roster.roster');
     }
 
@@ -79,6 +82,29 @@ class RosterController extends Controller
         $roster->update($data);
         return redirect()->route('rosters.show', $roster->id);
     }
+
+    public function addDetails($rosterId)
+{
+    $roster = Roster::findOrFail($rosterId);
+    return view('rosters.add_details', compact('roster'));
+}
+
+public function saveDetails(UpdateRosterRequest $request, $rosterId)
+{
+    $roster = Roster::findOrFail($rosterId);
+    $validatedData = $request->validated();
+
+    $lessonDetail = new LessonDetail([
+        'date' => $validatedData['date'],
+        'topic' => $validatedData['topic'],
+        'attendance' => $validatedData['attendance'],
+        'roster_id' => $rosterId, // Установка значения для поля roster_id
+    ]);
+
+    $lessonDetail->save();
+
+    return redirect()->route('admin.roster.roster');
+}
 
 
     public function delete()

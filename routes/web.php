@@ -54,6 +54,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/teachers/{teacher}/reports', [\App\Http\Controllers\MainController::class, 'showTeachersReports'])->name('teachers.reportShow');
+Route::get('/rosters/{roster}/add_details', [\App\Http\Controllers\RosterController::class, 'addDetails'])->name('rosters.add_details');
+Route::patch('/rosters/{roster}/save-details', [\App\Http\Controllers\RosterController::class, 'saveDetails'])->name('rosters.saveDetails');
 
 Route::group(['namespace' => 'Controllers', 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 Route::group(['namespace' => 'Controllers'], function() {
