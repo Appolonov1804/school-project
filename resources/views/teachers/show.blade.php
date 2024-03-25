@@ -32,43 +32,25 @@
         <div>{{ $teacher->name }}</div>
     </div>
     <div>
-        <h2>Журналы учителя {{ $teacher->name }}</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Студент</th>
-                    <th>Курс</th>
-                    <th>Тема</th>
-                    <th>Дата</th>
-                    <th>Посещение</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($rosters as $roster)
-                    <tr>
-                        <td>{{ $roster->id }}</td>
-                        <td>{{ $roster->student }}</td>
-                        <td>{{ $roster->course }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    <div>
+    <h2>Журналы учителя {{ $teacher->name }}</h2>
     @foreach($rosters as $roster)
-        <h3>{{ $roster->id }}</h3>
+        <h3>{{ $roster->student }}</h3>
         <table>
             <thead>
                 <tr>
+                    <th>Курс</th>
                     <th>Дата</th>
                     <th>Тема</th>
                     <th>Посещение</th>
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>{{ $roster->course }}</td>
+                </tr>
                 @foreach($roster->lessonDetails as $lesson)
                     <tr>
+                        <td></td> <!-- Пустая ячейка для выравнивания -->
                         <td>{{ $lesson->date }}</td>
                         <td>{{ $lesson->topic }}</td>
                         <td>{{ $lesson->attendance }}</td>
@@ -77,7 +59,7 @@
             </tbody>
         </table>
     @endforeach
-    </div>
+</div>
     <div>
         <a href="{{ route('rosters.add_details', ['roster' => $roster->id]) }}">Отметить урок</a>
     </div>
