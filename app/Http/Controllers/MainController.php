@@ -45,7 +45,7 @@ class MainController extends Controller
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
-        $rosters = $teacher->rosters;
+        $rosters = $teacher->rosters()->with('lessonDetails')->get();
        return view('teachers.show', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
     }
 

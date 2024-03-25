@@ -50,13 +50,33 @@
                         <td>{{ $roster->id }}</td>
                         <td>{{ $roster->student }}</td>
                         <td>{{ $roster->course }}</td>
-                        <td>{{ $roster->topic }}</td>
-                        <td>{{ $roster->date }}</td>
-                        <td>{{ $roster->attendance }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+    </div>
+    <div>
+    @foreach($rosters as $roster)
+        <h3>{{ $roster->id }}</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Тема</th>
+                    <th>Посещение</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($roster->lessonDetails as $lesson)
+                    <tr>
+                        <td>{{ $lesson->date }}</td>
+                        <td>{{ $lesson->topic }}</td>
+                        <td>{{ $lesson->attendance }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endforeach
     </div>
     <div>
         <a href="{{ route('rosters.add_details', ['roster' => $roster->id]) }}">Отметить урок</a>
