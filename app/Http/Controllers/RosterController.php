@@ -98,7 +98,7 @@ public function saveDetails(UpdateRosterRequest $request, $rosterId)
         'date' => $validatedData['date'],
         'topic' => $validatedData['topic'],
         'attendance' => $validatedData['attendance'],
-        'roster_id' => $rosterId, // Установка значения для поля roster_id
+        'roster_id' => $roster->id, // Передаем значение roster_id
     ]);
 
     $lessonDetail->save();

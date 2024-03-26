@@ -4,6 +4,7 @@
 <form action="{{ route('rosters.saveDetails', $roster->id) }}" method="post">
     @csrf
     @method('PATCH')
+    <input type="hidden" name="roster_id" value="{{ $roster->id }}">
     <div class="form-group">
         <label for="inputDate">Дата</label>
         <input type="date" class="form-control" id="inputDate" name="date" placeholder="Введите дату">

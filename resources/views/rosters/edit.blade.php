@@ -16,20 +16,6 @@
   </div>
   <br>
   <div class="form-group">
-    <label for="inputTopic">Тема</label>
-    <input type="text" class="form-control" id="inputTopic" placeholder="Введите тему урока" name="topic" value=" {{ $roster->topic }}">
-  </div>
-  <br>
-  <div class="form-group">
-    <label for="inputDate">Дата</label>
-    <input type="date" class="form-control" id="inputDate" placeholder="Введите дату" name="date" value=" {{ $roster->date }}">
-  </div>
-  <br>
-  <div class="form-group">
-    <label for="inputAttendance">Посещаемость</label>
-    <input type="text" class="form-control" id="inputAttendance" placeholder="был, была, не было" name="attendance" value=" {{ $roster->attendance }}">
-  </div>
-  <div class="form-group">
     <label for="teachers">Выбрать преподавателя</label>
       <select class="form-control" id="teachers" name="teachers_id">
     <?php foreach ($teachers as $teacher) : ?>
@@ -39,4 +25,4 @@
   </div>
   <button type="submit" class="btn btn-primary">Обновить</button>
 </form>
-@endsection
+@endsection 

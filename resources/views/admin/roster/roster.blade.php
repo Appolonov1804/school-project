@@ -15,4 +15,5 @@
         <a href="{{ route('rosters.create') }}">Создать журнал</a>
     </div>
 </div>
+
 @endsection

@@ -28,7 +28,7 @@
         </form>
     </div>
     <div>
-        <div>{{ $teacher->id }}. {{ $teacher->email }}</div>
+        <div>{{ $teacher->id }}. {{ $teacher->email }}</div> 
         <div>{{ $teacher->name }}</div>
     </div>
     <div>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LessonDetail extends Model
 {
-    protected $fillable = ['date', 'topic', 'attendance'];
+    protected $fillable = ['date', 'topic', 'attendance','roster_id'];
 
     public function roster()
     {
