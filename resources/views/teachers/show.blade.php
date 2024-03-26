@@ -58,14 +58,15 @@
                 @endforeach
             </tbody>
         </table>
+        <div>
+        <a href="{{ route('rosters.add_details', ['roster' => $roster->id]) }}">Отметить урок {{ $roster->student }}</a>
+        </div>
+        <div>
+        <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать журналы {{ $roster->student }}</a>
+    </div>
     @endforeach
 </div>
-    <div>
-        <a href="{{ route('rosters.add_details', ['roster' => $roster->id]) }}">Отметить урок</a>
-    </div>
-    <div>
-        <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать журналы</a>
-    </div>
+    
     <div>
         <a href="{{ route('rosters.create') }}">Добавить журнал</a> 
     </div>
