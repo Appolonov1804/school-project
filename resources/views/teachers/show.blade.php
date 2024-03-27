@@ -54,16 +54,18 @@
                         <td>{{ $lesson->date }}</td>
                         <td>{{ $lesson->topic }}</td>
                         <td>{{ $lesson->attendance }}</td>
+                        <td><a href="{{ route('rosters.editLesson', $roster->id) }}">Редактировать урок</a></td>
                     </tr>
                 @endforeach
-            </tbody>
+            </tbody> 
         </table>
         <div>
         <a href="{{ route('rosters.add_details', ['roster' => $roster->id]) }}">Отметить урок {{ $roster->student }}</a>
         </div>
+
         <div>
         <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать журналы {{ $roster->student }}</a>
-    </div>
+        </div>
     @endforeach
 </div>
     

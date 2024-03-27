@@ -56,11 +56,6 @@ class RosterController extends Controller
         return view('rosters.show', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters'));
     }
 
-    // public function showTeachersRosters(Teacher $teacher) 
-    // {
-    //     $rosters = $teacher->rosters->get();
-    //     return view('rosters.rosters', compact('rosters', 'teacher'));
-    // }
 
     public function edit(Roster $roster, Report $report, Teacher $teacher)
     {
@@ -78,33 +73,54 @@ class RosterController extends Controller
         $reports = Report::all();
 
         $data = $request->validated();
-        $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
+        // $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         $roster->update($data);
-        return redirect()->route('rosters.show', $roster->id);
+        return redirect()->route('admin.teacher.teacher', $roster->id);
+    }
+
+    public function editLesson(Roster $roster, Report $report, Teacher $teacher, LessonDetail $lessonDetail)
+    {
+        $rosters = Roster::all();
+        $reports = Report::all();
+        $teachers = Teacher::all();
+        $lessonDetail = LessonDetail::where('roster_id', $roster->id)->first();
+        return view('rosters.editLesson', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters', 'lessonDetail'));
+    }
+
+
+    public function updateLesson(UpdateRosterRequest $request, Roster $roster, Report $report, Teacher $teacher, LessonDetail $lessonDetail)
+    {
+    $data = $request->validated();
+    $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
+    
+    // Обновляем существующий LessonDetail, а не создаем новый
+    $lessonDetail->update($data);
+    
+    return redirect()->route('admin.teacher.teacher', $roster->id);
     }
 
     public function addDetails($rosterId)
-{
+    {
     $roster = Roster::findOrFail($rosterId);
     return view('rosters.add_details', compact('roster'));
-}
+    }
 
-public function saveDetails(UpdateRosterRequest $request, $rosterId)
-{
-    $roster = Roster::findOrFail($rosterId);
-    $validatedData = $request->validated();
+    public function saveDetails(UpdateRosterRequest $request, $rosterId)
+    {
+        $roster = Roster::findOrFail($rosterId);
+        $validatedData = $request->validated();
 
-    $lessonDetail = new LessonDetail([
-        'date' => $validatedData['date'],
-        'topic' => $validatedData['topic'],
-        'attendance' => $validatedData['attendance'],
-        'roster_id' => $roster->id, // Передаем значение roster_id
-    ]);
+        $lessonDetail = new LessonDetail([
+            'date' => $validatedData['date'],
+            'topic' => $validatedData['topic'],
+            'attendance' => $validatedData['attendance'],
+            'roster_id' => $roster->id, // Передаем значение roster_id
+        ]);
 
-    $lessonDetail->save();
+        $lessonDetail->save();
 
-    return redirect()->route('admin.roster.roster');
-}
+        return redirect()->route('admin.teacher.teacher');
+    }
 
 
     public function delete()

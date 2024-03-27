@@ -19,6 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('roster_id');
             $table->foreign('roster_id')->references('id')->on('rosters')->onDelete('cascade');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

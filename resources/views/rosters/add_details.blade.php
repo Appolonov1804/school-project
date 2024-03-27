@@ -17,6 +17,6 @@
         <label for="inputAttendance">Посещаемость</label>
         <input type="text" class="form-control" id="inputAttendance" name="attendance" placeholder="был, была, не было">
     </div>
-    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <button type="submit" class="btn btn-primary">Отметить</button>
 </form>
 @endsection

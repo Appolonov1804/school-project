@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\Roster;
 use App\Models\Report;
+use App\Models\LessonDetail;
 
 class MainController extends Controller
 {
@@ -40,13 +41,14 @@ class MainController extends Controller
         return redirect()->route('admin.teacher.teacher');
     }
     
-    public function show(Teacher $teacher, Roster $roster, Report $report) 
+    public function show(Teacher $teacher, Roster $roster, Report $report, LessonDetail $lessonDetail) 
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
+        $lessonDetails = LessonDetail::all();
         $rosters = $teacher->rosters()->with('lessonDetails')->get();
-       return view('teachers.show', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
+       return view('teachers.show', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters', 'lessonDetails', 'lessonDetail'));
     }
 
     public function showTeachersReports(Teacher $teacher, Roster $roster, Report $report) 
