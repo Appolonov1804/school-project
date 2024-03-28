@@ -80,66 +80,6 @@ class RosterController extends Controller
         return redirect()->route('admin.teacher.teacher', $roster->id);
     }
 
-    public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail)
-{
-    // Находим урок по lesson_id и убеждаемся, что он принадлежит данному журналу
-    $lessonDetail = $roster->lessonDetails()->findOrFail($lesson_id);
-
-    $teachers = Teacher::all();
-    $reports = Report::all();
-
-    return view('rosters.editLesson', compact('roster', 'teachers', 'reports', 'lessonDetail'));
-}
-    
-public function updateLesson(UpdateLessonRequest $request, Roster $roster, LessonDetail $lessonDetail)
-{
-    // Получаем уроки для данного Roster
-    $lessonDetails = $roster->lessonDetails;
-
-    // Перебираем каждый урок для обновления
-    foreach ($lessonDetails as $lessonDetail) {
-        // Ищем урок по идентификатору
-        $lesson_id = $lessonDetail->id;
-
-        // Получаем данные из запроса
-        $data = $request->validated();
-
-        // Обновляем данные урока
-        $lesson = LessonDetail::findOrFail($lesson_id);
-        $lesson->update([
-            'date' => $data['date'],
-            'topic' => $data['topic'],
-            'attendance' => $data['attendance'],
-        ]);
-    }
-
-    // Возвращаем редирект на соответствующую страницу
-    return redirect()->route('admin.teacher.teacher', $roster->id);
-}
-
-    public function addDetails($rosterId)
-    {
-    $roster = Roster::findOrFail($rosterId);
-    return view('rosters.add_details', compact('roster'));
-    }
-
-    public function saveDetails(UpdateRosterRequest $request, $rosterId)
-    {
-        $roster = Roster::findOrFail($rosterId);
-        $validatedData = $request->validated();
-
-        $lessonDetail = new LessonDetail([
-            'date' => $validatedData['date'],
-            'topic' => $validatedData['topic'],
-            'attendance' => $validatedData['attendance'],
-            'roster_id' => $roster->id, // Передаем значение roster_id
-        ]);
-
-        $lessonDetail->save();
-
-        return redirect()->route('admin.teacher.teacher');
-    }
-
 
     public function delete()
     {

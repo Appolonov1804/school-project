@@ -23,7 +23,7 @@
     <form action="{{ route('teachers.delete', $teacher->id) }}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         @method('delete')
-        <input type="submit" value="Удалить" class="btn btn-danger">
+        <input type="submit" value="Удалить преподавателя" class="btn btn-danger">
     </form>
 </div>
 <div>
@@ -75,7 +75,7 @@
     <form action="{{ route('rosters.delete', $roster->id) }}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         @method('delete')
-        <input type="submit" value="Удалить" class="btn btn-danger">
+        <input type="submit" value="Удалить журнал" class="btn btn-danger">
     </form>
 </div>
 <div>

@@ -23,6 +23,7 @@ Route::get('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 
 Route::get('/teachers/{teacher}/edit', [\App\Http\Controllers\MainController::class, 'edit'])->name('teachers.edit');
 Route::patch('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'update'])->name('teachers.update');
 Route::delete('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'destroy'])->name('teachers.delete');
+Route::get('/teachers/{teacher}/reports', [\App\Http\Controllers\MainController::class, 'showTeachersReports'])->name('teachers.reportShow');
 
 Route::get('/teachers/update', [\App\Http\Controllers\MainController::class, 'update']); 
 
@@ -34,13 +35,16 @@ Route::post('/rosters', [\App\Http\Controllers\RosterController::class, 'store']
 Route::get('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'show'])->name('rosters.show');
 Route::get('/rosters/{roster}/edit', [\App\Http\Controllers\RosterController::class, 'edit'])->name('rosters.edit');
 Route::patch('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'update'])->name('rosters.update');
-Route::get('/rosters/{roster}/editLesson/{lesson_id}', [\App\Http\Controllers\RosterController::class, 'editLesson'])->name('rosters.editLesson');
-Route::patch('/rosters/{roster}/update_lesson', [\App\Http\Controllers\RosterController::class, 'updateLesson'])->name('rosters.updateLesson');
 Route::delete('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'destroy'])->name('rosters.delete');
-
 
 Route::get('/rosters/delete', [\App\Http\Controllers\RosterController::class, 'delete']); 
 
+
+Route::get('/rosters/{roster}/editLesson/{lesson_id}', [\App\Http\Controllers\LessonController::class, 'editLesson'])->name('rosters.editLesson');
+Route::patch('/rosters/{roster}/update_lesson', [\App\Http\Controllers\LessonController::class, 'updateLesson'])->name('rosters.updateLesson');
+Route::get('/rosters/{roster}/add_details', [\App\Http\Controllers\LessonController::class, 'addDetails'])->name('rosters.add_details');
+Route::patch('/rosters/{roster}/save-details', [\App\Http\Controllers\LessonController::class, 'saveDetails'])->name('rosters.saveDetails');
+Route::post('/lessons', [\App\Http\Controllers\LessonController::class, 'store'])->name('lessons.store');
 
 Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'report'])->name('reports.reports'); 
 Route::get('/reports/create', [\App\Http\Controllers\ReportController::class, 'create'])->name('reports.create'); 
@@ -55,9 +59,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/teachers/{teacher}/reports', [\App\Http\Controllers\MainController::class, 'showTeachersReports'])->name('teachers.reportShow');
-Route::get('/rosters/{roster}/add_details', [\App\Http\Controllers\RosterController::class, 'addDetails'])->name('rosters.add_details');
-Route::patch('/rosters/{roster}/save-details', [\App\Http\Controllers\RosterController::class, 'saveDetails'])->name('rosters.saveDetails');
+
+
 
 Route::group(['namespace' => 'Controllers', 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 Route::group(['namespace' => 'Controllers'], function() {
