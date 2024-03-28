@@ -10,6 +10,8 @@ use App\Models\Roster;
 use App\Models\LessonDetail;
 use App\Http\Requests\Controllers\StoreRosterRequest;
 use App\Http\Requests\Controllers\UpdateRosterRequest;
+use App\Http\Requests\Controllers\StoreLessonRequest;
+use App\Http\Requests\Controllers\UpdateLessonRequest;
 
 class RosterController extends Controller
 {
@@ -78,26 +80,42 @@ class RosterController extends Controller
         return redirect()->route('admin.teacher.teacher', $roster->id);
     }
 
-    public function editLesson(Roster $roster, Report $report, Teacher $teacher, LessonDetail $lessonDetail)
-    {
-        $rosters = Roster::all();
-        $reports = Report::all();
-        $teachers = Teacher::all();
-        $lessonDetail = LessonDetail::where('roster_id', $roster->id)->first();
-        return view('rosters.editLesson', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters', 'lessonDetail'));
+    public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail)
+{
+    // Находим урок по lesson_id и убеждаемся, что он принадлежит данному журналу
+    $lessonDetail = $roster->lessonDetails()->findOrFail($lesson_id);
+
+    $teachers = Teacher::all();
+    $reports = Report::all();
+
+    return view('rosters.editLesson', compact('roster', 'teachers', 'reports', 'lessonDetail'));
+}
+    
+public function updateLesson(UpdateLessonRequest $request, Roster $roster, LessonDetail $lessonDetail)
+{
+    // Получаем уроки для данного Roster
+    $lessonDetails = $roster->lessonDetails;
+
+    // Перебираем каждый урок для обновления
+    foreach ($lessonDetails as $lessonDetail) {
+        // Ищем урок по идентификатору
+        $lesson_id = $lessonDetail->id;
+
+        // Получаем данные из запроса
+        $data = $request->validated();
+
+        // Обновляем данные урока
+        $lesson = LessonDetail::findOrFail($lesson_id);
+        $lesson->update([
+            'date' => $data['date'],
+            'topic' => $data['topic'],
+            'attendance' => $data['attendance'],
+        ]);
     }
 
-
-    public function updateLesson(UpdateRosterRequest $request, Roster $roster, Report $report, Teacher $teacher, LessonDetail $lessonDetail)
-    {
-    $data = $request->validated();
-    $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
-    
-    // Обновляем существующий LessonDetail, а не создаем новый
-    $lessonDetail->update($data);
-    
+    // Возвращаем редирект на соответствующую страницу
     return redirect()->route('admin.teacher.teacher', $roster->id);
-    }
+}
 
     public function addDetails($rosterId)
     {

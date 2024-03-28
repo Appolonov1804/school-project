@@ -34,8 +34,8 @@ Route::post('/rosters', [\App\Http\Controllers\RosterController::class, 'store']
 Route::get('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'show'])->name('rosters.show');
 Route::get('/rosters/{roster}/edit', [\App\Http\Controllers\RosterController::class, 'edit'])->name('rosters.edit');
 Route::patch('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'update'])->name('rosters.update');
-Route::get('/rosters/{roster}/edit_lesson', [\App\Http\Controllers\RosterController::class, 'editLesson'])->name('rosters.editLesson');
-Route::patch('/rosters_lesson/{roster}', [\App\Http\Controllers\RosterController::class, 'updateLesson'])->name('rosters.updateLesson');
+Route::get('/rosters/{roster}/editLesson/{lesson_id}', [\App\Http\Controllers\RosterController::class, 'editLesson'])->name('rosters.editLesson');
+Route::patch('/rosters/{roster}/update_lesson', [\App\Http\Controllers\RosterController::class, 'updateLesson'])->name('rosters.updateLesson');
 Route::delete('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'destroy'])->name('rosters.delete');
 
 
