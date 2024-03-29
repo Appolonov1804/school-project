@@ -65,6 +65,13 @@
     <div>
         <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать журналы {{ $roster->student }}</a>
     </div>
+    <div>
+    <form action="{{ route('rosters.delete', $roster->id) }}" method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        @method('delete')
+        <input type="submit" value="Удалить журнал" class="btn btn-danger">
+    </form>
+</div>
     @endforeach
 </div>
 
@@ -72,10 +79,10 @@
     <a href="{{ route('rosters.create') }}">Добавить журнал</a>
 </div>
 <div>
-    <form action="{{ route('rosters.delete', $roster->id) }}" method="post">
+    <form action="{{ route('lessons.delete', $lessonDetail->id) }}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         @method('delete')
-        <input type="submit" value="Удалить журнал" class="btn btn-danger">
+        <input type="submit" value="Удалить урок" class="btn btn-danger">
     </form>
 </div>
 <div>

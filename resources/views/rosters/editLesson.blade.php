@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-<form action="{{ route('rosters.updateLesson', $roster->id) }}" method="post">
+<form action="{{ route('rosters.updateLesson', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}" method="post">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    @method('patch')
+    <input type="hidden" name="_method" value="PATCH">
     <div class="form-group">
         <label for="inputDate">Дата</label>
         <input type="date" class="form-control" id="inputDate" placeholder="Введите дату" name="date" value="{{ $lessonDetail->date }}">

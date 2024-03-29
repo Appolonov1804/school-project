@@ -36,15 +36,16 @@ Route::get('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 
 Route::get('/rosters/{roster}/edit', [\App\Http\Controllers\RosterController::class, 'edit'])->name('rosters.edit');
 Route::patch('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'update'])->name('rosters.update');
 Route::delete('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'destroy'])->name('rosters.delete');
-
 Route::get('/rosters/delete', [\App\Http\Controllers\RosterController::class, 'delete']); 
 
 
 Route::get('/rosters/{roster}/editLesson/{lesson_id}', [\App\Http\Controllers\LessonController::class, 'editLesson'])->name('rosters.editLesson');
-Route::patch('/rosters/{roster}/update_lesson', [\App\Http\Controllers\LessonController::class, 'updateLesson'])->name('rosters.updateLesson');
+Route::patch('/rosters/{roster}/update_lesson/{lesson_id}', [\App\Http\Controllers\LessonController::class, 'updateLesson'])->name('rosters.updateLesson');
 Route::get('/rosters/{roster}/add_details', [\App\Http\Controllers\LessonController::class, 'addDetails'])->name('rosters.add_details');
 Route::patch('/rosters/{roster}/save-details', [\App\Http\Controllers\LessonController::class, 'saveDetails'])->name('rosters.saveDetails');
 Route::post('/lessons', [\App\Http\Controllers\LessonController::class, 'store'])->name('lessons.store');
+Route::delete('/rosters/{roster}/update_lesson', [\App\Http\Controllers\LessonController::class, 'destroy'])->name('lessons.delete');
+Route::get('/rosters/delete', [\App\Http\Controllers\LessonController::class, 'delete']); 
 
 Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'report'])->name('reports.reports'); 
 Route::get('/reports/create', [\App\Http\Controllers\ReportController::class, 'create'])->name('reports.create'); 

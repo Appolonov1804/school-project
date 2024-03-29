@@ -43,31 +43,24 @@ class LessonController extends Controller
         return view('rosters.editLesson', compact('roster', 'teachers', 'reports', 'lessonDetail'));
     }
         
-    public function updateLesson(UpdateLessonRequest $request, Roster $roster, LessonDetail $lessonDetail)
-    {
-        // Получаем уроки для данного Roster
-        $lessonDetails = $roster->lessonDetails;
-    
-        // Перебираем каждый урок для обновления
-        foreach ($lessonDetails as $lessonDetail) {
-            // Ищем урок по идентификатору
-            $lesson_id = $lessonDetail->id;
-    
-            // Получаем данные из запроса
-            $data = $request->validated();
-    
-            // Обновляем данные урока
-            $lesson = LessonDetail::findOrFail($lesson_id);
-            $lesson->update([
-                'date' => $data['date'],
-                'topic' => $data['topic'],
-                'attendance' => $data['attendance'],
-            ]);
-        }
-    
-        // Возвращаем редирект на соответствующую страницу
-        return redirect()->route('admin.teacher.teacher', $roster->id);
-    }
+    public function updateLesson(UpdateLessonRequest $request, Roster $roster, $lesson_id)
+{
+    // Находим урок, который нужно обновить
+    $lessonDetail = LessonDetail::findOrFail($lesson_id);
+
+    // Получаем данные из запроса
+    $data = $request->validated();
+
+    // Обновляем данные урока
+    $lessonDetail->update([
+        'date' => $data['date'],
+        'topic' => $data['topic'],
+        'attendance' => $data['attendance'],
+    ]);
+
+    // Возвращаем редирект на страницу с журналами
+    return redirect()->route('admin.teacher.teacher', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]);
+}
     
         public function addDetails($rosterId)
         {
@@ -89,6 +82,23 @@ class LessonController extends Controller
     
             $lessonDetail->save();
     
+            return redirect()->route('admin.teacher.teacher');
+        }
+
+        public function delete($lessonId)
+        {
+        $lessonDetail = Roster::find($lessonId);
+        if ($lessonDetail) {
+            $lessonDetail->delete();
+            return redirect()->route('admin.teacher.teacher');
+        } else {
+            return redirect()->route('rosters.rosters')->with('error', 'Запись не найдена');
+        }
+        }
+
+        public function destroy(LessonDetail $lessonDetail)
+        {
+            $lessonDetail->delete();
             return redirect()->route('admin.teacher.teacher');
         }
 }

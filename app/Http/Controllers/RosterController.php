@@ -81,17 +81,21 @@ class RosterController extends Controller
     }
 
 
-    public function delete()
+    public function delete($rosterId)
     {
-        $roster = Roster::find(5);
-        $roster->delete();
-        dd('deleted');
+        $roster = Roster::find($rosterId);
+        if ($roster) {
+            $roster->delete();
+            return redirect()->route('admin.teacher.teacher');
+        } else {
+            return redirect()->route('rosters.rosters')->with('error', 'Запись не найдена');
+        }
     }
 
     public function destroy(Roster $roster)
     {
         $roster->delete();
-        return redirect()->route('rosters.rosters');
+        return redirect()->route('admin.teacher.teacher');
     }
 
     // public function firstOrCreate()
