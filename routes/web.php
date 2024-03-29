@@ -44,8 +44,8 @@ Route::patch('/rosters/{roster}/update_lesson/{lesson_id}', [\App\Http\Controlle
 Route::get('/rosters/{roster}/add_details', [\App\Http\Controllers\LessonController::class, 'addDetails'])->name('rosters.add_details');
 Route::patch('/rosters/{roster}/save-details', [\App\Http\Controllers\LessonController::class, 'saveDetails'])->name('rosters.saveDetails');
 Route::post('/lessons', [\App\Http\Controllers\LessonController::class, 'store'])->name('lessons.store');
-Route::delete('/rosters/{roster}/update_lesson', [\App\Http\Controllers\LessonController::class, 'destroy'])->name('lessons.delete');
-Route::get('/rosters/delete', [\App\Http\Controllers\LessonController::class, 'delete']); 
+Route::delete('/rosters/{roster}/{lesson_id}', [\App\Http\Controllers\LessonController::class, 'destroy'])->name('lessons.delete');
+Route::get('/lessons/delete', [\App\Http\Controllers\LessonController::class, 'delete']); 
 
 Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'report'])->name('reports.reports'); 
 Route::get('/reports/create', [\App\Http\Controllers\ReportController::class, 'create'])->name('reports.create'); 

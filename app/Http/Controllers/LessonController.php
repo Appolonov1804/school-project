@@ -84,21 +84,29 @@ class LessonController extends Controller
     
             return redirect()->route('admin.teacher.teacher');
         }
-
-        public function delete($lessonId)
+        
+        public function delete($rosterId, $lessonId)
         {
-        $lessonDetail = Roster::find($lessonId);
-        if ($lessonDetail) {
-            $lessonDetail->delete();
-            return redirect()->route('admin.teacher.teacher');
-        } else {
-            return redirect()->route('rosters.rosters')->with('error', 'Запись не найдена');
-        }
+            $lessonDetail = LessonDetail::find($lessonId);
+        
+            if ($lessonDetail) {
+                $lessonDetail->delete();
+                return redirect()->route('admin.teacher.teacher');
+            } else {
+                return redirect()->route('admin.teacher.teacher')->with('error', 'Урок не найден');
+            }
         }
 
-        public function destroy(LessonDetail $lessonDetail)
+        public function destroy($rosterId, $lessonId)
         {
-            $lessonDetail->delete();
-            return redirect()->route('admin.teacher.teacher');
+                $lessonDetail = LessonDetail::find($lessonId);
+                
+                if ($lessonDetail) {
+                    $lessonDetail->delete();
+                    return redirect()->route('admin.teacher.teacher');
+                } else {
+                    return redirect()->route('admin.teacher.teacher')->with('error', 'Урок не найден');
+                }
+
         }
 }

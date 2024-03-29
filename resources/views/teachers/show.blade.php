@@ -32,58 +32,61 @@
 </div>
 <div>
     <h2>Журналы учителя {{ $teacher->name }}</h2>
-    @foreach($rosters as $roster)
-    <h3>{{ $roster->student }}</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Курс</th>
-                <th>Дата</th>
-                <th>Тема</th>
-                <th>Посещение</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ $roster->course }}</td>
-            </tr>
-            @foreach($roster->lessonDetails as $lessonDetail)
-            <tr>
-                <td></td> <!-- Пустая ячейка для выравнивания -->
-                <td>{{ $lessonDetail->date }}</td>
-                <td>{{ $lessonDetail->topic }}</td>
-                <td>{{ $lessonDetail->attendance }}</td>
-                <td><a href="{{ route('rosters.editLesson', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}">Редактировать урок</a></td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-    <div>
-        <a href="{{ route('rosters.add_details', ['roster' => $roster->id]) }}">Отметить урок {{ $roster->student }}</a>
-    </div>
-
-    <div>
-        <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать журналы {{ $roster->student }}</a>
-    </div>
-    <div>
-    <form action="{{ route('rosters.delete', $roster->id) }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        @method('delete')
-        <input type="submit" value="Удалить журнал" class="btn btn-danger">
-    </form>
-</div>
-    @endforeach
+    @if ($rosters->isNotEmpty())
+        @foreach($rosters as $roster)
+            <h3>{{ $roster->student }}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Курс</th>
+                        <th>Дата</th>
+                        <th>Тема</th>
+                        <th>Посещение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ $roster->course }}</td>
+                    </tr>
+                    @foreach($roster->lessonDetails as $lessonDetail)
+                        <tr>
+                            <td></td> <!-- Пустая ячейка для выравнивания -->
+                            <td>{{ $lessonDetail->date }}</td>
+                            <td>{{ $lessonDetail->topic }}</td>
+                            <td>{{ $lessonDetail->attendance }}</td>
+                            <td><a href="{{ route('rosters.editLesson', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}">Редактировать урок</a></td>
+                            <td>
+                            <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <input type="submit" value="Удалить урок" class="btn btn-danger">
+                            </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div>
+                <a href="{{ route('rosters.add_details', ['roster' => $roster->id]) }}">Отметить урок {{ $roster->student }}</a>
+            </div>
+            <div>
+                <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать журналы {{ $roster->student }}</a>
+            </div>
+            <div>
+                <form action="{{ route('rosters.delete', $roster->id) }}" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    @method('delete')
+                    <input type="submit" value="Удалить журнал" class="btn btn-danger">
+                </form>
+            </div>
+        @endforeach
+    @else
+        <p>У этого преподавателя пока нет журналов.</p>
+    @endif
 </div>
 
 <div>
     <a href="{{ route('rosters.create') }}">Добавить журнал</a>
-</div>
-<div>
-    <form action="{{ route('lessons.delete', $lessonDetail->id) }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        @method('delete')
-        <input type="submit" value="Удалить урок" class="btn btn-danger">
-    </form>
 </div>
 <div>
     <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
