@@ -10,14 +10,6 @@ use App\Models\LessonDetail;
 
 class MainController extends Controller
 {
-    public function main() 
-    {
-        $teachers = Teacher::all();
-        $rosters = Roster::all();
-        $reports = Report::all();
-       
-        return view('teachers.index', compact('teachers', 'rosters', 'reports'));
-    }
 
     public function create() 
     {
@@ -81,17 +73,21 @@ class MainController extends Controller
         return redirect()->route('teachers.show', $teacher->id);
     }
 
-    public function delete() 
+    public function delete($teacherId)
     {
-        $teacher = Teacher::find(2);
-        $teacher->delete();
-        dd('deleted');
+        $teacher = Teacher::find($teacherId);
+        if ($teacher) {
+            $teacher->delete();
+            return redirect()->route('admin.teacher.teacher');
+        } else {
+            return redirect()->route('admin.teacher.teacher')->with('error', 'Запись не найдена');
+        }
     }
 
-    public function destroy(Teacher $teacher) 
+    public function destroy(Teacher $teacher)
     {
         $teacher->delete();
-        redirect()->route('teachers.index');
+        return redirect()->route('admin.teacher.teacher');
     }
 
     

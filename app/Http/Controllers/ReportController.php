@@ -12,16 +12,7 @@ use Illuminate\Support\Carbon;
 
 class ReportController extends Controller
 {
-    public function report() 
-    {
-        $reports = Report::all();
-        $rosters = Roster::all();
-        $teachers = Teacher::all();
-        return view('reports.reports', compact('reports', 'rosters', 'teachers'));
-          // $teachers = Teacher::find(1);
-        // $reports = Report::find(1);
-        // dd($reports->teachers);
-    }
+   
 
     public function create(Report $report, Roster $roster, Teacher $teacher) 
     {
@@ -40,7 +31,7 @@ class ReportController extends Controller
         $data = $request->validated();
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         Report::create($data);
-        return redirect()->route('reports.reports');
+        return redirect()->route('admin.report.report');
     }
 
     public function show(Report $report, Roster $roster, Teacher $teacher) 
@@ -70,16 +61,20 @@ class ReportController extends Controller
         return redirect()->route('reports.show', $report->id);
     }
 
-    public function delete() 
+    public function delete($reportId)
     {
-        $report = Report::find(5);
-        $report->delete();
-        dd('deleted');
+        $report = Report::find($reportId);
+        if ($report) {
+            $report->delete();
+            return redirect()->route('admin.teacher.teacher');
+        } else {
+            return redirect()->route('admin.report.report')->with('error', 'Запись не найдена');
+        }
     }
 
-    public function destroy(Report $report) 
+    public function destroy(Report $report)
     {
         $report->delete();
-        return redirect()->route('reports.reports');
+        return redirect()->route('admin.teacher.teacher');
     }
 }

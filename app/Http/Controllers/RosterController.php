@@ -15,16 +15,7 @@ use App\Http\Requests\Controllers\UpdateLessonRequest;
 
 class RosterController extends Controller
 {
-    public function roster()
-    {
-        $rosters = Roster::all();
-        $reports = Report::all();
-        $teachers = Teacher::all();
-        return view('rosters.rosters', compact('rosters', 'reports', 'teachers'));
-          // $teachers = Teacher::find(1);
-        // $rosters = Roster::find(1);
-        // dd($rosters->teachers);
-    }
+
 
     public function create()
     {
@@ -88,7 +79,7 @@ class RosterController extends Controller
             $roster->delete();
             return redirect()->route('admin.teacher.teacher');
         } else {
-            return redirect()->route('rosters.rosters')->with('error', 'Запись не найдена');
+            return redirect()->route('admin.roster.roster')->with('error', 'Запись не найдена');
         }
     }
 
@@ -98,52 +89,5 @@ class RosterController extends Controller
         return redirect()->route('admin.teacher.teacher');
     }
 
-    // public function firstOrCreate()
-    // {
-    //     $anotherRoster = [
-    //         'teachers_id' => 1,
-    //         'student' => 'Tatyana',
-    //         'course' => 'General pre-intermediate',
-    //         'topic' => '5A',
-    //         'date' => 21.02,
-    //         'attendance' => 'была'
-    //     ];
 
-    //     $roster = Roster::firstOrCreate([
-    //         'student' => 'Tatyana'
-    //     ], [
-    //         'teachers_id' => 1,
-    //         'student' => 'Tatyana',
-    //         'course' => 'General pre-intermediate',
-    //         'topic' => '5A',
-    //         'date' => 21.02,
-    //         'attendance' => 'была'
-    //     ]);
-    //     dump($roster->student);
-    //     dd('finished');
-    // }
-
-    // public function updateOrCreate() 
-    // {
-    //     $anotherRoster = [
-    //         'teachers_id' => 1,
-    //         'student' => 'Kamila',
-    //         'course' => 'Upper-intermediate',
-    //         'topic' => '10B part 1',
-    //         'date' => 19.02,
-    //         'attendance' => 'не было'
-    //     ];
-
-    //     $roster = Roster::updateOrCreate([
-    //         'course' => 'Advanced',
-    //     ],[
-    //         'teachers_id' => 1,
-    //         'student' => 'Egor',
-    //         'course' => 'Advanced',
-    //         'topic' => '7B part 1',
-    //         'date' => 18.02,
-    //         'attendance' => 'был'
-    //     ]);
-    //     dump($roster->course);
-    // }
 }

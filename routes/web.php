@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/teachers', [\App\Http\Controllers\MainController::class, 'main'])->name('teachers.index'); 
 
 Route::get('/teachers/create', [\App\Http\Controllers\MainController::class, 'create'])->name('teachers.create'); 
 Route::post('/teachers', [\App\Http\Controllers\MainController::class, 'store'])->name('teachers.store'); 
@@ -29,7 +28,7 @@ Route::get('/teachers/update', [\App\Http\Controllers\MainController::class, 'up
 
 Route::get('/teachers/delete', [\App\Http\Controllers\MainController::class, 'delete']); 
 
-Route::get('/rosters', [\App\Http\Controllers\RosterController::class, 'roster'])->name('rosters.rosters');
+
 Route::get('/rosters/create', [\App\Http\Controllers\RosterController::class, 'create'])->name('rosters.create');
 Route::post('/rosters', [\App\Http\Controllers\RosterController::class, 'store'])->name('rosters.store');
 Route::get('/rosters/{roster}', [\App\Http\Controllers\RosterController::class, 'show'])->name('rosters.show');
@@ -47,7 +46,7 @@ Route::post('/lessons', [\App\Http\Controllers\LessonController::class, 'store']
 Route::delete('/rosters/{roster}/{lesson_id}', [\App\Http\Controllers\LessonController::class, 'destroy'])->name('lessons.delete');
 Route::get('/lessons/delete', [\App\Http\Controllers\LessonController::class, 'delete']); 
 
-Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'report'])->name('reports.reports'); 
+
 Route::get('/reports/create', [\App\Http\Controllers\ReportController::class, 'create'])->name('reports.create'); 
 Route::post('/reports', [\App\Http\Controllers\ReportController::class, 'store'])->name('reports.store'); 
 Route::get('/reports/{report}', [\App\Http\Controllers\ReportController::class, 'show'])->name('reports.show'); 
