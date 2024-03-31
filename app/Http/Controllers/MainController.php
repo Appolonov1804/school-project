@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\Roster;
 use App\Models\Report;
+use App\Models\User;
 use App\Models\LessonDetail;
 
 class MainController extends Controller
@@ -21,17 +22,30 @@ class MainController extends Controller
     }
 
     public function store() 
-    {
-        $teachers = Teacher::all();
-        $rosters = Roster::all();
-        $reports = Report::all();
-        $data = request()->validate([
-            'name' => 'string',
-            'email' => 'email'
-        ]);
-        Teacher::create($data);
-        return redirect()->route('admin.teacher.teacher');
-    }
+{
+    $data = request()->validate([
+        'name' => 'required|string',
+        'email' => 'required|email|unique:users,email',
+        // Добавьте другие необходимые поля для пользователя
+    ]);
+
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        // Добавьте другие необходимые поля для пользователя
+    ]);
+
+    $teacher = Teacher::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        // Добавьте другие поля для учителя
+    ]);
+
+    // Связываем пользователя с учителем
+    $teacher->user()->associate($user)->save();
+
+    return redirect()->route('admin.teacher.teacher');
+}
     
     public function show(Teacher $teacher, Roster $roster, Report $report, LessonDetail $lessonDetail) 
     {

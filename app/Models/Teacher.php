@@ -24,4 +24,9 @@ class Teacher extends Model
     {
         return $this->hasMany(Report::class, 'teachers_id'); 
     }
+
+    public function user()
+    {
+    return $this->hasOne(User::class);
+    }
 }
