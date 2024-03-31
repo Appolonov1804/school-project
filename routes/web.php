@@ -86,3 +86,8 @@ Route::group(['namespace' => 'Controllers'], function() {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/upload', [App\Http\Controllers\UploadController::class, 'store'])->name('upload.store');
+Route::get('/upload', function () {
+    return view('upload');
+});
