@@ -13,7 +13,7 @@ class Teacher extends Model
 
     protected $table = 'teachers';
     protected $guarded = [];
-    protected $fillable = ['email', 'name', 'is_confirmed', 'salary', 'taxes'];
+    protected $fillable = ['email', 'name', 'is_confirmed', 'salary', 'taxes', 'user_id'];
 
     public function rosters() 
     {

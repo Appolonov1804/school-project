@@ -27,7 +27,9 @@ return new class extends Migration
 
             $table->index('teachers_id', 'report_teachers_idx');
 
-            $table->foreign('teachers_id', 'reports_teachers_fk')->on('teachers')->references('id');
+            $table->foreign('teachers_id', 'reports_teachers_fk')->on('teachers')->references('id'); 
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

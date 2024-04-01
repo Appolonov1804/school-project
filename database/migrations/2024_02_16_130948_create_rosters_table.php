@@ -22,11 +22,11 @@ return new class extends Migration
 
             $table->softDeletes();
 
-            $table->unsignedBigInteger('teachers_id')->nullable();
+            $table->unsignedBigInteger('teacher_id')->nullable(); // Измените имя столбца на teacher_id
 
-            $table->index('teachers_id', 'roster_teachers_idx');
-
-            $table->foreign('teachers_id', 'rosters_teachers_fk')->on('teachers')->references('id');
+            $table->index('teacher_id', 'roster_teachers_idx');
+    
+            $table->foreign('teacher_id', 'rosters_teachers_fk')->on('teachers')->references('id');
            
         });
     }

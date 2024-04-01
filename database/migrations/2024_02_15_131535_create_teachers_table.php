@@ -19,6 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('salary')->nullable();
             $table->unsignedBigInteger('taxes')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        
 
             $table->softDeletes();
         });
