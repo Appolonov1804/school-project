@@ -16,11 +16,12 @@
 
                     {{ __('You are logged in!') }}
                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
                 </div>
+                <a href="{{ route('teachers.create') }}">Добавить учителя</a>
             </div>
         </div>
     </div>

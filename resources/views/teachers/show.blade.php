@@ -17,10 +17,10 @@
     }
 </style>
 <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+    onclick="event.preventDefault();
+    document.getElementById('logout-form').submit();">
+    {{ __('Logout') }}
+</a>
 <div>
     <a href="{{ route('teachers.edit', $teacher->id) }}">Изменить имя преподавателя</a>
 </div>

@@ -11,23 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rosters', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('teachers_id')->nullable();
             $table->string('student');
             $table->string('course');
             $table->string('topic');
             $table->date('date');
-            $table->string('attendance');
+            $table->string('lesson_description');
+            $table->string('comments');
             $table->timestamps();
 
             $table->softDeletes();
 
-            $table->unsignedBigInteger('teacher_id')->nullable(); // Измените имя столбца на teacher_id
 
-            $table->index('teacher_id', 'roster_teachers_idx');
-    
-            $table->foreign('teacher_id', 'rosters_teachers_fk')->on('teachers')->references('id');
-           
+            $table->index('teachers_id', 'report_teachers_idx');
+
+            $table->foreign('teachers_id', 'reports_teachers_fk')->on('teachers')->references('id'); 
+            
         });
     }
 
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rosters');
+        Schema::dropIfExists('reports');
     }
 };

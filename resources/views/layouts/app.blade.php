@@ -82,7 +82,10 @@
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">Регистрация для администрации</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('teachers.create') }}">Регистрация для учителя</a>
                                 </li>
                             @endif
                         @else
