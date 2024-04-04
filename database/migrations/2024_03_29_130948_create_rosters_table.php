@@ -10,15 +10,13 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
+    {
     Schema::create('rosters', function (Blueprint $table) {
         $table->id();
         $table->unsignedBigInteger('teachers_id')->nullable();
         $table->string('student');
         $table->string('course');
-        $table->string('topic');
-        $table->date('date');
-        $table->string('attendance');
+        $table->integer('time');
         $table->timestamps();
 
         $table->softDeletes();
@@ -31,14 +29,14 @@ return new class extends Migration
     Schema::table('rosters', function (Blueprint $table) {
         $table->foreign('teachers_id')->references('id')->on('teachers'); 
     });
-}
+    }
 
-public function down(): void
-{
-    Schema::table('rosters', function (Blueprint $table) {
-        $table->dropForeign(['teachers_id']);
-    });
+        public function down(): void
+        {
+            Schema::table('rosters', function (Blueprint $table) {
+                $table->dropForeign(['teachers_id']);
+            });
 
-    Schema::dropIfExists('rosters');
-}
+            Schema::dropIfExists('rosters');
+        }
 };

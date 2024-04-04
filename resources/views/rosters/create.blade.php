@@ -12,6 +12,10 @@
         <input type="text" class="form-control" id="inputCourse" name="course" placeholder="Введите курс студента">
     </div>
     <div class="form-group">
+        <label for="inputTime">Длительность урока</label>
+        <input type="integer" class="form-control" id="inputTime" name="time" placeholder="Введите длительность урока">
+    </div>
+    <div class="form-group">
         <label for="teachers">Выбрать преподавателя</label>
         <select class="form-control" id="teachers" name="teachers_id">
             @foreach($teachers as $teacher)

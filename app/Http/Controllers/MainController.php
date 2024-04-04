@@ -26,16 +26,14 @@ class MainController extends Controller
     $data = request()->validate([
         'name' => 'required|string',
         'email' => 'required|email|unique:users,email',
-        'password' => ['required', 'string', 'min:8', 'confirmed'],
-        // Добавьте другие необходимые поля для пользователя
+        
     ]);
 
     $teacher = Teacher::create([
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
-        'role' => 'user',
-        // Добавьте другие поля для учителя
+        
     ]);
 
 

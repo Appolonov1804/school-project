@@ -13,17 +13,15 @@ class Teacher extends Model
 
     protected $table = 'teachers';
     protected $guarded = [];
-    protected $fillable = ['email', 'name', 'is_confirmed', 'salary', 'taxes', 'password', 'role'];
+    protected $fillable = ['email', 'name', 'salary', 'taxes', 'password'];
 
-    public function rosters() 
+    public function rosters()
     {
         return $this->hasMany(Roster::class, 'teachers_id');
     }
 
-    public function reports() 
+    public function reports()
     {
-        return $this->hasMany(Report::class, 'teachers_id'); 
+        return $this->hasMany(Report::class, 'teachers_id');
     }
-
-    
 }

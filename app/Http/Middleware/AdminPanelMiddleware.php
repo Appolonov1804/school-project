@@ -22,12 +22,7 @@ class AdminPanelMiddleware
             return $next($request);
         }
 
-        // Проверяем, является ли путь страницей учителей
-        if ($request->is('admin/teacher*')) {
-            return redirect()->route('home')->with('error', 'Access denied.');
-        }
-
-        // Если пользователь не администратор и не заходит на страницу учителей, позволяем ему продолжить запрос
-        return $next($request);
+        
+        
     }
 }

@@ -15,12 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('email');
             $table->string('name');
-            $table->boolean('is_confirmed')->default(false);
             $table->unsignedBigInteger('salary')->nullable();
             $table->unsignedBigInteger('taxes')->nullable();
-            
-            $table->string('password');
-            $table->string('role');
+
             $table->timestamps();
             $table->softDeletes();
         });

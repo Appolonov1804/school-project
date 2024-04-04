@@ -24,6 +24,7 @@ Route::patch('/teachers/{teacher}', [\App\Http\Controllers\MainController::class
 Route::delete('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'destroy'])->name('teachers.delete');
 Route::get('/teachers/{teacher}/reports', [\App\Http\Controllers\MainController::class, 'showTeachersReports'])->name('teachers.reportShow');
 
+
 Route::get('/teachers/update', [\App\Http\Controllers\MainController::class, 'update']); 
 
 Route::get('/teachers/delete', [\App\Http\Controllers\MainController::class, 'delete']); 
@@ -82,6 +83,8 @@ Route::group(['namespace' => 'Controllers'], function() {
     Route::get('/teacher', [App\Http\Controllers\AdminTeacherController::class, 'store'])->name('admin.teacher.teacher');
     });
 });
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
