@@ -60,7 +60,7 @@ class ReportController extends Controller
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         $report->update($data);
         $teacherId = $report->teachers_id;
-        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]);
     }
 
     public function delete($reportId)
@@ -69,9 +69,9 @@ class ReportController extends Controller
         $teacherId = $report->teachers_id;
         if ($report) {
             $report->delete();
-            return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+            return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]);
         } else {
-            return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Запись не найдена');
+            return redirect()->route('teachers.reportShow', ['teacher' => $teacherId])->with('error', 'Запись не найдена');
         }
     }
 
@@ -79,6 +79,6 @@ class ReportController extends Controller
     {
         $report->delete();
         $teacherId = $report->teachers_id;
-        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]);
     }
 }
