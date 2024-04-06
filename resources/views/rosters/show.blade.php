@@ -16,6 +16,6 @@
         <div>{{ $roster->topic }}. {{ $roster->date }}. {{ $roster->attendance }}</div>
     </div>
     <div>
-        <a href="{{ route('admin.roster.roster') }}">Назад</a>
+        <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
     </div>
 @endsection

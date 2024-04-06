@@ -59,7 +59,7 @@
                             <td>{{ $lessonDetail->date }}</td>
                             <td>{{ $lessonDetail->topic }}</td>
                             <td>{{ $lessonDetail->attendance }}</td>
-                            <td><a href="{{ route('rosters.editLesson', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}">Редактировать урок</a></td>
+                            <td><a href="{{ route('lessons.edit', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}">Редактировать урок</a></td>
                             <td>
                             <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}" method="post">
                                 @csrf
@@ -72,7 +72,7 @@
                 </tbody>
             </table>
             <div>
-                <a href="{{ route('rosters.add_details', ['roster' => $roster->id]) }}">Отметить урок {{ $roster->student }}</a>
+                <a href="{{ route('lessons.create', ['roster' => $roster->id]) }}">Отметить урок {{ $roster->student }}</a>
             </div>
             <div>
                 <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать журналы {{ $roster->student }}</a>
@@ -97,6 +97,6 @@
     <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
 </div>
 <div>
-    <a href="{{ route('admin.teacher.teacher') }}">Назад</a>
+    <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
 </div>
 @endsection

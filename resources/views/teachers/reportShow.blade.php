@@ -28,6 +28,6 @@
     <a href="{{ route('reports.create') }}">Добавить отчёт</a>
 </div>
 <div>
-    <a href="{{ route('teachers.show', $teacher) }}">Назад</a>
+    <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
 </div>
 @endsection

@@ -16,21 +16,29 @@ use App\Http\Requests\Controllers\UpdateLessonRequest;
 class LessonController extends Controller 
 {
 
-    public function store(StoreLessonRequest $request)
+    public function create($rosterId) 
     {
-        $teachers = Teacher::all();
+        $roster = Roster::findOrFail($rosterId);
+        return view('lessons.create', compact('roster'));
+    }
+
+    public function store(StoreLessonRequest $request, Roster $roster)
+    {
         $rosters = Roster::all();
         $lessonDetails = LessonDetail::all();
         $data = $request->validated();
       
-        $lessonDetail = LessonDetail::addDetails([
+        $lessonDetail = LessonDetail::create([
             'date' => $data['date'],
             'topic' => $data['topic'],
             'attendance' => $data['attendance'],
             'roster_id' => $data['roster_id'],
         ]);
+        $roster = $lessonDetail->roster;
+
+        $teacherId = $roster->teachers_id;
     
-        return redirect()->route('admin.teacher.teacher');
+        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
     public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail)
     {
@@ -40,7 +48,7 @@ class LessonController extends Controller
         $teachers = Teacher::all();
         $reports = Report::all();
     
-        return view('rosters.editLesson', compact('roster', 'teachers', 'reports', 'lessonDetail'));
+        return view('lessons.edit', compact('roster', 'teachers', 'reports', 'lessonDetail'));
     }
         
     public function updateLesson(UpdateLessonRequest $request, Roster $roster, $lesson_id)
@@ -58,54 +66,43 @@ class LessonController extends Controller
         'attendance' => $data['attendance'],
     ]);
 
-    // Возвращаем редирект на страницу с журналами
-    return redirect()->route('admin.teacher.teacher', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]);
+
+        $roster = $lessonDetail->roster;
+
+        $teacherId = $roster->teachers_id;
+    
+        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
 }
     
-        public function addDetails($rosterId)
-        {
-        $roster = Roster::findOrFail($rosterId);
-        return view('rosters.add_details', compact('roster'));
-        }
-    
-        public function saveDetails(UpdateRosterRequest $request, $rosterId)
-        {
-            $roster = Roster::findOrFail($rosterId);
-            $validatedData = $request->validated();
-    
-            $lessonDetail = new LessonDetail([
-                'date' => $validatedData['date'],
-                'topic' => $validatedData['topic'],
-                'attendance' => $validatedData['attendance'],
-                'roster_id' => $roster->id, // Передаем значение roster_id
-            ]);
-    
-            $lessonDetail->save();
-    
-            return redirect()->route('admin.teacher.teacher');
-        }
-        
         public function delete($rosterId, $lessonId)
         {
             $lessonDetail = LessonDetail::find($lessonId);
+                $roster = $lessonDetail->roster;
+
+                $teacherId = $roster->teachers_id;
         
             if ($lessonDetail) {
                 $lessonDetail->delete();
-                return redirect()->route('admin.teacher.teacher');
+                
+                return redirect()->route('teachers.show', ['teacher' => $teacherId]);
             } else {
-                return redirect()->route('admin.teacher.teacher')->with('error', 'Урок не найден');
+                return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
             }
         }
 
         public function destroy($rosterId, $lessonId)
         {
                 $lessonDetail = LessonDetail::find($lessonId);
+                    $roster = $lessonDetail->roster;
+
+                    $teacherId = $roster->teachers_id;
                 
                 if ($lessonDetail) {
                     $lessonDetail->delete();
-                    return redirect()->route('admin.teacher.teacher');
+    
+                    return redirect()->route('teachers.show', ['teacher' => $teacherId]);
                 } else {
-                    return redirect()->route('admin.teacher.teacher')->with('error', 'Урок не найден');
+                    return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
                 }
 
         }

@@ -19,11 +19,11 @@ class ReportController extends Controller
         $reports = Report::all();
         $rosters = Roster::all();
         $teachers = Teacher::all();
-        return view('reports.create', compact('teachers', 'reports', 'rosters'));
+        return view('reports.create', compact('teacher', 'reports', 'rosters'));
        
     }
 
-    public function store(StoreReportRequest $request) 
+    public function store(StoreReportRequest $request, Report $report) 
     {
         $reports = Report::all();
         $rosters = Roster::all();
@@ -31,7 +31,8 @@ class ReportController extends Controller
         $data = $request->validated();
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         Report::create($data);
-        return redirect()->route('admin.report.report');
+        $teacherId = $report->teachers_id;
+        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
 
     public function show(Report $report, Roster $roster, Teacher $teacher) 
@@ -58,23 +59,26 @@ class ReportController extends Controller
         $data = $request->validated();
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
         $report->update($data);
-        return redirect()->route('reports.show', $report->id);
+        $teacherId = $report->teachers_id;
+        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
 
     public function delete($reportId)
     {
         $report = Report::find($reportId);
+        $teacherId = $report->teachers_id;
         if ($report) {
             $report->delete();
-            return redirect()->route('admin.teacher.teacher');
+            return redirect()->route('teachers.show', ['teacher' => $teacherId]);
         } else {
-            return redirect()->route('admin.report.report')->with('error', 'Запись не найдена');
+            return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Запись не найдена');
         }
     }
 
     public function destroy(Report $report)
     {
         $report->delete();
-        return redirect()->route('admin.teacher.teacher');
+        $teacherId = $report->teachers_id;
+        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
 }

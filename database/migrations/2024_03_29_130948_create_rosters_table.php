@@ -16,7 +16,7 @@ return new class extends Migration
         $table->unsignedBigInteger('teachers_id')->nullable();
         $table->string('student');
         $table->string('course');
-        $table->integer('time');
+        $table->string('time');
         $table->timestamps();
 
         $table->softDeletes();

@@ -1,9 +1,8 @@
 @extends('layouts.admin')
 
 @section('content')
-<form action="{{ route('rosters.saveDetails', $roster->id) }}" method="post">
+<form action="{{ route('lessons.store', $roster->id) }}" method="post">
     @csrf
-    @method('PATCH')
     <input type="hidden" name="roster_id" value="{{ $roster->id }}">
     <div class="form-group">
         <label for="inputDate">Дата</label>

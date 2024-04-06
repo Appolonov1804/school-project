@@ -24,9 +24,7 @@ class StoreRosterRequest extends FormRequest
         return [
             'student' => 'string',
             'course' => 'string',
-            'topic' => 'string',
-            'date' => 'date',
-            'attendance' => 'string',
+            'time' => 'string',
             'teachers_id' => ['nullable', 'integer'],
         ];
     }

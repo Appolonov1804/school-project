@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<form action="{{ route('rosters.updateLesson', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}" method="post">
+<form action="{{ route('lessons.updateLesson', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}" method="post">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="_method" value="PATCH">
     <div class="form-group">

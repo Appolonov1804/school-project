@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">Speak'n go</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -21,7 +21,9 @@
                         {{ __('Выйти') }}
                     </a>
                 </div>
-                
+                <div>
+                    <a href="{{ route('teachers.create') }}">Добавить страницу учителя</a>
+                </div>
             </div>
         </div>
     </div>

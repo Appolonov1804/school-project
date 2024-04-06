@@ -22,7 +22,7 @@ class MainController extends Controller
     }
 
     public function store() 
-{
+    {
     $data = request()->validate([
         'name' => 'required|string',
         'email' => 'required|email|unique:users,email',
@@ -32,13 +32,12 @@ class MainController extends Controller
     $teacher = Teacher::create([
         'name' => $data['name'],
         'email' => $data['email'],
-        'password' => Hash::make($data['password']),
         
     ]);
 
 
-    return redirect()->route('admin.teacher.teacher');
-}
+    return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
+    }
     
     public function show(Teacher $teacher, Roster $roster, Report $report, LessonDetail $lessonDetail) 
     {
@@ -85,16 +84,16 @@ class MainController extends Controller
         $teacher = Teacher::find($teacherId);
         if ($teacher) {
             $teacher->delete();
-            return redirect()->route('admin.teacher.teacher');
+            return redirect()->route('/');
         } else {
-            return redirect()->route('admin.teacher.teacher')->with('error', 'Запись не найдена');
+            return redirect()->route('/')->with('error', 'Запись не найдена');
         }
     }
 
     public function destroy(Teacher $teacher)
     {
         $teacher->delete();
-        return redirect()->route('admin.teacher.teacher');
+        return redirect()->route('/');
     }
 
     

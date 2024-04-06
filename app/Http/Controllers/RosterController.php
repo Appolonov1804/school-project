@@ -38,8 +38,10 @@ class RosterController extends Controller
             'time' => $data['time'],
             'teachers_id' => $data['teachers_id'],
         ]);
+
+        $teacherId = $roster->teachers_id;
     
-        return redirect()->route('admin.roster.roster');
+        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
 
     public function show(Roster $roster, Report $report, Teacher $teacher)
@@ -67,27 +69,31 @@ class RosterController extends Controller
         $reports = Report::all();
 
         $data = $request->validated();
-        // $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
+ 
         $roster->update($data);
-        return redirect()->route('admin.teacher.teacher', $roster->id);
+        $teacherId = $roster->teachers_id;
+    
+        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
 
 
     public function delete($rosterId)
     {
         $roster = Roster::find($rosterId);
+        $teacherId = $roster->teachers_id;
         if ($roster) {
             $roster->delete();
-            return redirect()->route('admin.teacher.teacher');
+            return redirect()->route('teachers.show', ['teacher' => $teacherId]);
         } else {
-            return redirect()->route('admin.roster.roster')->with('error', 'Запись не найдена');
+            return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Запись не найдена');
         }
     }
 
     public function destroy(Roster $roster)
     {
         $roster->delete();
-        return redirect()->route('admin.teacher.teacher');
+        $teacherId = $roster->teachers_id;
+        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
 
 

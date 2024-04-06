@@ -20,7 +20,11 @@ class AdminPanelMiddleware
         // Проверяем, является ли пользователь администратором
         if ($user->role === 'admin') {
             return $next($request);
+        } else {
+            abort(403, 'У вас нет доступа для выполнения этого действия.');
         }
+
+        
 
         
         
