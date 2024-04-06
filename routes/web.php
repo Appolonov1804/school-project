@@ -92,3 +92,7 @@ Route::post('/upload', [App\Http\Controllers\UploadController::class, 'store'])-
 Route::get('/upload', function () {
     return view('upload');
 });
+
+Route::get('/calendar', function() {
+    return response()->file('calendar.html');
+});

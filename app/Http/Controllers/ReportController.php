@@ -19,20 +19,21 @@ class ReportController extends Controller
         $reports = Report::all();
         $rosters = Roster::all();
         $teachers = Teacher::all();
-        return view('reports.create', compact('teacher', 'reports', 'rosters'));
-       
+        return view('reports.create', compact('teacher', 'reports', 'rosters', 'teachers'));
+        
     }
 
-    public function store(StoreReportRequest $request, Report $report) 
+    public function store(StoreReportRequest $request, Report $report, Teacher $teacher) 
     {
         $reports = Report::all();
         $rosters = Roster::all();
         $teachers = Teacher::all();
         $data = $request->validated();
         $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
-        Report::create($data);
-        $teacherId = $report->teachers_id;
-        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        $createdReport = Report::create($data);
+        $reportId = $createdReport->id;
+        $teacherId = $createdReport->teachers_id;
+        return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]);
     }
 
     public function show(Report $report, Roster $roster, Teacher $teacher) 
@@ -79,6 +80,6 @@ class ReportController extends Controller
     {
         $report->delete();
         $teacherId = $report->teachers_id;
-        return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]);
+        return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]); 
     }
 }
