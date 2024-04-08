@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('email');
             $table->string('name');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('salary')->nullable();
             $table->unsignedBigInteger('taxes')->nullable();
-
+            
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +30,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('teachers', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+
         Schema::dropIfExists('teachers');
     }
 };

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        
     ];
 
     /**
@@ -44,5 +45,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    
+   public function teacher() 
+   {
+    return $this->belongsTo(Teacher::class, 'user_id', 'id');
+   } 
 }

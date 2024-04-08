@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Teacher;
 use App\Models\Roster;
 use App\Models\Report;
+use App\Models\User;
 use App\Models\LessonDetail;
+use App\Http\Requests\Controllers\UpdateTeacherRequest;
+use App\Http\Requests\Controllers\StoreTeacherRequest;
+
 
 class MainController extends Controller
 {
@@ -21,22 +26,30 @@ class MainController extends Controller
     
     }
 
-    public function store() 
+    public function store(StoreTeacherRequest $request) 
     {
-    $data = request()->validate([
-        'name' => 'required|string',
-        'email' => 'required|email|unique:users,email',
-        
-    ]);
-
-    $teacher = Teacher::create([
-        'name' => $data['name'],
-        'email' => $data['email'],
-        
-    ]);
-
-
-    return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
+        $data = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+        ]);
+    
+        $user = Auth::user();
+    
+        // Создаем учителя
+        $teacher = Teacher::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'user_id' => $user->id,
+        ]);
+    
+        // Ассоциируем учителя с пользователем
+        $user->teacher()->associate($teacher);
+    
+        // Сохраняем изменения
+        $user->save();
+    
+        // Перенаправляем на страницу учителя
+        return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
     
     public function show(Teacher $teacher, Roster $roster, Report $report, LessonDetail $lessonDetail) 
@@ -66,7 +79,7 @@ class MainController extends Controller
         return view('teachers.edit', compact('teacher', 'roster', 'report', 'teachers', 'rosters', 'reports'));
     }
 
-    public function update(Teacher $teacher, Roster $roster, Report $report) 
+    public function update(UpdateTeacherRequest $request, Teacher $teacher, Roster $roster, Report $report) 
     { 
         $teachers = Teacher::all();
         $rosters = Roster::all();
@@ -76,7 +89,7 @@ class MainController extends Controller
             'email' => 'email'
         ]);
         $teacher->update($data);
-        return redirect()->route('teachers.show', $teacher->id);
+        return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
 
     public function delete($teacherId)
@@ -84,16 +97,16 @@ class MainController extends Controller
         $teacher = Teacher::find($teacherId);
         if ($teacher) {
             $teacher->delete();
-            return redirect()->route('/');
+            return redirect()->route('teachers.create');
         } else {
-            return redirect()->route('/')->with('error', 'Запись не найдена');
+            return redirect()->route('teachers.create')->with('error', 'Запись не найдена');
         }
     }
 
     public function destroy(Teacher $teacher)
     {
         $teacher->delete();
-        return redirect()->route('/');
+        return redirect()->route('teachers.create');
     }
 
     
