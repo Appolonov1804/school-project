@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Teacher;
 
 class LoginController extends Controller
 {
@@ -38,15 +40,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function redirectTo() 
-    {
-        if (Auth::user()->role !== 'admin') {
-            $teacher = Auth::user()->teacher;
+    protected function authenticated(Request $request, $user)
+{
+    // Получаем id пользователя
+    $userId = $user->id;
 
-            if ($teacher) {
-                return route('teachers.show', $teacher->id);
-            }
-        }
-        return $this->redirectTo;
+    // Ищем учителя с данным id пользователя
+    $teacher = Teacher::where('user_id', $userId)->first();
+
+    // Если у пользователя есть учитель, перенаправляем на страницу учителя
+    if ($teacher) {
+        return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
+
+    // В противном случае перенаправляем на домашнюю страницу
+    return redirect()->route('home');
+}
 }
