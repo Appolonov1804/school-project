@@ -45,8 +45,7 @@ class MainController extends Controller
         // Ассоциируем учителя с пользователем
         $user->teacher()->associate($teacher);
     
-        // Сохраняем изменения
-        $user->save();
+       
     
         // Перенаправляем на страницу учителя
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
