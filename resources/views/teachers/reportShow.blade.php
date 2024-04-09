@@ -15,7 +15,7 @@
     }
 </style>   
 <div>
-    <div>{{ $teacher->id }}. {{ $teacher->email }}</div>
+    <div> {{ $teacher->email }}</div>
     <div>{{ $teacher->name }}</div>
 </div>
 
@@ -45,19 +45,20 @@
                         <td>{{ $report->date }}</td>
                         <td>{{ $report->lesson_description }}</td>
                         <td>{{ $report->comments }}</td>
+                        <td><a href="{{ route('reports.edit', ['report' => $report->id]) }}">Редактировать отчёты</a></td>
+
+                        <td><form action="{{ route('reports.delete', $report->id) }}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                @method('delete')
+                                <input type="submit" value="Удалить" class="btn btn-danger">
+                        </form></td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        
     @endif
 
-    <a href="{{ route('reports.edit', ['report' => $report->id]) }}">Редактировать отчёты</a>
-
-    <form action="{{ route('reports.delete', $report->id) }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        @method('delete')
-        <input type="submit" value="Удалить" class="btn btn-danger">
-    </form>
 </div>
 
 <div>

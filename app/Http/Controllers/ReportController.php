@@ -26,40 +26,53 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request, Report $report, Teacher $teacher) 
     {
         $reports = Report::all();
-        $rosters = Roster::all();
         $teachers = Teacher::all();
         $data = $request->validated();
-        $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
-        $createdReport = Report::create($data);
+        $createdReport = Report::create([
+            'teachers_id' => $data['teachers_id'],
+            'student' => $data['student'],
+            'course' => $data['course'],
+            'topic' => $data['topic'],
+            'date' => $data['date'],
+            'lesson_description' => $data['lesson_description'],
+            'comments' => $data['comments']
+        ]);
         $reportId = $createdReport->id;
         $teacherId = $createdReport->teachers_id;
         return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]);
     }
 
-    public function show(Report $report, Roster $roster, Teacher $teacher) 
+    public function show(Report $report, Teacher $teacher) 
     {
         $reports = Report::all();
         $rosters = Roster::all();
         $teachers = Teacher::all();
-        return view('reports.show', compact('report', 'teacher', 'roster', 'reports', 'teachers', 'rosters'));
+        return view('reports.show', compact('report', 'teacher', 'reports', 'teachers', 'rosters'));
     }
 
     public function edit(Report $report, Roster $roster, Teacher $teacher) 
     {
-        $reports = Report::all();
+  
         $rosters = Roster::all();
         $teachers = Teacher::all();
-        return view('reports.edit', compact('report', 'teacher', 'roster', 'reports', 'teachers', 'rosters')); 
+        return view('reports.edit', compact('report', 'teacher',  'teachers', 'rosters')); 
     }
 
-    public function update(UpdateReportRequest $request, Report $report, Roster $roster, Teacher $teacher) 
+    public function update(UpdateReportRequest $request, Report $report,  Teacher $teacher) 
     {
         $reports = Report::all();
-        $rosters = Roster::all();
         $teachers = Teacher::all();
         $data = $request->validated();
-        $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->toDateString();
-        $report->update($data);
+        
+        $report->update([
+            'teachers_id' => $data['teachers_id'],
+            'student' => $data['student'],
+            'course' => $data['course'],
+            'topic' => $data['topic'],
+            'date' => $data['date'],
+            'lesson_description' => $data['lesson_description'],
+            'comments' => $data['comments']
+        ]);
         $teacherId = $report->teachers_id;
         return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]);
     }

@@ -46,7 +46,7 @@ class LoginController extends Controller
     $userId = $user->id;
 
     // Ищем учителя с данным id пользователя
-    $teacher = Teacher::where('user_id', $userId)->first();
+    $teacher = Teacher::where('user_id', $userId)->first(); 
 
     // Если у пользователя есть учитель, перенаправляем на страницу учителя
     if ($teacher) {

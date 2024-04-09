@@ -18,11 +18,12 @@
   <div class="form-group">
     <label for="inputTime">Длительность урока</label>
     <select class="form-control" id="inputTime" name="time">
-        <option value="40">40 минут</option>
-        <option value="60">60 минут</option>
-        <option value="90">90 минут</option>
+        <option value="40"  {{ $roster->time == '40' ? 'selected' : '' }}>40 минут</option>
+        <option value="60"  {{ $roster->time == '60' ? 'selected' : '' }}>60 минут</option>
+        <option value="90"  {{ $roster->time == '90' ? 'selected' : '' }}>90 минут</option>
     </select>
-    </div>
+  </div>
+  
   <div class="form-group">
     <label for="teachers">Выбрать преподавателя</label>
       <select class="form-control" id="teachers" name="teachers_id">

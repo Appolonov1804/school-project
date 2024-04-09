@@ -32,7 +32,7 @@
     </form>
 </div>
 <div>
-    <div>{{ $teacher->id }}. {{ $teacher->email }}</div>
+    <div> {{ $teacher->email }}</div>
     <div>{{ $teacher->name }}</div>
 </div>
 <div>
@@ -44,18 +44,22 @@
                 <thead>
                     <tr>
                         <th>Курс</th>
+                        <th>Время</th>
                         <th>Дата</th>
                         <th>Тема</th>
                         <th>Посещение</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{ $roster->course }}</td>
+                        <td>{{ $roster->time }} минут</td>
                     </tr>
                     @foreach($roster->lessonDetails as $lessonDetail)
                         <tr>
-                            <td></td> <!-- Пустая ячейка для выравнивания -->
+                            <td></td>
+                            <td></td> 
                             <td>{{ $lessonDetail->date }}</td>
                             <td>{{ $lessonDetail->topic }}</td>
                             <td>{{ $lessonDetail->attendance }}</td>

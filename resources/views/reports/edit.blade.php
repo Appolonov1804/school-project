@@ -4,7 +4,7 @@
 <form action="{{ route('reports.update', $report->id) }}" method="post">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 @method('patch')
- >
+ 
   <div class="form-group">
     <label for="inputName">Студент</label>
     <input type="text" class="form-control" id="inputName" placeholder="Введите имя студента" name="student" value=" {{ $report->student }}">
@@ -12,17 +12,17 @@
   <br>
   <div class="form-group">
     <label for="inputCourse">Курс</label>
-    <input type="text" class="form-control" id="inputCourse" placeholder="Введите курс студента" name="course" value=" {{ $report->course }}">
+    <input type="text" class="form-control" id="inputCourse" placeholder="Введите курс студента" name="course" value="{{ $report->course }}">
   </div>
   <br>
   <div class="form-group">
     <label for="inputTopic">Тема</label>
-    <input type="text" class="form-control" id="inputTopic" placeholder="Введите тему урока" name="topic" value=" {{ $report->topic }}">
+    <input type="text" class="form-control" id="inputTopic" placeholder="Введите тему урока" name="topic" value="{{ $report->topic }}">
   </div>
   <br>
   <div class="form-group">
     <label for="inputDate">Дата</label>
-    <input type="date" class="form-control" id="inputDate" placeholder="Введите дату" name="date" value=" {{ $report->date }}">
+    <input type="date" class="form-control" id="inputDate" placeholder="Введите дату" name="date" value="{{ $report->date }}">
   </div>
   <br>
   <div class="form-group">
@@ -31,7 +31,7 @@
   </div>
   <div class="form-group">
     <label for="inputComments">Замечания</label>
-    <input type="text" class="form-control" id="inputComments" placeholder="Введите замечания" name="comments" value=" {{ $report->comments }}">
+    <input type="text" class="form-control" id="inputComments" placeholder="Введите замечания" name="comments" value="{{ $report->comments }}">
   </div>
   <div class="form-group">
     <label for="teachers">Выбрать преподавателя</label>
