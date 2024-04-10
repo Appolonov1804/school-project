@@ -19,14 +19,9 @@
         <option value="90">90 минут</option>
     </select>
     </div>
-    <div class="form-group">
-        <label for="teachers">Выбрать преподавателя</label>
-        <select class="form-control" id="teachers" name="teachers_id">
-            @foreach($teachers as $teacher)
-                <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-            @endforeach
-        </select>
-    </div>
+    @if(auth()->user()->teacher)
+        <input type="hidden" name="teachers_id" value="{{ auth()->user()->teacher->id }}">
+    @endif
     <button type="submit" class="btn btn-primary">Добавить</button>
 </form>
 @endsection

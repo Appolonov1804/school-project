@@ -24,14 +24,8 @@
     </select>
   </div>
   
-  <div class="form-group">
-    <label for="teachers">Выбрать преподавателя</label>
-      <select class="form-control" id="teachers" name="teachers_id">
-    <?php foreach ($teachers as $teacher) : ?>
-      <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-    <?php endforeach ; ?>
-      </select>
-  </div>
+  <input type="hidden" name="teachers_id" value="{{ $roster->teachers_id }}">
+  
   <button type="submit" class="btn btn-primary">Обновить</button>
 </form>
 @endsection 

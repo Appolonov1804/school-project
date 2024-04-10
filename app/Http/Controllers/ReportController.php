@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Report;
 use App\Models\Teacher;
 use App\Models\Roster;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 
 class ReportController extends Controller
@@ -28,8 +29,11 @@ class ReportController extends Controller
         $reports = Report::all();
         $teachers = Teacher::all();
         $data = $request->validated();
+        $user = Auth::user();
+
+        if ($user->teacher) {
         $createdReport = Report::create([
-            'teachers_id' => $data['teachers_id'],
+            'teachers_id' => $user->teacher->id,
             'student' => $data['student'],
             'course' => $data['course'],
             'topic' => $data['topic'],
@@ -37,9 +41,11 @@ class ReportController extends Controller
             'lesson_description' => $data['lesson_description'],
             'comments' => $data['comments']
         ]);
-        $reportId = $createdReport->id;
-        $teacherId = $createdReport->teachers_id;
-        return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]);
+        
+        return redirect()->route('teachers.reportShow', ['teacher' => $user->teacher->id]);
+     } else {
+        return redirect()->back()->with('error', 'вы не являетесь учителем'); 
+     }
     }
 
     public function show(Report $report, Teacher $teacher) 
@@ -63,9 +69,10 @@ class ReportController extends Controller
         $reports = Report::all();
         $teachers = Teacher::all();
         $data = $request->validated();
-        
+        $user = Auth::user(); 
+        if ($user->teacher) {
         $report->update([
-            'teachers_id' => $data['teachers_id'],
+            'teachers_id' => $user->teacher->id,
             'student' => $data['student'],
             'course' => $data['course'],
             'topic' => $data['topic'],
@@ -73,8 +80,11 @@ class ReportController extends Controller
             'lesson_description' => $data['lesson_description'],
             'comments' => $data['comments']
         ]);
-        $teacherId = $report->teachers_id;
-        return redirect()->route('teachers.reportShow', ['teacher' => $teacherId]);
+        
+        return redirect()->route('teachers.reportShow', ['teacher' => $user->teacher->id]);
+     } else {
+        return redirect()->back()->with('error', 'вы не являетесь учителем');
+     }
     }
 
     public function delete($reportId)

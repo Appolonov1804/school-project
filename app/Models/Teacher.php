@@ -25,8 +25,8 @@ class Teacher extends Model
         return $this->hasMany(Report::class, 'teachers_id');
     }
 
-    public function users() 
+    public function user() 
     {
-        return $this->hasOne(User::class, 'user_id'); 
+        return $this->belongsTo(User::class, 'user_id'); 
     }
 }
