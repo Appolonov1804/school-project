@@ -6,9 +6,17 @@
   <div class="form-group">
     <label for="name">Имя</label>
     <input type="text" class="form-control" id="inputName" name="name" placeholder="Введите имя">
-    <br><br>
+  </div>
+  <div class="form-group">
     <label for="exampleInputEmail1">Email</label>
     <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Введите email">
+  </div>
+  <div class="form-group">
+    <label for="position">Выберите позицию</label>
+    <select id="position" name="position">
+        <option value="junior">Младший преподаватель</option>
+        <option value="senior">Старший преподаватель</option>
+    </select>
   </div>
   <button type="submit" class="btn btn-primary">Добавить</button>
 </form>

@@ -11,6 +11,13 @@
     <label for="exampleInputEmail1">Email</label>
     <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Введите email" value=" {{ $teacher->email }}">
   </div>
+  <div class="form-group">
+    <label for="position">Выберите позицию</label>
+    <select id="position" name="position">
+        <option value="junior">Младший преподаватель</option>
+        <option value="senior">Старший преподаватель</option>
+    </select>
+  </div>
   <button type="submit" class="btn btn-primary">Обновить</button>
 </form>
         

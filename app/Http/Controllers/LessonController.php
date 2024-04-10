@@ -73,6 +73,40 @@ class LessonController extends Controller
     
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
 }
+
+
+public function salary(Roster $roster, Teacher $teacher, LessonDetail $lessonDetail) 
+{
+    $salary = 0;
+    if ($teacher->position == 'junior' || $roster->time == 40 || $lessonDetail == 'был' || $lessonDetail == 'была') {
+        $salary += 1250;
+    } elseif ($teacher->position == 'junior' || $roster->time == 60 || $lessonDetail == 'был' || $lessonDetail == 'была') {
+        $salary += 1900;
+    } elseif ($teacher->position == 'junior' || $roster->time == 90 || $lessonDetail == 'был' || $lessonDetail == 'была') {
+        $salary += 2200;
+    } elseif ($teacher->position == 'senior' || $roster->time == 40 || $lessonDetail == 'был' || $lessonDetail == 'была') {
+        $salary += 1550;
+    } elseif ($teacher->position == 'senior' || $roster->time == 60 || $lessonDetail == 'был' || $lessonDetail == 'была') {
+        $salary += 2300;
+    } elseif ($teacher->position == 'senior' || $roster->time == 90 || $lessonDetail == 'был' || $lessonDetail == 'была') {
+        $salary += 2500;
+    } elseif ($teacher->position == 'junior' || $roster->time == 40 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
+        $salary += 625;
+    } elseif ($teacher->position == 'junior' || $roster->time == 60 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
+        $salary += 950;
+    } elseif ($teacher->position == 'junior' || $roster->time == 90 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
+        $salary += 1100;
+    } elseif ($teacher->position == 'senior' || $roster->time == 40 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
+        $salary += 775;
+    } elseif ($teacher->position == 'senior' || $roster->time == 60 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
+        $salary += 1150;
+    } elseif ($teacher->position == 'senior' || $roster->time == 90 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
+        $salary += 1250;
+    } else {
+        $salary;
+    }
+    return $salary; 
+}
     
         public function delete($rosterId, $lessonId)
         {

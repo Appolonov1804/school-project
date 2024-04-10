@@ -31,34 +31,37 @@ class MainController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
+            'position' => 'required|string',
         ]);
     
         $user = Auth::user();
-    
-        // Создаем учителя
+
         $teacher = Teacher::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'position' => $data['position'],
             'user_id' => $user->id,
         ]);
+ 
     
-        // Ассоциируем учителя с пользователем
-        $user->teacher()->associate($teacher);
-    
-       
-    
-        // Перенаправляем на страницу учителя
+
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
     
     public function show(Teacher $teacher, Roster $roster, Report $report, LessonDetail $lessonDetail) 
     {
+        $lessonController = new LessonController();
+        $salary = $lessonController->salary($roster, $teacher, $lessonDetail);
+
+        $teacher->salary = $salary;
+        $teacher->save();
+
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
         $lessonDetails = LessonDetail::all();
         $rosters = $teacher->rosters()->with('lessonDetails')->get();
-       return view('teachers.show', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters', 'lessonDetails', 'lessonDetail'));
+       return view('teachers.show', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters', 'lessonDetails', 'lessonDetail', 'salary'));
     }
 
     public function showTeachersReports(Teacher $teacher, Roster $roster, Report $report) 
@@ -75,7 +78,7 @@ class MainController extends Controller
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
-        $report->load('date');
+
         return view('teachers.edit', compact('teacher', 'roster', 'report', 'teachers', 'rosters', 'reports'));
     }
 
@@ -86,7 +89,8 @@ class MainController extends Controller
         $reports = Report::all();
         $data = request()->validate([
             'name' => 'string',
-            'email' => 'email'
+            'email' => 'email',
+            'position' => 'string',
         ]);
         $teacher->update($data);
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);

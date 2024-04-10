@@ -34,6 +34,7 @@
 <div>
     <div> {{ $teacher->email }}</div>
     <div>{{ $teacher->name }}</div>
+    <div>Позиция: {{ $teacher->position }} teacher</div>
 </div>
 <div>
     <h2>Журналы учителя {{ $teacher->name }}</h2>
@@ -102,5 +103,8 @@
 </div>
 <div>
     <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
+</div>
+<div>
+    <h1>Salary: {{ $salary }}</h1>
 </div>
 @endsection
