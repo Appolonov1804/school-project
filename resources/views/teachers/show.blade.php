@@ -105,6 +105,6 @@
     <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
 </div>
 <div>
-    <h1>Salary: {{ $salary }}</h1>
+    <h4>Заработано: {{ $totalSalary }}</h4>
 </div>
 @endsection

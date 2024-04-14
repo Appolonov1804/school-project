@@ -75,38 +75,48 @@ class LessonController extends Controller
 }
 
 
-public function salary(Roster $roster, Teacher $teacher, LessonDetail $lessonDetail) 
-{
-    $salary = 0;
-    if ($teacher->position == 'junior' || $roster->time == 40 || $lessonDetail == 'был' || $lessonDetail == 'была') {
-        $salary += 1250;
-    } elseif ($teacher->position == 'junior' || $roster->time == 60 || $lessonDetail == 'был' || $lessonDetail == 'была') {
-        $salary += 1900;
-    } elseif ($teacher->position == 'junior' || $roster->time == 90 || $lessonDetail == 'был' || $lessonDetail == 'была') {
-        $salary += 2200;
-    } elseif ($teacher->position == 'senior' || $roster->time == 40 || $lessonDetail == 'был' || $lessonDetail == 'была') {
-        $salary += 1550;
-    } elseif ($teacher->position == 'senior' || $roster->time == 60 || $lessonDetail == 'был' || $lessonDetail == 'была') {
-        $salary += 2300;
-    } elseif ($teacher->position == 'senior' || $roster->time == 90 || $lessonDetail == 'был' || $lessonDetail == 'была') {
-        $salary += 2500;
-    } elseif ($teacher->position == 'junior' || $roster->time == 40 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
-        $salary += 625;
-    } elseif ($teacher->position == 'junior' || $roster->time == 60 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
-        $salary += 950;
-    } elseif ($teacher->position == 'junior' || $roster->time == 90 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
-        $salary += 1100;
-    } elseif ($teacher->position == 'senior' || $roster->time == 40 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
-        $salary += 775;
-    } elseif ($teacher->position == 'senior' || $roster->time == 60 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
-        $salary += 1150;
-    } elseif ($teacher->position == 'senior' || $roster->time == 90 || $lessonDetail == 'не был' || $lessonDetail == 'не была') {
-        $salary += 1250;
-    } else {
-        $salary;
+public function salary($rosters, $teacher) 
+    {
+        $totalSalary = 0; 
+        foreach ($rosters as $roster) {
+            $lessonDetails = $roster->lessonDetails;
+            
+            foreach ($lessonDetails as $lessonDetail) {
+                $salary = $this->calculateSalary($teacher, $roster, $lessonDetail);
+                $totalSalary += $salary;
+            }
+        }
+        return $totalSalary;
     }
-    return $salary; 
-}
+
+    private function calculateSalary($teacher, $roster, $lessonDetail) 
+    {
+        $salary = 0;
+
+    if (!empty($lessonDetail->attendance) && !empty($roster->time)) {
+    
+        $attendance = $lessonDetail->attendance;
+
+        if ($teacher->position == 'junior') {
+            if ($roster->time == 40) {
+                $salary += ($attendance == 'был' || $attendance == 'была') ? 1250 : 625;
+            } elseif ($roster->time == 60) {
+                $salary += ($attendance == 'был' || $attendance == 'была') ? 1900 : 950;
+            } elseif ($roster->time == 90) {
+                $salary += ($attendance == 'был' || $attendance == 'была') ? 2200 : 1100;
+            }
+        } elseif ($teacher->position == 'senior') {
+            if ($roster->time == 40) {
+                $salary += ($attendance == 'был' || $attendance == 'была') ? 1550 : 775;
+            } elseif ($roster->time == 60) {
+                $salary += ($attendance == 'был' || $attendance == 'была') ? 2300 : 1150;
+            } elseif ($roster->time == 90) {
+                $salary += ($attendance == 'был' || $attendance == 'была') ? 2500 : 1250;
+            }
+        }
+    } 
+        return $salary;
+    }
     
         public function delete($rosterId, $lessonId)
         {

@@ -50,18 +50,19 @@ class MainController extends Controller
     
     public function show(Teacher $teacher, Roster $roster, Report $report, LessonDetail $lessonDetail) 
     {
-        $lessonController = new LessonController();
-        $salary = $lessonController->salary($roster, $teacher, $lessonDetail);
-
-        $teacher->salary = $salary;
-        $teacher->save();
-
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
         $lessonDetails = LessonDetail::all();
+        $lessonController = new LessonController();
         $rosters = $teacher->rosters()->with('lessonDetails')->get();
-       return view('teachers.show', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters', 'lessonDetails', 'lessonDetail', 'salary'));
+        $totalSalary = $lessonController->salary($rosters, $teacher);
+
+        $teacher->update(['salary' => $totalSalary]);
+
+       
+        $rosters = $teacher->rosters()->with('lessonDetails')->get();
+       return view('teachers.show', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters', 'lessonDetails', 'lessonDetail', 'totalSalary'));
     }
 
     public function showTeachersReports(Teacher $teacher, Roster $roster, Report $report) 
