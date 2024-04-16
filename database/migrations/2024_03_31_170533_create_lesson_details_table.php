@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('attendance');
             $table->unsignedBigInteger('roster_id');
             $table->foreign('roster_id')->references('id')->on('rosters')->onDelete('cascade');
+            $table->unsignedBigInteger('paid')->nullable()->default(0); 
             $table->timestamps();
 
             $table->softDeletes();

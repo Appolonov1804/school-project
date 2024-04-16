@@ -42,7 +42,7 @@ class LessonController extends Controller
     }
     public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail)
     {
-        // Находим урок по lesson_id и убеждаемся, что он принадлежит данному журналу
+        
         $lessonDetail = $roster->lessonDetails()->findOrFail($lesson_id);
     
         $teachers = Teacher::all();
@@ -53,13 +53,12 @@ class LessonController extends Controller
         
     public function updateLesson(UpdateLessonRequest $request, Roster $roster, $lesson_id)
 {
-    // Находим урок, который нужно обновить
+    
     $lessonDetail = LessonDetail::findOrFail($lesson_id);
 
-    // Получаем данные из запроса
     $data = $request->validated();
 
-    // Обновляем данные урока
+  
     $lessonDetail->update([
         'date' => $data['date'],
         'topic' => $data['topic'],
@@ -73,14 +72,19 @@ class LessonController extends Controller
     
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
 }
+public function updatePaidStatus(Teacher $teacher)
+    {
+        $teacher->rosters()->each(function ($roster) {
+            $roster->lessonDetails()->where('paid', 0)->update(['paid' => 1]);
+        });
+    }
 
-
-public function salary($rosters, $teacher) 
+    public function salary($rosters, $teacher) 
     {
         $totalSalary = 0; 
         foreach ($rosters as $roster) {
-            $lessonDetails = $roster->lessonDetails;
-            
+            $lessonDetails = $roster->lessonDetails()->where('paid', 0)->get(); // Выборка только непроплаченных уроков
+    
             foreach ($lessonDetails as $lessonDetail) {
                 $salary = $this->calculateSalary($teacher, $roster, $lessonDetail);
                 $totalSalary += $salary;

@@ -22,7 +22,12 @@ class StoreTeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => 'email',
+            'name' => 'string',
+            'position' => 'string',
+            'user_id' => 'integer',
+            'salary' => 'integer',
+            'taxes' => 'integer'
         ];
     }
 }

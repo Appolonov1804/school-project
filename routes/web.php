@@ -23,7 +23,7 @@ Route::get('/teachers/{teacher}/edit', [\App\Http\Controllers\MainController::cl
 Route::patch('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'update'])->name('teachers.update');
 Route::delete('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'destroy'])->name('teachers.delete');
 Route::get('/teachers/{teacher}/reports', [\App\Http\Controllers\MainController::class, 'showTeachersReports'])->name('teachers.reportShow');
-
+Route::post('/teachers/reset-salary/{teacher}', [\App\Http\Controllers\MainController::class, 'resetSalary'])->name('teachers.resetSalary');
 
 Route::get('/teachers/update', [\App\Http\Controllers\MainController::class, 'update']); 
 

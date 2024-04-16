@@ -107,4 +107,8 @@
 <div>
     <h4>Заработано: {{ $totalSalary }}</h4>
 </div>
+<form method="POST" action="{{ route('teachers.resetSalary', ['teacher' => $teacher->id]) }}">
+    @csrf
+    <button type="submit">Обнулить зарплату</button>
+</form>
 @endsection
