@@ -72,7 +72,7 @@ class LessonController extends Controller
     
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
 }
-public function updatePaidStatus(Teacher $teacher)
+    public function updatePaidStatus(Teacher $teacher)
     {
         $teacher->rosters()->each(function ($roster) {
             $roster->lessonDetails()->where('paid', 0)->update(['paid' => 1]);

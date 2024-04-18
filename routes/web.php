@@ -16,14 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
+Route::middleware('admin.restrictions')->group(function () {
 Route::get('/teachers/create', [\App\Http\Controllers\MainController::class, 'create'])->name('teachers.create'); 
-Route::post('/teachers', [\App\Http\Controllers\MainController::class, 'store'])->name('teachers.store'); 
-Route::get('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'show'])->name('teachers.show'); 
+Route::post('/teachers', [\App\Http\Controllers\MainController::class, 'store'])->name('teachers.store');
 Route::get('/teachers/{teacher}/edit', [\App\Http\Controllers\MainController::class, 'edit'])->name('teachers.edit');
 Route::patch('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'update'])->name('teachers.update');
 Route::delete('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'destroy'])->name('teachers.delete');
-Route::get('/teachers/{teacher}/reports', [\App\Http\Controllers\MainController::class, 'showTeachersReports'])->name('teachers.reportShow');
 Route::post('/teachers/reset-salary/{teacher}', [\App\Http\Controllers\MainController::class, 'resetSalary'])->name('teachers.resetSalary');
+
 
 Route::get('/teachers/update', [\App\Http\Controllers\MainController::class, 'update']); 
 
@@ -39,6 +39,7 @@ Route::delete('/rosters/{roster}', [\App\Http\Controllers\RosterController::clas
 Route::get('/rosters/delete', [\App\Http\Controllers\RosterController::class, 'delete']); 
 
 
+
 Route::get('/rosters/{roster}/edit/{lesson_id}', [\App\Http\Controllers\LessonController::class, 'editLesson'])->name('lessons.edit');
 Route::patch('/rosters/{roster}/update_lesson/{lesson_id}', [\App\Http\Controllers\LessonController::class, 'updateLesson'])->name('lessons.updateLesson');
 Route::get('/rosters/{roster}/create', [\App\Http\Controllers\LessonController::class, 'create'])->name('lessons.create');
@@ -49,16 +50,17 @@ Route::get('/lessons/delete', [\App\Http\Controllers\LessonController::class, 'd
 
 Route::get('/reports/create', [\App\Http\Controllers\ReportController::class, 'create'])->name('reports.create'); 
 Route::post('/reports', [\App\Http\Controllers\ReportController::class, 'store'])->name('reports.store'); 
-Route::get('/reports/{report}', [\App\Http\Controllers\ReportController::class, 'show'])->name('reports.show'); 
+Route::get('/reports/{report}', [\App\Http\Controllers\ReportController::class, 'show'])->name('reports.show');
 Route::get('/reports/{report}/edit', [\App\Http\Controllers\ReportController::class, 'edit'])->name('reports.edit'); 
 Route::patch('/reports/{report}', [\App\Http\Controllers\ReportController::class, 'update'])->name('reports.update'); 
 Route::delete('/reports/{report}', [\App\Http\Controllers\ReportController::class, 'destroy'])->name('reports.delete'); 
-
 Route::get('/reports/delete', [\App\Http\Controllers\ReportController::class, 'delete']); 
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'show'])->name('teachers.show');
 
 
 
@@ -87,12 +89,10 @@ Route::group(['namespace' => 'Controllers'], function() {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/teachers/{teacher}/reports', [\App\Http\Controllers\MainController::class, 'showTeachersReports'])->name('teachers.reportShow');
 
 Route::post('/upload', [App\Http\Controllers\UploadController::class, 'store'])->name('upload.store');
 Route::get('/upload', function () {
     return view('upload');
 });
 
-Route::get('/calendar', function() {
-    return response()->file('calendar.html');
-});
