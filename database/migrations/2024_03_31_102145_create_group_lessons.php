@@ -16,7 +16,6 @@ return new class extends Migration
             $table->date('date');
             $table->string('topic');
             $table->string('time');
-            $table->string('attendance');
             $table->unsignedBigInteger('group_id');
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->unsignedBigInteger('paid')->nullable()->default(0); 

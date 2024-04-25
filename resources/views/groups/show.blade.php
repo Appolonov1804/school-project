@@ -65,8 +65,8 @@
                     <td>{{ $groupLesson->topic }}</td>
                     <td>{{ $groupLesson->attendance }}</td>
                     <td>
-                        <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'groupLesson_id' => $groupLesson->id]) }}">Редактировать урок</a>
-                        <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'groupLesson_id' => $groupLesson->id]) }}" method="post">
+                    <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}">Редактировать урок</a>
+                        <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}" method="post">
                             @csrf
                             @method('delete')
                             <input type="submit" value="Удалить урок" class="btn btn-danger">

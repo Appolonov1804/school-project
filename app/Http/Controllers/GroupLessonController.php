@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\GroupLesson;
 use App\Models\Group;
 use App\Models\Student;
+use App\Models\GroupLessonStudent;
 use App\Http\Requests\Controllers\StoreGroupLessonRequest;
 use App\Http\Requests\Controllers\UpdateGroupLessonRequest;
+use App\Models\Teacher;
 
 class GroupLessonController extends Controller
 {
@@ -21,31 +23,40 @@ class GroupLessonController extends Controller
     public function store(StoreGroupLessonRequest $request, Group $group)
     {
         $data = $request->validated();
-    
+        
         // Создаем запись об уроке
         $groupLesson = GroupLesson::create([
             'date' => $data['date'],
             'topic' => $data['topic'],
-            'attendance' => $data['attendance'],
+            'time' => $data['time'],
             'group_id' => $group->id,
         ]);
-    
-        // Связываем каждого студента с уроком и указываем посещаемость
-        foreach ($data['student_id'] as $index => $studentId) {
-            $attendance = $data['attendance'][$index];
-            $groupLesson->students()->attach($studentId, ['attendance' => $attendance]);
+        
+        // Сохраняем посещаемость каждого студента
+        foreach ($data['attendance'] as $attendanceArray) {
+            foreach ($attendanceArray as $attendance) {
+                // Проверяем, является ли $attendanceArray массивом
+                if (is_array($attendanceArray) && isset($attendanceArray['attendance'])) {
+                    GroupLessonStudent::create([
+                        'group_lesson_id' => $groupLesson->id,
+                        'student_id' => $attendanceArray['student_id'], // Предполагается, что 'student_id' также передается
+                        'attendance' => $attendanceArray['attendance'],
+                    ]);
+                } else {
+                    // Обработка, если данные не соответствуют ожидаемому формату
+                }
+            }
         }
-    
+        
         return redirect()->route('groups.show', ['group' => $group->id]);
     }
-    public function editLesson(Group $group, $groupLesson_id, GroupLesson $groupLesson)
-    {
-        
-        $groupLessons = $group->groupLessons()->findOrFail($groupLesson_id);
-    
-    
-        return view('groupsLessons.edit', compact('group', 'teachers', 'groupLessons'));
-    }
+public function editLesson(Group $group, $group_lesson_id, GroupLesson $groupLesson)
+{
+    $groupLesson = $group->groupLessons()->findOrFail($group_lesson_id);
+    $teachers = Teacher::all();
+
+    return view('groupsLessons.edit', compact('group', 'teachers', 'groupLesson'));
+}
         
     public function updateLesson(UpdateGroupLessonRequest $request, Group $roster, $groupLesson_id)
 {

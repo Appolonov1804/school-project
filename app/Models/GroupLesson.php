@@ -14,7 +14,7 @@ class GroupLesson extends Model
 
     protected $table = 'group_lessons';
     protected $guarded = [];
-    protected $fillable = ['date', 'topic', 'time', 'attendance','group_id'];
+    protected $fillable = ['date', 'topic', 'time', 'group_id'];
 
     public function group()
     {
@@ -26,4 +26,9 @@ class GroupLesson extends Model
     return $this->belongsToMany(Student::class, 'group_lesson_student')->withPivot('attendance');
 
     }
+
+    public function attendance()
+{
+    return $this->hasMany(GroupLessonStudent::class, 'group_lesson_id');
+}
 }
