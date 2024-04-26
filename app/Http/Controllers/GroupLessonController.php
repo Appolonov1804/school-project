@@ -33,22 +33,25 @@ class GroupLessonController extends Controller
         ]);
         
         // Сохраняем посещаемость каждого студента
-        foreach ($data['attendance'] as $attendanceArray) {
-            foreach ($attendanceArray as $attendance) {
-                // Проверяем, является ли $attendanceArray массивом
-                if (is_array($attendanceArray) && isset($attendanceArray['attendance'])) {
-                    GroupLessonStudent::create([
-                        'group_lesson_id' => $groupLesson->id,
-                        'student_id' => $attendanceArray['student_id'], // Предполагается, что 'student_id' также передается
-                        'attendance' => $attendanceArray['attendance'],
-                    ]);
-                } else {
-                    // Обработка, если данные не соответствуют ожидаемому формату
-                }
+        foreach ($data['attendance'] as $studentId => $attendanceData) {
+            if (isset($attendanceData['attendance'])) {
+                // Создаем запись о посещаемости для конкретного студента на данном уроке
+                GroupLessonStudent::create([
+                    'group_lesson_id' => $groupLesson->id,
+                    'student_id' => $studentId,
+                    'attendance' => $attendanceData['attendance'],
+                ]);
+            } else {
+                return redirect()->back()->with('error', 'Отметьте посещаемость для всех студентов');
             }
         }
+    
+        // Получаем данные о посещаемости для данного урока через связь в модели GroupLesson
+        $attendances = $groupLesson->attendance;
+    
+        $teacherId = $group->teachers_id;
         
-        return redirect()->route('groups.show', ['group' => $group->id]);
+        return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
     }
 public function editLesson(Group $group, $group_lesson_id, GroupLesson $groupLesson)
 {

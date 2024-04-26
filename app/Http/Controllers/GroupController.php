@@ -96,8 +96,9 @@ class GroupController extends Controller
  
         $group->update($data);
         $teacherId = $group->teachers_id;
+        $groupId = $group->id;
     
-        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
     }
 
 
@@ -105,11 +106,12 @@ class GroupController extends Controller
     {
         $group = Group::find($groupId);
         $teacherId = $group->teachers_id;
+        $groupId = $group->id;
         if ($group) {
             $group->delete();
-            return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+            return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
         } else {
-            return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Запись не найдена');
+            return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId])->with('error', 'Запись не найдена');
         }
     }
 
@@ -117,7 +119,8 @@ class GroupController extends Controller
     {
         $group->delete();
         $teacherId = $group->teachers_id;
-        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        $groupId = $group->id;
+        return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
     }
 
 }

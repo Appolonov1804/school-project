@@ -42,45 +42,52 @@
     @foreach($groups as $group)
     <h3>{{ $group->name }}</h3>
     <table>
-        <thead>
-            <tr>
-                <th>Курс</th>
-                <th>Студенты</th>
-                <th>Время</th>
-                <th>Дата</th>
-                <th>Тема</th>
-                <th>Посещение</th>
-            </tr>
-        </thead>
-        <tbody>
-    @php $firstStudent = $group->students->first(); @endphp
-    <tr>
-        <td rowspan="{{ $group->students->count() }}">{{ $group->course }}</td>
-        @foreach ($group->students as $index => $student)
-            <td>{{ $student->student }}</td>
-            @if ($index == 0)
-                @foreach($group->groupLessons as $groupLesson)
-                    <td>{{ $groupLesson->time }}</td> 
-                    <td>{{ $groupLesson->date }}</td>
-                    <td>{{ $groupLesson->topic }}</td>
-                    <td>{{ $groupLesson->attendance }}</td>
-                    <td>
-                    <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}">Редактировать урок</a>
-                        <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}" method="post">
-                            @csrf
-                            @method('delete')
-                            <input type="submit" value="Удалить урок" class="btn btn-danger">
-                        </form>
-                    </td>
-                @endforeach
-            @endif
-        </tr>
-        @if ($index < $group->students->count() - 1)
+    <thead>
         <tr>
-        @endif
-    @endforeach 
-</tbody>
-    </table>
+            <th>Курс</th>
+            <th>Время</th>
+            <th>Дата</th>
+            <th>Тема</th>
+            <th class="students">Студенты</th>
+            <th>Посещение</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($group->groupLessons as $groupLesson)
+            <tr>
+                <td>{{ $group->course }}</td>
+                <td>{{ $groupLesson->time }} минут</td> 
+                <td>{{ $groupLesson->date }}</td>
+                <td>{{ $groupLesson->topic }}</td>
+                <td class="students">
+                    @foreach ($groupLesson->students as $index => $student)
+                        {{ $student->student }}
+                        @if (!$loop->last)
+                            <hr style="border-top: 1px solid #ddd; margin: 2px 0;">
+                        @endif
+                    @endforeach
+                </td>
+                <td>
+                    @foreach ($groupLesson->students as $student)
+                        {{ $student->pivot->attendance }}
+                        @if (!$loop->last)
+                        <hr style="border-top: 1px solid #ddd; margin: 2px 0;">
+                        @endif
+                    @endforeach
+                </td>
+                <td>
+                    <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}">Редактировать урок</a>
+                    <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input type="submit" value="Удалить урок" class="btn btn-danger">
+                    </form>
+                </td>
+            </tr>
+        @endforeach 
+    </tbody>
+</table>
     <div>
         <a href="{{ route('groupsLessons.create', ['group' => $group->id]) }}">Отметить урок</a>
     </div>

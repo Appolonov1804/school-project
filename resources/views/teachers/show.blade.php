@@ -99,9 +99,6 @@
     <a href="{{ route('rosters.create') }}">Добавить индивидуальный журнал</a>
 </div>
 <div>
-    <a href="{{ route('groups.create') }}">Добавить групповой журнал</a>
-</div>
-<div>
     <a href="{{ route('groups.show', $teacher) }}">Группы</a>
 </div>
 <div>

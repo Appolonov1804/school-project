@@ -23,12 +23,13 @@ class GroupLesson extends Model
 
     public function students()
     {
-    return $this->belongsToMany(Student::class, 'group_lesson_student')->withPivot('attendance');
-
+        return $this->belongsToMany(Student::class, 'group_lesson_student')
+                    ->withPivot('attendance');
     }
 
     public function attendance()
-{
-    return $this->hasMany(GroupLessonStudent::class, 'group_lesson_id');
+    {
+        return $this->hasMany(GroupLessonStudent::class, 'group_lesson_id');
+    }
 }
-}
+
