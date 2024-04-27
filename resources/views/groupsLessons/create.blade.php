@@ -43,7 +43,7 @@ select:-webkit-autofill:focus {
         <!-- Добавьте скрытое поле для отправки идентификатора студента -->
         <input type="hidden" name="attendance[{{ $student->id }}][student_id]" value="{{ $student->id }}">
     </div>
-@endforeach
+    @endforeach
     <button type="submit" class="btn btn-primary">Отметить</button>
 </form>
 @endsection

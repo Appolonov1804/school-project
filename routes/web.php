@@ -54,7 +54,7 @@ Route::delete('/rosters/{roster}/{lesson_id}', [\App\Http\Controllers\LessonCont
 Route::get('/lessons/delete', [\App\Http\Controllers\LessonController::class, 'delete']); 
 
 Route::get('/group_lessons/{group}/{group_lesson_id}/edit', [\App\Http\Controllers\GroupLessonController::class, 'editLesson'])->name('groupsLessons.edit');
-Route::patch('/group_lessons/{group}/update_group_lesson/{group_lesson_id}', [\App\Http\Controllers\GroupLessonController::class, 'updateLesson'])->name('groupLessons.updateLesson');
+Route::patch('/group_lessons/{group}/update_group_lesson/{lesson}', [\App\Http\Controllers\GroupLessonController::class, 'updateLesson'])->name('groupLessons.updateLesson');
 Route::get('/group_lessons/{group}/create', [\App\Http\Controllers\GroupLessonController::class, 'create'])->name('groupsLessons.create');
 Route::post('/group_lessons/{group}', [\App\Http\Controllers\GroupLessonController::class, 'store'])->name('groupsLessons.store');
 Route::delete('/group_lessons/{group}/{group_lesson_id}', [\App\Http\Controllers\GroupLessonController::class, 'destroy'])->name('groupsLessons.delete');

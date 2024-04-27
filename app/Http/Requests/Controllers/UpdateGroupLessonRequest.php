@@ -25,9 +25,8 @@ class UpdateGroupLessonRequest extends FormRequest
             'date' => 'date',
             'topic' => 'string',
             'time' => 'string',
-            'attendance' => 'string',
+            'attendance' => 'array',
             'roster_id' => ['nullable', 'integer'],
-            
         ];
     }
 }

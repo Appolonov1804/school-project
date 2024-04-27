@@ -41,7 +41,7 @@
     @if (!empty($groups) && $groups->isNotEmpty())
     @foreach($groups as $group)
     <h3>{{ $group->name }}</h3>
-    <table>
+    <table>   
     <thead>
         <tr>
             <th>Курс</th>
