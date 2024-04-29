@@ -41,51 +41,82 @@
     @if (!empty($groups) && $groups->isNotEmpty())
     @foreach($groups as $group)
     <h3>{{ $group->name }}</h3>
-    <table>   
+    <table>
     <thead>
         <tr>
             <th>Курс</th>
             <th>Время</th>
             <th>Дата</th>
             <th>Тема</th>
-            <th class="students">Студенты</th>
-            <th>Посещение</th>
+            <th>Студенты</th>
+            <th>Посещаемость</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($group->groupLessons as $groupLesson)
-            <tr>
-                <td>{{ $group->course }}</td>
-                <td>{{ $groupLesson->time }} минут</td> 
-                <td>{{ $groupLesson->date }}</td>
-                <td>{{ $groupLesson->topic }}</td>
-                <td class="students">
-                    @foreach ($groupLesson->students as $index => $student)
+        <tr>
+            <td>{{ $group->course }}</td>
+            <td>
+                @foreach ($group->groupLessons as $groupLesson)
+                    @if ($groupLesson->date && $groupLesson->topic && $groupLesson->time)
+                        {{ $groupLesson->time }} минут
+                        @break
+                    @endif
+                @endforeach
+            </td>
+            <td>
+                @foreach ($group->groupLessons as $groupLesson)
+                    @if ($groupLesson->date && $groupLesson->topic && $groupLesson->time)
+                        {{ $groupLesson->date }}
+                        @break
+                    @endif
+                @endforeach
+            </td>
+            <td>
+                @foreach ($group->groupLessons as $groupLesson)
+                    @if ($groupLesson->date && $groupLesson->topic && $groupLesson->time)
+                        {{ $groupLesson->topic }}
+                        @break
+                    @endif
+                @endforeach
+            </td>
+            <td>
+                @if ($group->students->isNotEmpty())
+                    @foreach ($group->students as $student)
                         {{ $student->student }}
                         @if (!$loop->last)
                             <hr style="border-top: 1px solid #ddd; margin: 2px 0;">
                         @endif
                     @endforeach
-                </td>
-                <td>
+                @else
+                    Нет студентов
+                @endif
+            </td>
+            <td>
+                @foreach ($group->groupLessons as $groupLesson)
                     @foreach ($groupLesson->students as $student)
-                        {{ $student->pivot->attendance }}
+                        @if ($student->pivot->attendance)
+                            {{ $student->pivot->attendance }}
+                        @else
+                            N/A
+                        @endif
                         @if (!$loop->last)
-                        <hr style="border-top: 1px solid #ddd; margin: 2px 0;">
+                            <hr style="border-top: 1px solid #ddd; margin: 2px 0;">
                         @endif
                     @endforeach
-                </td>
-                <td>
+                @endforeach
+            </td>
+            <td>
+                @foreach ($group->groupLessons as $groupLesson)
                     <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}">Редактировать урок</a>
                     <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}" method="post">
                         @csrf
                         @method('delete')
-                        <input type="submit" value="Удалить урок" class="btn btn-danger">
+                        <button type="submit" class="btn btn-danger">Удалить урок</button>
                     </form>
-                </td>
-            </tr>
-        @endforeach 
+                @endforeach
+            </td>
+        </tr>
     </tbody>
 </table>
     <div>

@@ -68,11 +68,16 @@ class GroupController extends Controller
     
         // Получение загруженных групп учителя
         $groups = $teacher->groups;
+
+        foreach ($groups as $group) {
+            $group->load('students'); // Загружаем студентов для каждой группы
+        }
     
+        $groupLessons = $group->groupLessons;
         // Остальные переменные
         $students = $group->students;
         $teachers = Teacher::all();
-        $groupLessons = GroupLesson::all();
+      
     
         return view('groups.show', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student', 'groupLessons', 'groupLesson'));
     }
