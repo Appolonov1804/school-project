@@ -83,27 +83,47 @@ class GroupController extends Controller
     }
 
 
-    public function edit(Group $group, Teacher $teacher)
+    public function edit(Group $group, Teacher $teacher, Student $student)
     {
         $groups = Group::all();
         $teachers = Teacher::all();
-        return view('groups.edit', compact('group', 'teacher', 'teachers', 'groups'));
+        $students = Student::all();
+        return view('groups.edit', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student')); 
     }
 
 
-    public function update(UpdateGroupRequest $request, Group $group, Teacher $teacher)
+    public function update(UpdateGroupRequest $request, UpdateStudentRequest $updateStudentRequest, Group $group, Teacher $teacher, Student $student)
     {
-        $teachers = Teacher::all();
-        $groups = Group::all();
-  
-
-        $data = $request->validated();
- 
-        $group->update($data);
+        $data = $request->validate($request->rules());
+        $studentData = $updateStudentRequest->validate($updateStudentRequest->rules());
         $teacherId = $group->teachers_id;
-        $groupId = $group->id;
     
-        return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
+        // Обновление данных группы
+        $group->update([
+            'course' => $data['course'],
+            // 'teachers_id' => $data['teachers_id'], // Если требуется обновление ID учителя
+        ]);
+    
+        // Обновление данных студентов
+        $group->update([
+            'course' => $data['course'],
+        ]);
+    
+        // Обновление данных студентов
+        if (isset($studentData['students'])) {
+            foreach ($studentData['students'] as $studentId => $studentName) {
+                $student = Student::find($studentId);
+                if ($student) {
+                    $student->update(['student' => $studentName]);
+                }
+            }
+        }
+    
+        // Получение учителя, связанного с группой
+        $teacher = $group->teacher;
+    
+        // Перенаправление на страницу с информацией о группе
+        return redirect()->route('groups.show', ['teacher' => $teacherId, 'group' => $group->id]);
     }
 
 

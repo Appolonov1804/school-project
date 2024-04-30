@@ -50,39 +50,19 @@
             <th>Тема</th>
             <th>Студенты</th>
             <th>Посещаемость</th>
-            <th></th>
+            <th>Действия</th>
         </tr>
     </thead>
     <tbody>
+        @foreach ($group->groupLessons as $groupLesson)
         <tr>
             <td>{{ $group->course }}</td>
+            <td>{{ $groupLesson->time }} минут</td>
+            <td>{{ $groupLesson->date }}</td>
+            <td>{{ $groupLesson->topic }}</td>
             <td>
-                @foreach ($group->groupLessons as $groupLesson)
-                    @if ($groupLesson->date && $groupLesson->topic && $groupLesson->time)
-                        {{ $groupLesson->time }} минут
-                        @break
-                    @endif
-                @endforeach
-            </td>
-            <td>
-                @foreach ($group->groupLessons as $groupLesson)
-                    @if ($groupLesson->date && $groupLesson->topic && $groupLesson->time)
-                        {{ $groupLesson->date }}
-                        @break
-                    @endif
-                @endforeach
-            </td>
-            <td>
-                @foreach ($group->groupLessons as $groupLesson)
-                    @if ($groupLesson->date && $groupLesson->topic && $groupLesson->time)
-                        {{ $groupLesson->topic }}
-                        @break
-                    @endif
-                @endforeach
-            </td>
-            <td>
-                @if ($group->students->isNotEmpty())
-                    @foreach ($group->students as $student)
+                @if ($groupLesson->students->isNotEmpty())
+                    @foreach ($groupLesson->students as $student)
                         {{ $student->student }}
                         @if (!$loop->last)
                             <hr style="border-top: 1px solid #ddd; margin: 2px 0;">
@@ -93,30 +73,23 @@
                 @endif
             </td>
             <td>
-                @foreach ($group->groupLessons as $groupLesson)
-                    @foreach ($groupLesson->students as $student)
-                        @if ($student->pivot->attendance)
-                            {{ $student->pivot->attendance }}
-                        @else
-                            N/A
-                        @endif
-                        @if (!$loop->last)
-                            <hr style="border-top: 1px solid #ddd; margin: 2px 0;">
-                        @endif
-                    @endforeach
+                @foreach ($groupLesson->students as $student)
+                    {{ $student->pivot->attendance ?? 'N/A' }}
+                    @if (!$loop->last)
+                        <hr style="border-top: 1px solid #ddd; margin: 2px 0;">
+                    @endif
                 @endforeach
             </td>
             <td>
-                @foreach ($group->groupLessons as $groupLesson)
-                    <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}">Редактировать урок</a>
-                    <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}" method="post">
-                        @csrf
-                        @method('delete')
-                        <button type="submit" class="btn btn-danger">Удалить урок</button>
-                    </form>
-                @endforeach
+                <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}">Редактировать урок</a>
+                <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="submit" class="btn btn-danger">Удалить урок</button>
+                </form>
             </td>
         </tr>
+        @endforeach
     </tbody>
 </table>
     <div>
