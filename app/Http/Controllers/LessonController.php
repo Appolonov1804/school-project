@@ -8,6 +8,7 @@ use App\Models\Teacher;
 use App\Models\Report;
 use App\Models\Roster;
 use App\Models\LessonDetail;
+use App\Models\Group;
 use App\Http\Requests\Controllers\StoreRosterRequest;
 use App\Http\Requests\Controllers\UpdateRosterRequest;
 use App\Http\Requests\Controllers\StoreLessonRequest;
@@ -52,7 +53,7 @@ class LessonController extends Controller
     }
         
     public function updateLesson(UpdateLessonRequest $request, Roster $roster, $lesson_id)
-{
+    {
     
     $lessonDetail = LessonDetail::findOrFail($lesson_id);
 
@@ -71,13 +72,14 @@ class LessonController extends Controller
         $teacherId = $roster->teachers_id;
     
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
-}
+    }
     public function updatePaidStatus(Teacher $teacher)
     {
         $teacher->rosters()->each(function ($roster) {
             $roster->lessonDetails()->where('paid', 0)->update(['paid' => 1]);
         });
     }
+
 
     public function salary($rosters, $teacher) 
     {
