@@ -15,13 +15,20 @@
         border-bottom: 1px solid #ddd;
     }
 
-    .students-list {
-        margin-bottom: 10px;
-    }
-
     .students-list ul {
         list-style-type: none;
         padding: 0;
+    }
+
+    .students-list table {
+        width: 100%; /* Ширина таблицы в students-list */
+        border-collapse: collapse;
+    }
+
+    .students-list th, .students-list td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
     }
 </style>
 
@@ -59,11 +66,15 @@
 
                 <div class="students-list">
                     <strong>Студенты:</strong>
-                    <ul>
-                        @foreach ($group->students as $student)
-                            <li>{{ $student->student }}</li>
-                        @endforeach
-                    </ul>
+                    <table>
+                        <tbody>
+                            @foreach ($group->students as $student)
+                                <tr>
+                                    <td>{{ $student->student }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
 
                 <table>
@@ -112,21 +123,22 @@
                     </form>
                 </div>
             </div>
-        @endforeach 
+        @endforeach
     @else
         <p>У этого преподавателя пока нет групп.</p>
     @endif
-
-    <div>
-        <a href="{{ route('groups.create') }}">Добавить групповой журнал</a>
-    </div>
-
-    <div>
-        <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
-    </div>
-
-    <div>
-        <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
-    </div>
 </div>
+
+<div>
+    <a href="{{ route('groups.create') }}">Добавить групповой журнал</a>
+</div>
+
+<div>
+    <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
+</div>
+
+<div>
+    <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
+</div>
+
 @endsection
