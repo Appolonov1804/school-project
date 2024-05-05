@@ -96,7 +96,7 @@
                                 <td>
                                     <ul>
                                         @foreach ($groupLesson->students as $student)
-                                            <li>{{ $student->pivot->attendance ?? 'N/A' }}</li>
+                                            <li>{{ $student->student }} - {{ $student->pivot->attendance ?? 'N/A' }}</li>
                                         @endforeach
                                     </ul>
                                 </td>
@@ -112,9 +112,9 @@
                         @endforeach
                     </tbody>
                 </table>
-
                 <div>
                     <a href="{{ route('groupsLessons.create', ['group' => $group->id]) }}">Отметить урок</a>
+                    <br>
                     <a href="{{ route('groups.edit', $group->id) }}">Редактировать журналы</a>
                     <form action="{{ route('groups.delete', $group->id) }}" method="post">
                         @csrf
