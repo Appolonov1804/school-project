@@ -162,19 +162,18 @@ class GroupLessonController extends Controller
         }
     }
 
-        public function destroy($rosterId, $groupLesson_id)
-        {
-            $groupLessons = GroupLesson::find($groupLesson_id);
-              $group = $groupLessons->group;
-              $teacherId = $group->teachers_id;
+    public function destroy($rosterId, $groupLesson_id)
+    {
+        $groupLessons = GroupLesson::find($groupLesson_id);
+        $group = $groupLessons->group;
+        $teacherId = $group->teachers_id;
                 
-            if ($groupLessons) {
-                $groupLessons->delete();
-                
-                    return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
-                } else {
-                    return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId])->with('error', 'Урок не найден');
-                }
+        if ($groupLessons) {
+            $groupLessons->delete();
+                return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
+            } else {
+                return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId])->with('error', 'Урок не найден');
+            }
 
-        }
+    }
 }
