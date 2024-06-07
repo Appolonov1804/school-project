@@ -50,8 +50,6 @@ class MainController extends Controller
             'user_id' => $user->id,
         ]);
  
-    
-
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
 
@@ -64,57 +62,49 @@ class MainController extends Controller
    
     public function resetSalary(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController)
     {
-    // Обновляем значение зарплаты учителя на 0
-    $teacher->update(['salary' => 0]);
 
-    // Обновляем статус оплаты уроков через журналы учителя
-    $teacher->rosters()->each(function ($roster) {
+        $teacher->update(['salary' => 0]);
+
+        $teacher->rosters()->each(function ($roster) {
         $roster->lessonDetails()->update(['paid' => 1]);
-    });
+        });
 
-    $teacher->groups()->each(function ($group) {
-        $group->groupLessons()->update(['paid' => 1]);
-    });
+        $teacher->groups()->each(function ($group) {
+            $group->groupLessons()->update(['paid' => 1]);
+        });
 
-    // Вызываем метод обновления статуса оплаты уроков в LessonController
-    $lessonController->updatePaidStatus($teacher);
+        $lessonController->updatePaidStatus($teacher);
 
-    if ($teacher->group) {
-        // Если группа существует, вызываем метод обновления статуса оплаты уроков в GroupLessonController
+        if ($teacher->group) {
         $groupLessonController->updatePaidStatus($teacher->group);
-    }
+        }
 
-    return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
+        return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
     
     public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController)
     {
-    // Получаем все журналы учителя вместе с деталями уроков
-    $rosters = $teacher->rosters()->with('lessonDetails')->get();
+        $rosters = $teacher->rosters()->with('lessonDetails')->get();
 
-    // Фильтруем уроки, чтобы отобразить только непроплаченные
-    $filteredLessonDetails = collect();
-    foreach ($rosters as $roster) {
-        $filteredLessonDetails = $filteredLessonDetails->merge($roster->lessonDetails->where('paid', 0));
-    }
+        $filteredLessonDetails = collect();
+        foreach ($rosters as $roster) {
+            $filteredLessonDetails = $filteredLessonDetails->merge($roster->lessonDetails->where('paid', 0));
+        }
 
-    $groups = $teacher->groups()->with(['groupLessons'=> function($query) {
-        $query->with('attendance');
-    }])->get();
+        $groups = $teacher->groups()->with(['groupLessons'=> function($query) {
+            $query->with('attendance');
+        }])->get();
 
-    $filteredGroupLessons = collect();
-    foreach ($groups as $group) {
-        $filteredGroupLessons = $filteredGroupLessons->merge($group->groupLessons->where('paid', 0));
-    }
+        $filteredGroupLessons = collect();
+        foreach ($groups as $group) {
+            $filteredGroupLessons = $filteredGroupLessons->merge($group->groupLessons->where('paid', 0));
+        }
 
-    // Вычисляем общую зарплату учителя с помощью метода из LessonController
-    $totalSalary = $lessonController->salary($rosters, $teacher);
+        $totalSalary = $lessonController->salary($rosters, $teacher);
+        $groupTotalSalary = $groupLessonController->salary($filteredGroupLessons, $teacher);
+        $totalSalary += $groupTotalSalary;
 
-    $groupTotalSalary = $groupLessonController->salary($filteredGroupLessons, $teacher);
-
-    $totalSalary += $groupTotalSalary;
-
-    return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'totalSalary'));
+        return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'totalSalary'));
     }
     
     
@@ -124,7 +114,7 @@ class MainController extends Controller
         $rosters = Roster::all();
         $reports = Report::all();
         $reports = $teacher->reports;
-       return view('teachers.reportShow', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
+        return view('teachers.reportShow', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
     }
 
     public function edit(Teacher $teacher, Roster $roster, Report $report) 

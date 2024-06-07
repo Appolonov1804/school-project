@@ -16,8 +16,7 @@ class AdminPanelMiddleware
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-
-        // Проверяем, является ли пользователь администратором
+        
         if ($user->role === 'admin') {
             return $next($request);
         } else {

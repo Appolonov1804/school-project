@@ -29,24 +29,19 @@ class RosterController extends Controller
     public function store(StoreRosterRequest $request)
     {
         $data = $request->validated();
-
-        // Получаем текущего авторизованного пользователя
         $user = Auth::user();
         
-        // Проверяем наличие ассоциированного учителя
         if ($user->teacher) {
-            // Создаем запись в журнале, передавая id учителя, который создал запись
             $roster = Roster::create([
                 'student' => $data['student'],
                 'course' => $data['course'],
                 'time' => $data['time'],
-                'teachers_id' => $user->teacher->id, // Используем id учителя, ассоциированного с пользователем
+                'teachers_id' => $user->teacher->id, 
             ]);
             
-            // После создания записи перенаправляем пользователя на страницу учителя
             return redirect()->route('teachers.show', ['teacher' => $user->teacher->id]);
         } else {
-            // Если у пользователя нет ассоциированного учителя, обрабатываем это соответствующим образом
+            
             return redirect()->back()->with('error', 'Вы не являетесь учителем.');
         }
 

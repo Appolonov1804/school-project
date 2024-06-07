@@ -25,7 +25,6 @@ return new class extends Migration
         $table->index('teachers_id', 'roster_teachers_idx');
     });
 
-    // Создаем внешний ключ после создания таблицы rosters
     Schema::table('rosters', function (Blueprint $table) {
         $table->foreign('teachers_id')->references('id')->on('teachers'); 
     });

@@ -28,33 +28,28 @@ class GroupController extends Controller
         $data = $request->validate($request->rules());
         $studentData = $storeStudentRequest->validate($storeStudentRequest->rules());
 
-        // Получаем текущего авторизованного пользователя
         $user = Auth::user();
         
-        // Проверяем наличие ассоциированного учителя
         if ($user->teacher) {
-            // Создаем запись в журнале, передавая id учителя, который создал запись
+            
             $group = Group::create([
                 'course' => $data['course'],
-                'teachers_id' => $user->teacher->id, // Используем id учителя, ассоциированного с пользователем
+                'teachers_id' => $user->teacher->id, 
             ]);
 
             if (isset($studentData['students'])) {
                 $students = [];
                 foreach ($studentData['students'] as $studentName) {
-                    // Создаем данные для студента, включая group_id
+                    
                     $students[] = new Student(['student' => $studentName]);
                 }
-    
-                // Создаем всех студентов и связываем их с текущей группой
+
                 $group->students()->saveMany($students);
-            } 
-            
-            
-            // После создания записи перенаправляем пользователя на страницу учителя
+            }   
+          
             return redirect()->route('groups.show', ['teacher' => $user->teacher->id]);
         } else {
-            // Если у пользователя нет ассоциированного учителя, обрабатываем это соответствующим образом
+            
             return redirect()->back()->with('error', 'Вы не являетесь учителем.');
         }
 
@@ -63,21 +58,19 @@ class GroupController extends Controller
 
     public function showGroup(Group $group, Teacher $teacher, Student $student, GroupLesson $groupLesson)
     {
-        // Загрузка всех групп, связанных с учителем
+        
         $teacher->load('groups');
     
-        // Получение загруженных групп учителя
+       
         $groups = $teacher->groups;
 
         foreach ($groups as $group) {
-            $group->load('students'); // Загружаем студентов для каждой группы
+            $group->load('students');
         }
     
         $groupLessons = $group->groupLessons;
-        // Остальные переменные
         $students = $group->students;
         $teachers = Teacher::all();
-      
     
         return view('groups.show', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student', 'groupLessons', 'groupLesson'));
     }
@@ -97,19 +90,15 @@ class GroupController extends Controller
         $data = $request->validate($request->rules());
         $studentData = $updateStudentRequest->validate($updateStudentRequest->rules());
         $teacherId = $group->teachers_id;
-    
-        // Обновление данных группы
-        $group->update([
-            'course' => $data['course'],
-            // 'teachers_id' => $data['teachers_id'], // Если требуется обновление ID учителя
-        ]);
-    
-        // Обновление данных студентов
+   
         $group->update([
             'course' => $data['course'],
         ]);
     
-        // Обновление данных студентов
+        $group->update([
+            'course' => $data['course'],
+        ]);
+
         if (isset($studentData['students'])) {
             foreach ($studentData['students'] as $studentId => $studentName) {
                 $student = Student::find($studentId);
@@ -119,10 +108,8 @@ class GroupController extends Controller
             }
         }
     
-        // Получение учителя, связанного с группой
         $teacher = $group->teacher;
-    
-        // Перенаправление на страницу с информацией о группе
+ 
         return redirect()->route('groups.show', ['teacher' => $teacherId, 'group' => $group->id]);
     }
 

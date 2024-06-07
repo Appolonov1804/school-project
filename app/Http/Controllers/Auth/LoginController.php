@@ -41,19 +41,18 @@ class LoginController extends Controller
     }
 
     protected function authenticated(Request $request, $user)
-{
-    // Получаем id пользователя
+    {
+    
     $userId = $user->id;
 
-    // Ищем учителя с данным id пользователя
+    
     $teacher = Teacher::where('user_id', $userId)->first(); 
 
-    // Если у пользователя есть учитель, перенаправляем на страницу учителя
+
     if ($teacher) {
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
 
-    // В противном случае перенаправляем на домашнюю страницу
     return redirect()->route('home');
-}
+    }
 }

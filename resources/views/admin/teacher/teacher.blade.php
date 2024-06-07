@@ -6,19 +6,19 @@
     document.getElementById('logout-form').submit();">
     {{ __('Logout') }}
 </a>
-<div>
     <div>
-        <?php foreach ($teachers as $teacher) : ?>
         <div>
-        <div>{{ $teacher->id }}. {{ $teacher->email }}</div>
-        <div><a href="{{ route('teachers.show', $teacher->id) }}">{{ $teacher->name }}</a></div>
+            <?php foreach ($teachers as $teacher) : ?>
+            <div>
+            <div>{{ $teacher->id }}. {{ $teacher->email }}</div>
+            <div><a href="{{ route('teachers.show', $teacher->id) }}">{{ $teacher->name }}</a></div>
+            </div>
+            <?php endforeach ; ?>
         </div>
-        <?php endforeach ; ?>
+        <div>
+            <a href="{{ route('teachers.create') }}">Добавить учителя</a>
+        </div>
+    
     </div>
-    <div>
-        <a href="{{ route('teachers.create') }}">Добавить учителя</a>
-    </div>
-   
-</div>
 
 @endsection

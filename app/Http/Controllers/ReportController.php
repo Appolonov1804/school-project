@@ -43,9 +43,9 @@ class ReportController extends Controller
         ]);
         
         return redirect()->route('teachers.reportShow', ['teacher' => $user->teacher->id]);
-     } else {
-        return redirect()->back()->with('error', 'вы не являетесь учителем'); 
-     }
+        } else {
+            return redirect()->back()->with('error', 'вы не являетесь учителем'); 
+        }
     }
 
     public function show(Report $report, Teacher $teacher) 
@@ -82,9 +82,9 @@ class ReportController extends Controller
         ]);
         
         return redirect()->route('teachers.reportShow', ['teacher' => $user->teacher->id]);
-     } else {
+        } else {
         return redirect()->back()->with('error', 'вы не являетесь учителем');
-     }
+        }
     }
 
     public function delete($reportId)

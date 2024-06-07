@@ -41,9 +41,9 @@ class LessonController extends Controller
     
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
+    
     public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail)
     {
-        
         $lessonDetail = $roster->lessonDetails()->findOrFail($lesson_id);
     
         $teachers = Teacher::all();
@@ -54,25 +54,21 @@ class LessonController extends Controller
         
     public function updateLesson(UpdateLessonRequest $request, Roster $roster, $lesson_id)
     {
-    
-    $lessonDetail = LessonDetail::findOrFail($lesson_id);
+        $lessonDetail = LessonDetail::findOrFail($lesson_id);
+        $data = $request->validated();
 
-    $data = $request->validated();
-
-  
-    $lessonDetail->update([
+        $lessonDetail->update([
         'date' => $data['date'],
         'topic' => $data['topic'],
         'attendance' => $data['attendance'],
-    ]);
-
+        ]);
 
         $roster = $lessonDetail->roster;
-
         $teacherId = $roster->teachers_id;
     
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
+    
     public function updatePaidStatus(Teacher $teacher)
     {
         $teacher->rosters()->each(function ($roster) {
@@ -124,12 +120,11 @@ class LessonController extends Controller
         return $salary;
     }
     
-        public function delete($rosterId, $lessonId)
-        {
-            $lessonDetail = LessonDetail::find($lessonId);
-                $roster = $lessonDetail->roster;
-
-                $teacherId = $roster->teachers_id;
+    public function delete($rosterId, $lessonId)
+    {
+        $lessonDetail = LessonDetail::find($lessonId);
+        $roster = $lessonDetail->roster;
+        $teacherId = $roster->teachers_id;
         
             if ($lessonDetail) {
                 $lessonDetail->delete();
@@ -138,22 +133,21 @@ class LessonController extends Controller
             } else {
                 return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
             }
-        }
+    }
 
-        public function destroy($rosterId, $lessonId)
-        {
-                $lessonDetail = LessonDetail::find($lessonId);
-                    $roster = $lessonDetail->roster;
-
-                    $teacherId = $roster->teachers_id;
+    public function destroy($rosterId, $lessonId)
+    {
+        $lessonDetail = LessonDetail::find($lessonId);
+        $roster = $lessonDetail->roster;
+        $teacherId = $roster->teachers_id;
                 
-                if ($lessonDetail) {
-                    $lessonDetail->delete();
+            if ($lessonDetail) {
+                $lessonDetail->delete();
     
                     return redirect()->route('teachers.show', ['teacher' => $teacherId]);
                 } else {
                     return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
                 }
 
-        }
+    }
 }
