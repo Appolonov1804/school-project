@@ -21,7 +21,7 @@
     }
 
     .students-list table {
-        width: 100%; /* Ширина таблицы в students-list */
+        width: 100%;
         border-collapse: collapse;
     }
 

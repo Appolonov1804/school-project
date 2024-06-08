@@ -20,23 +20,21 @@ return new class extends Migration
         $table->timestamps();
 
         $table->softDeletes();
-
-
         $table->index('teachers_id', 'roster_teachers_idx');
     });
 
-    // Создаем внешний ключ после создания таблицы rosters
-    Schema::table('rosters', function (Blueprint $table) {
-        $table->foreign('teachers_id')->references('id')->on('teachers'); 
-    });
+
+        Schema::table('rosters', function (Blueprint $table) {
+            $table->foreign('teachers_id')->references('id')->on('teachers'); 
+        });
     }
 
-        public function down(): void
-        {
-            Schema::table('rosters', function (Blueprint $table) {
-                $table->dropForeign(['teachers_id']);
-            });
+    public function down(): void
+    {
+        Schema::table('rosters', function (Blueprint $table) {
+            $table->dropForeign(['teachers_id']);
+        });
 
-            Schema::dropIfExists('rosters');
-        }
+        Schema::dropIfExists('rosters');
+    }
 };

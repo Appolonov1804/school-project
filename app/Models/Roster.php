@@ -22,7 +22,7 @@ class Roster extends Model
     }
 
     public function lessonDetails()
-{
-    return $this->hasMany(LessonDetail::class);
-}
+    {
+        return $this->hasMany(LessonDetail::class);
+    }
 }

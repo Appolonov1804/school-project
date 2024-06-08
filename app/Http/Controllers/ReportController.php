@@ -43,9 +43,9 @@ class ReportController extends Controller
         ]);
         
         return redirect()->route('teachers.reportShow', ['teacher' => $user->teacher->id]);
-     } else {
-        return redirect()->back()->with('error', 'вы не являетесь учителем'); 
-     }
+        } else {
+            return redirect()->back()->with('error', 'вы не являетесь учителем'); 
+        }
     }
 
     public function show(Report $report, Teacher $teacher) 
@@ -58,7 +58,6 @@ class ReportController extends Controller
 
     public function edit(Report $report, Roster $roster, Teacher $teacher) 
     {
-  
         $rosters = Roster::all();
         $teachers = Teacher::all();
         return view('reports.edit', compact('report', 'teacher',  'teachers', 'rosters')); 
@@ -81,10 +80,10 @@ class ReportController extends Controller
             'comments' => $data['comments']
         ]);
         
-        return redirect()->route('teachers.reportShow', ['teacher' => $user->teacher->id]);
-     } else {
-        return redirect()->back()->with('error', 'вы не являетесь учителем');
-     }
+            return redirect()->route('teachers.reportShow', ['teacher' => $user->teacher->id]);
+            } else {
+            return redirect()->back()->with('error', 'вы не являетесь учителем');
+        }
     }
 
     public function delete($reportId)

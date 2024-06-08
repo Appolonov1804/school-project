@@ -26,6 +26,7 @@ class Group extends Model
     {
     return $this->hasMany(GroupLesson::class);
     }
+    
     public function students() 
     {
         return $this->hasMany(Student::class);

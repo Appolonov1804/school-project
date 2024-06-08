@@ -76,13 +76,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'show'])->name('teachers.show');
 
 
-
 Route::group(['namespace' => 'Controllers', 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 Route::group(['namespace' => 'Controllers'], function() {
     Route::get('/roster', [App\Http\Controllers\AdminRosterController::class, 'store'])->name('admin.roster.roster');
    });
 });
-
 
 
 Route::group(['namespace' => 'Controllers', 'prefix' => 'admin', 'middleware' => 'admin'], function () {

@@ -19,9 +19,8 @@ select:-webkit-autofill:focus {
 </style>
 <form action="{{ route('groupLessons.updateLesson', ['group' => $group->id, 'lesson' => $lesson->id]) }}" method="post">
     @csrf
-    @method('PATCH')  <!-- Используем метод PUT для отправки запроса обновления -->
+    @method('PATCH') 
 
-    <!-- Поля для редактирования данных урока -->
     <div class="form-group">
         <label for="inputDate">Дата</label>
         <input type="date" class="form-control" id="inputDate" name="date" value="{{ $lesson->date }}">
@@ -39,12 +38,10 @@ select:-webkit-autofill:focus {
         </select>
     </div>
 
-    <!-- Поля для редактирования посещаемости студентов -->
     @foreach ($lesson->students as $student)
     <div class="form-group">
         <label for="inputAttendance_{{ $student->id }}">Посещаемость для {{ $student->student }}</label><br>
         <input type="text" class="form-control" id="inputAttendance_{{ $student->id }}" name="attendance[{{ $student->id }}][attendance]" value="{{ $student->pivot->attendance }}">
-        <!-- Добавляем скрытое поле для отправки идентификатора студента -->
         <input type="hidden" name="attendance[{{ $student->id }}][student_id]" value="{{ $student->id }}">
     </div>
     @endforeach

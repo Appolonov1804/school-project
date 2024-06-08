@@ -45,7 +45,6 @@ class RosterController extends Controller
 
     }
 
-
     public function show(Roster $roster, Report $report, Teacher $teacher)
     {
         $teachers = Teacher::all();
@@ -71,7 +70,6 @@ class RosterController extends Controller
         $reports = Report::all();
 
         $data = $request->validated();
- 
         $roster->update($data);
         $teacherId = $roster->teachers_id;
     
@@ -97,6 +95,5 @@ class RosterController extends Controller
         $teacherId = $roster->teachers_id;
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
-
 
 }

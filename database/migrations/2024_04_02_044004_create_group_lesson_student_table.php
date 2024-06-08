@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('attendance')->nullable();
             $table->timestamps();
 
-            // Внешние ключи
             $table->foreign('group_lesson_id')->references('id')->on('group_lessons')->onDelete('cascade');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
         });

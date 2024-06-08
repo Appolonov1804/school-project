@@ -28,12 +28,10 @@ class GroupController extends Controller
         $data = $request->validate($request->rules());
         $studentData = $storeStudentRequest->validate($storeStudentRequest->rules());
 
-
         $user = Auth::user();
         
-       
         if ($user->teacher) {
-            
+         
             $group = Group::create([
                 'course' => $data['course'],
                 'teachers_id' => $user->teacher->id, 
@@ -45,12 +43,9 @@ class GroupController extends Controller
                     
                     $students[] = new Student(['student' => $studentName]);
                 }
-    
               
                 $group->students()->saveMany($students);
-            } 
-            
-            
+            }   
           
             return redirect()->route('groups.show', ['teacher' => $user->teacher->id]);
         } else {
@@ -63,22 +58,18 @@ class GroupController extends Controller
 
     public function showGroup(Group $group, Teacher $teacher, Student $student, GroupLesson $groupLesson)
     {
-        
+     
         $teacher->load('groups');
-    
-       
         $groups = $teacher->groups;
 
         foreach ($groups as $group) {
-            $group->load('students'); // Загружаем студентов для каждой группы
+            $group->load('students'); 
         }
     
         $groupLessons = $group->groupLessons;
-        // Остальные переменные
         $students = $group->students;
         $teachers = Teacher::all();
       
-    
         return view('groups.show', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student', 'groupLessons', 'groupLesson'));
     }
 
@@ -97,19 +88,15 @@ class GroupController extends Controller
         $data = $request->validate($request->rules());
         $studentData = $updateStudentRequest->validate($updateStudentRequest->rules());
         $teacherId = $group->teachers_id;
-    
-        // Обновление данных группы
-        $group->update([
-            'course' => $data['course'],
-            // 'teachers_id' => $data['teachers_id'], // Если требуется обновление ID учителя
-        ]);
-    
-        // Обновление данных студентов
+
         $group->update([
             'course' => $data['course'],
         ]);
     
-        // Обновление данных студентов
+        $group->update([
+            'course' => $data['course'],
+        ]);
+    
         if (isset($studentData['students'])) {
             foreach ($studentData['students'] as $studentId => $studentName) {
                 $student = Student::find($studentId);
@@ -119,10 +106,8 @@ class GroupController extends Controller
             }
         }
     
-        // Получение учителя, связанного с группой
         $teacher = $group->teacher;
-    
-        // Перенаправление на страницу с информацией о группе
+
         return redirect()->route('groups.show', ['teacher' => $teacherId, 'group' => $group->id]);
     }
 

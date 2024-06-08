@@ -17,4 +17,4 @@
     <div>
         <a href="{{ route('admin.report.report') }}">Назад</a>
     </div>
-    @endsection
+@endsection

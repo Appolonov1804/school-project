@@ -22,11 +22,8 @@ return new class extends Migration
             $table->timestamps();
 
             $table->softDeletes();
-
             $table->unsignedBigInteger('teachers_id')->nullable();
-
             $table->index('teachers_id', 'report_teachers_idx');
-
             $table->foreign('teachers_id', 'reports_teachers_fk')->on('teachers')->references('id');
         });
     }

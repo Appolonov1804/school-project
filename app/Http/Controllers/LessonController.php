@@ -41,6 +41,7 @@ class LessonController extends Controller
     
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
+
     public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail)
     {
         
@@ -53,26 +54,22 @@ class LessonController extends Controller
     }
         
     public function updateLesson(UpdateLessonRequest $request, Roster $roster, $lesson_id)
-    {
-    
-    $lessonDetail = LessonDetail::findOrFail($lesson_id);
-
-    $data = $request->validated();
-
-  
-    $lessonDetail->update([
-        'date' => $data['date'],
-        'topic' => $data['topic'],
-        'attendance' => $data['attendance'],
-    ]);
-
+    { 
+        $lessonDetail = LessonDetail::findOrFail($lesson_id);
+        $data = $request->validated();
+        
+        $lessonDetail->update([
+            'date' => $data['date'],
+            'topic' => $data['topic'],
+            'attendance' => $data['attendance'],
+        ]);
 
         $roster = $lessonDetail->roster;
-
         $teacherId = $roster->teachers_id;
     
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
+    
     public function updatePaidStatus(Teacher $teacher)
     {
         $teacher->rosters()->each(function ($roster) {
@@ -85,7 +82,7 @@ class LessonController extends Controller
     {
         $totalSalary = 0; 
         foreach ($rosters as $roster) {
-            $lessonDetails = $roster->lessonDetails()->where('paid', 0)->get(); // Выборка только непроплаченных уроков
+            $lessonDetails = $roster->lessonDetails()->where('paid', 0)->get(); 
     
             foreach ($lessonDetails as $lessonDetail) {
                 $salary = $this->calculateSalary($teacher, $roster, $lessonDetail);
@@ -99,61 +96,59 @@ class LessonController extends Controller
     {
         $salary = 0;
 
-    if (!empty($lessonDetail->attendance) && !empty($roster->time)) {
+        if (!empty($lessonDetail->attendance) && !empty($roster->time)) {
     
-        $attendance = $lessonDetail->attendance;
+            $attendance = $lessonDetail->attendance;
 
-        if ($teacher->position == 'junior') {
-            if ($roster->time == 40) {
-                $salary += ($attendance == 'был' || $attendance == 'была') ? 1250 : 625;
-            } elseif ($roster->time == 60) {
-                $salary += ($attendance == 'был' || $attendance == 'была') ? 1900 : 950;
-            } elseif ($roster->time == 90) {
-                $salary += ($attendance == 'был' || $attendance == 'была') ? 2200 : 1100;
+            if ($teacher->position == 'junior') {
+                if ($roster->time == 40) {
+                    $salary += ($attendance == 'был' || $attendance == 'была') ? 1250 : 625;
+                } elseif ($roster->time == 60) {
+                    $salary += ($attendance == 'был' || $attendance == 'была') ? 1900 : 950;
+                } elseif ($roster->time == 90) {
+                    $salary += ($attendance == 'был' || $attendance == 'была') ? 2200 : 1100;
+                }
+            } elseif ($teacher->position == 'senior') {
+                if ($roster->time == 40) {
+                    $salary += ($attendance == 'был' || $attendance == 'была') ? 1550 : 775;
+                } elseif ($roster->time == 60) {
+                    $salary += ($attendance == 'был' || $attendance == 'была') ? 2300 : 1150;
+                } elseif ($roster->time == 90) {
+                    $salary += ($attendance == 'был' || $attendance == 'была') ? 2500 : 1250;
+                }
             }
-        } elseif ($teacher->position == 'senior') {
-            if ($roster->time == 40) {
-                $salary += ($attendance == 'был' || $attendance == 'была') ? 1550 : 775;
-            } elseif ($roster->time == 60) {
-                $salary += ($attendance == 'был' || $attendance == 'была') ? 2300 : 1150;
-            } elseif ($roster->time == 90) {
-                $salary += ($attendance == 'был' || $attendance == 'была') ? 2500 : 1250;
-            }
-        }
-    } 
-        return $salary;
+        } 
+            return $salary;
     }
     
-        public function delete($rosterId, $lessonId)
-        {
-            $lessonDetail = LessonDetail::find($lessonId);
-                $roster = $lessonDetail->roster;
-
-                $teacherId = $roster->teachers_id;
+    public function delete($rosterId, $lessonId)
+    {
+        $lessonDetail = LessonDetail::find($lessonId);
+        $roster = $lessonDetail->roster;
+        $teacherId = $roster->teachers_id;
         
-            if ($lessonDetail) {
-                $lessonDetail->delete();
+        if ($lessonDetail) {
+            $lessonDetail->delete();
                 
-                return redirect()->route('teachers.show', ['teacher' => $teacherId]);
-            } else {
-                return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
-            }
+            return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        } else {
+            return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
         }
+    }
 
-        public function destroy($rosterId, $lessonId)
-        {
-                $lessonDetail = LessonDetail::find($lessonId);
-                    $roster = $lessonDetail->roster;
-
-                    $teacherId = $roster->teachers_id;
+    public function destroy($rosterId, $lessonId)
+    {
+        $lessonDetail = LessonDetail::find($lessonId);
+        $roster = $lessonDetail->roster;
+        $teacherId = $roster->teachers_id;
                 
-                if ($lessonDetail) {
-                    $lessonDetail->delete();
+        if ($lessonDetail) {
+            $lessonDetail->delete();
     
-                    return redirect()->route('teachers.show', ['teacher' => $teacherId]);
-                } else {
-                    return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
-                }
-
+            return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        } else {
+                return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
         }
+
+    }
 }
