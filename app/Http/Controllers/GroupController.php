@@ -36,7 +36,7 @@ class GroupController extends Controller
             
             $group = Group::create([
                 'course' => $data['course'],
-                'teachers_id' => $user->teacher->id, /
+                'teachers_id' => $user->teacher->id, 
             ]);
 
             if (isset($studentData['students'])) {
