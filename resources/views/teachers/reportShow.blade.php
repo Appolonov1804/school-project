@@ -62,7 +62,7 @@
 
 </div>
     <div>
-        {{ $reports->links() }}
+        {{ $reports->links(vendor.pagination.bootstrap-4) }}
     </div>
 <div>
     <a href="{{ route('reports.create') }}">Добавить отчёт</a>
