@@ -35,6 +35,7 @@ class RosterController extends Controller
                 'student' => $data['student'],
                 'course' => $data['course'],
                 'time' => $data['time'],
+                'type' => $data['type'],
                 'teachers_id' => $user->teacher->id, 
             ]);
             

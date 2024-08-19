@@ -28,13 +28,19 @@ select:-webkit-autofill:focus {
         <input type="text" class="form-control" id="inputCourse" name="course" placeholder="Введите курс студента">
     </div>
     <div class="form-group">
+        <label for="inputType">Вид курса</label>
+        <select class="form-control" id="inputType" name="type">
+            <option value="Индивидуальный">Индивидуальный курс</option>
+            <option value="Персональный">Персональный курс</option>
+        </select>
+    </div>
+    <div class="form-group">
     <label for="inputTime">Длительность урока</label>
     <select class="form-control" id="inputTime" name="time">
         <option value="30">30 минут</option>
         <option value="40">40 минут</option>
         <option value="60">60 минут</option>
         <option value="90">90 минут</option>
-    </select>
     </div>
     @if(auth()->user()->teacher)
         <input type="hidden" name="teachers_id" value="{{ auth()->user()->teacher->id }}">

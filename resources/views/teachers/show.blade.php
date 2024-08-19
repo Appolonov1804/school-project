@@ -40,7 +40,7 @@
     <h2>Журналы учителя {{ $teacher->name }}</h2>
     @if ($rosters->isNotEmpty())
         @foreach($rosters as $roster)
-            <h3>{{ $roster->student }}</h3>
+            <h3>{{ $roster->student }}: @if ($roster->type === 'Персональный') {{ $roster->type }} @endif</h3> 
             <table>
                 <thead>
                     <tr>

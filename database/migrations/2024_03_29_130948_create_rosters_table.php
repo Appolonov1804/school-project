@@ -17,6 +17,7 @@ return new class extends Migration
         $table->string('student');
         $table->string('course');
         $table->string('time');
+        $table->string('type');
         $table->timestamps();
 
         $table->softDeletes();

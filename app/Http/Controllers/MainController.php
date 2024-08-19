@@ -80,6 +80,7 @@ class MainController extends Controller
 
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
+
     
     public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController)
     {
