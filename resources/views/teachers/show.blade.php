@@ -95,7 +95,7 @@
     @endif
 </div>
 <div>
-    {{ $rosters->links(vendor.pagination.bootstrap-4) }}
+    {{ $rosters->links('vendor.pagination.bootstrap-4') }}
 </div>
 <div>
     <a href="{{ route('rosters.create') }}">Добавить индивидуальный журнал</a>
