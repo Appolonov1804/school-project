@@ -94,7 +94,9 @@
         <p>У этого преподавателя пока нет журналов.</p>
     @endif
 </div>
-
+<div>
+    {{ $rosters->links() }}
+</div>
 <div>
     <a href="{{ route('rosters.create') }}">Добавить индивидуальный журнал</a>
 </div>

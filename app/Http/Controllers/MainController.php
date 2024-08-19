@@ -83,7 +83,7 @@ class MainController extends Controller
     
     public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController)
     {
-        $rosters = $teacher->rosters()->with('lessonDetails')->get();
+        $rosters = $teacher->rosters()->with('lessonDetails')->paginate(5);
 
         $filteredLessonDetails = collect();
         foreach ($rosters as $roster) {
