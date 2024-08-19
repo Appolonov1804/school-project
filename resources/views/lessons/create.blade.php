@@ -30,7 +30,10 @@ select:-webkit-autofill:focus {
     </div>
     <div class="form-group">
         <label for="inputAttendance">Посещаемость</label>
-        <input type="text" class="form-control" id="inputAttendance" name="attendance" placeholder="был, была, не было">
+        <select type="text" class="form-control" id="inputAttendance" name="attendance">
+            <option>Был/Была</option>
+            <option>Не было</option>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Отметить</button>
 </form>

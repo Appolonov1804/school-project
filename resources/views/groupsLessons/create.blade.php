@@ -39,7 +39,10 @@ select:-webkit-autofill:focus {
     @foreach ($group->students as $student)
     <div class="form-group">
         <label for="inputAttendance_{{ $student->id }}">Посещаемость для {{ $student->student }}</label><br>
-        <input type="text" class="form-control" id="inputAttendance_{{ $student->id }}" name="attendance[{{ $student->id }}][attendance]" placeholder="был, была, не было">
+        <select class="form-control" id="inputAttendance_{{ $student->id }}" name="attendance[{{ $student->id }}][attendance]">
+            <option>Был/Была</option>
+            <option>Не было</option>
+        </select>
         <input type="hidden" name="attendance[{{ $student->id }}][student_id]" value="{{ $student->id }}">
     </div>
     @endforeach
