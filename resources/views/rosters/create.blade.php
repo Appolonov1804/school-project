@@ -30,6 +30,7 @@ select:-webkit-autofill:focus {
     <div class="form-group">
     <label for="inputTime">Длительность урока</label>
     <select class="form-control" id="inputTime" name="time">
+        <option value="30">30 минут</option>
         <option value="40">40 минут</option>
         <option value="60">60 минут</option>
         <option value="90">90 минут</option>

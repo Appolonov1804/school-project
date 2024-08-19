@@ -107,6 +107,8 @@ class LessonController extends Controller
                     $salary += ($attendance == 'был' || $attendance == 'была') ? 1900 : 950;
                 } elseif ($roster->time == 90) {
                     $salary += ($attendance == 'был' || $attendance == 'была') ? 2200 : 1100;
+                } elseif ($roster->time == 30) {
+                    $salary += ($attendance == 'был' || $attendance == 'была') ? 950 : 475;
                 }
             } elseif ($teacher->position == 'senior') {
                 if ($roster->time == 40) {
@@ -115,6 +117,8 @@ class LessonController extends Controller
                     $salary += ($attendance == 'был' || $attendance == 'была') ? 2300 : 1150;
                 } elseif ($roster->time == 90) {
                     $salary += ($attendance == 'был' || $attendance == 'была') ? 2500 : 1250;
+                } elseif ($roster->time == 30) {
+                    $salary += ($attendance == 'был' || $attendance == 'была') ? 1150 : 575;
                 }
             }
         } 
