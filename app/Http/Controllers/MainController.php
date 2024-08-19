@@ -111,8 +111,7 @@ class MainController extends Controller
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();
-        $reports = Report::all();
-        $reports = $teacher->reports;
+        $reports = $teacher->reports()->paginate(10);
        return view('teachers.reportShow', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
     }
 

@@ -54,13 +54,16 @@
                         </form></td>
                     </tr>
                 @endforeach
+
             </tbody>
         </table>
         
     @endif
 
 </div>
-
+    <div>
+        {{ $reports->links() }}
+    </div>
 <div>
     <a href="{{ route('reports.create') }}">Добавить отчёт</a>
 </div>
