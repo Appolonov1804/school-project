@@ -11,12 +11,12 @@ class Roster extends Model
     use HasFactory;
     use SoftDeletes;
 
-    
+
     protected $table = 'rosters';
     protected $guarded = [];
-    protected $fillable = ['teachers_id', 'student','course', 'time', 'type'];
+    protected $fillable = ['teachers_id', 'type_id', 'student','course', 'time'];
 
-    public function teachers() 
+    public function teachers()
     {
         return $this->belongsTo(Teacher::class, 'teachers_id', 'id');
     }
@@ -24,5 +24,10 @@ class Roster extends Model
     public function lessonDetails()
     {
         return $this->hasMany(LessonDetail::class);
+    }
+
+    public function courseTypes()
+    {
+        return $this->belongsTo(Course::class, 'type_id', 'id');
     }
 }

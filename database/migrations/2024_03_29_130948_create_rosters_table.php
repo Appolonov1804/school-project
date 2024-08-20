@@ -17,7 +17,6 @@ return new class extends Migration
         $table->string('student');
         $table->string('course');
         $table->string('time');
-        $table->string('type');
         $table->timestamps();
 
         $table->softDeletes();
@@ -26,7 +25,7 @@ return new class extends Migration
 
 
         Schema::table('rosters', function (Blueprint $table) {
-            $table->foreign('teachers_id')->references('id')->on('teachers'); 
+            $table->foreign('teachers_id')->references('id')->on('teachers');
         });
     }
 

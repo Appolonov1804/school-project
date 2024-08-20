@@ -14,10 +14,10 @@ use App\Http\Requests\Controllers\UpdateRosterRequest;
 use App\Http\Requests\Controllers\StoreLessonRequest;
 use App\Http\Requests\Controllers\UpdateLessonRequest;
 
-class LessonController extends Controller 
+class LessonController extends Controller
 {
 
-    public function create($rosterId) 
+    public function create($rosterId)
     {
         $roster = Roster::findOrFail($rosterId);
         return view('lessons.create', compact('roster'));
@@ -28,7 +28,7 @@ class LessonController extends Controller
         $rosters = Roster::all();
         $lessonDetails = LessonDetail::all();
         $data = $request->validated();
-      
+
         $lessonDetail = LessonDetail::create([
             'date' => $data['date'],
             'topic' => $data['topic'],
@@ -38,26 +38,26 @@ class LessonController extends Controller
         $roster = $lessonDetail->roster;
 
         $teacherId = $roster->teachers_id;
-    
+
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
 
     public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail)
     {
-        
+
         $lessonDetail = $roster->lessonDetails()->findOrFail($lesson_id);
-    
+
         $teachers = Teacher::all();
         $reports = Report::all();
-    
+
         return view('lessons.edit', compact('roster', 'teachers', 'reports', 'lessonDetail'));
     }
-        
+
     public function updateLesson(UpdateLessonRequest $request, Roster $roster, $lesson_id)
-    { 
+    {
         $lessonDetail = LessonDetail::findOrFail($lesson_id);
         $data = $request->validated();
-        
+
         $lessonDetail->update([
             'date' => $data['date'],
             'topic' => $data['topic'],
@@ -66,10 +66,10 @@ class LessonController extends Controller
 
         $roster = $lessonDetail->roster;
         $teacherId = $roster->teachers_id;
-    
+
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
-    
+
     public function updatePaidStatus(Teacher $teacher)
     {
         $teacher->rosters()->each(function ($roster) {
@@ -78,12 +78,12 @@ class LessonController extends Controller
     }
 
 
-    public function salary($rosters, $teacher) 
+    public function salary($rosters, $teacher)
     {
-        $totalSalary = 0; 
+        $totalSalary = 0;
         foreach ($rosters as $roster) {
-            $lessonDetails = $roster->lessonDetails()->where('paid', 0)->get(); 
-    
+            $lessonDetails = $roster->lessonDetails()->where('paid', 0)->get();
+
             foreach ($lessonDetails as $lessonDetail) {
                 $salary = $this->calculateSalary($teacher, $roster, $lessonDetail);
                 $totalSalary += $salary;
@@ -92,14 +92,14 @@ class LessonController extends Controller
         return $totalSalary;
     }
 
-    private function calculateSalary($teacher, $roster, $lessonDetail) 
+    private function calculateSalary($teacher, $roster, $lessonDetail)
     {
         $salary = 0;
 
         if (!empty($lessonDetail->attendance) && !empty($roster->time)) {
-    
+
             $attendance = $lessonDetail->attendance;
-            if ($roster->type == 'Персональный') {
+            if ($roster->courseTypes && $roster->courseTypes->name == 'Персональный') {
                 if ($teacher->position == 'junior') {
                     if ($roster->time == 40) {
                         $salary += ($attendance == 'был/была') ? 1450 : 725;
@@ -118,7 +118,7 @@ class LessonController extends Controller
                     } elseif ($roster->time == 90) {
                         $salary += ($attendance == 'был/была') ? 2700 : 1350;
                     } elseif ($roster->time == 30) {
-                        $salary += ($attendance == 'был/была') ? 1350 : 675; 
+                        $salary += ($attendance == 'был/была') ? 1350 : 675;
                     }
                 }
             } else {
@@ -140,23 +140,23 @@ class LessonController extends Controller
                     } elseif ($roster->time == 90) {
                         $salary += ($attendance == 'был/была') ? 2500 : 1250;
                     } elseif ($roster->time == 30) {
-                        $salary += ($attendance == 'был/была') ? 1150 : 575; 
+                        $salary += ($attendance == 'был/была') ? 1150 : 575;
                     }
                 }
             }
-        } 
+        }
             return $salary;
     }
-    
+
     public function delete($rosterId, $lessonId)
     {
         $lessonDetail = LessonDetail::find($lessonId);
         $roster = $lessonDetail->roster;
         $teacherId = $roster->teachers_id;
-        
+
         if ($lessonDetail) {
             $lessonDetail->delete();
-                
+
             return redirect()->route('teachers.show', ['teacher' => $teacherId]);
         } else {
             return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
@@ -168,10 +168,10 @@ class LessonController extends Controller
         $lessonDetail = LessonDetail::find($lessonId);
         $roster = $lessonDetail->roster;
         $teacherId = $roster->teachers_id;
-                
+
         if ($lessonDetail) {
             $lessonDetail->delete();
-    
+
             return redirect()->route('teachers.show', ['teacher' => $teacherId]);
         } else {
                 return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');

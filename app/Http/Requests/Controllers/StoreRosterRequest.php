@@ -25,7 +25,7 @@ class StoreRosterRequest extends FormRequest
             'student' => 'string',
             'course' => 'string',
             'time' => 'string',
-            'type' => 'string',
+            'type_id' => 'required|exists:course_types,id',
             'teachers_id' => ['nullable', 'integer'],
         ];
     }

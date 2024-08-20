@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Teacher;
 use App\Models\Report;
 use App\Models\Roster;
+use App\Models\Course;
 use App\Models\LessonDetail;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Controllers\StoreRosterRequest;
@@ -22,23 +23,24 @@ class RosterController extends Controller
         $rosters = Roster::all();
         $reports = Report::all();
         $teachers = Teacher::all();
-        return view('rosters.create', compact('teachers', 'rosters', 'reports'));
+        $courseTypes = Course::all();
+        return view('rosters.create', compact('teachers', 'rosters', 'reports', 'courseTypes'));
     }
 
     public function store(StoreRosterRequest $request)
     {
         $data = $request->validated();
         $user = Auth::user();
-        
+
         if ($user->teacher) {
             $roster = Roster::create([
                 'student' => $data['student'],
                 'course' => $data['course'],
                 'time' => $data['time'],
-                'type' => $data['type'],
-                'teachers_id' => $user->teacher->id, 
+                'type_id' => $data['type_id'],
+                'teachers_id' => $user->teacher->id,
             ]);
-            
+
             return redirect()->route('teachers.show', ['teacher' => $user->teacher->id]);
         } else {
             return redirect()->back()->with('error', 'Вы не являетесь учителем.');
@@ -73,7 +75,7 @@ class RosterController extends Controller
         $data = $request->validated();
         $roster->update($data);
         $teacherId = $roster->teachers_id;
-    
+
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
 

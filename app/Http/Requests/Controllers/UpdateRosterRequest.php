@@ -25,9 +25,9 @@ class UpdateRosterRequest extends FormRequest
             'student' => 'string',
             'course' => 'string',
             'time' => 'string',
-            'type' => 'string',
-            'teachers_id' => ['nullable', 'integer'], 
-            
+            'type_id' => 'required|exists:course_types,id',
+            'teachers_id' => ['nullable', 'integer'],
+
         ];
     }
 }
