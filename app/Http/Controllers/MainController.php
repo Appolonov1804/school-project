@@ -24,23 +24,23 @@ class MainController extends Controller
         $this->lessonController = $lessonController;
     }
 
-    public function create() 
+    public function create()
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
-        return view('teachers.create');   
-    
+        return view('teachers.create');
+
     }
 
-    public function store(StoreTeacherRequest $request) 
+    public function store(StoreTeacherRequest $request)
     {
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
             'position' => 'required|string',
         ]);
-    
+
         $user = Auth::user();
 
         $teacher = Teacher::create([
@@ -49,7 +49,7 @@ class MainController extends Controller
             'position' => $data['position'],
             'user_id' => $user->id,
         ]);
- 
+
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
 
@@ -59,7 +59,7 @@ class MainController extends Controller
             $roster->lessonDetails()->where('paid', 0)->update(['paid' => 1]);
         });
     }
-   
+
     public function resetSalary(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController)
     {
         $teacher->update(['salary' => 0]);
@@ -81,10 +81,10 @@ class MainController extends Controller
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
 
-    
+
     public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController)
     {
-        $rosters = $teacher->rosters()->with('lessonDetails')->paginate(5);
+        $rosters = $teacher->rosters()->with('lessonDetails')->get();
 
         $filteredLessonDetails = collect();
         foreach ($rosters as $roster) {
@@ -104,11 +104,13 @@ class MainController extends Controller
         $groupTotalSalary = $groupLessonController->salary($filteredGroupLessons, $teacher);
         $totalSalary += $groupTotalSalary;
 
+        $rosters = $teacher->rosters()->with('lessonDetails')->paginate(5);
+
         return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'totalSalary'));
     }
-    
-    
-    public function showTeachersReports(Teacher $teacher, Roster $roster, Report $report) 
+
+
+    public function showTeachersReports(Teacher $teacher, Roster $roster, Report $report)
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();
@@ -116,7 +118,7 @@ class MainController extends Controller
        return view('teachers.reportShow', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
     }
 
-    public function edit(Teacher $teacher, Roster $roster, Report $report) 
+    public function edit(Teacher $teacher, Roster $roster, Report $report)
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();
@@ -125,8 +127,8 @@ class MainController extends Controller
         return view('teachers.edit', compact('teacher', 'roster', 'report', 'teachers', 'rosters', 'reports'));
     }
 
-    public function update(UpdateTeacherRequest $request, Teacher $teacher, Roster $roster, Report $report) 
-    { 
+    public function update(UpdateTeacherRequest $request, Teacher $teacher, Roster $roster, Report $report)
+    {
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
@@ -155,5 +157,5 @@ class MainController extends Controller
         $teacher->delete();
         return redirect()->route('teachers.create');
     }
-   
+
 }
