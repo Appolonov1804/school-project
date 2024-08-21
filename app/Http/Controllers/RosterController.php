@@ -57,20 +57,22 @@ class RosterController extends Controller
     }
 
 
-    public function edit(Roster $roster, Report $report, Teacher $teacher)
+    public function edit(Roster $roster, Report $report, Teacher $teacher, Course $courseTypes)
     {
         $rosters = Roster::all();
         $reports = Report::all();
         $teachers = Teacher::all();
-        return view('rosters.edit', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters'));
+        $courseTypes = Course::all();
+        return view('rosters.edit', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters', 'courseTypes'));
     }
 
 
-    public function update(UpdateRosterRequest $request, Roster $roster, Report $report, Teacher $teacher)
+    public function update(UpdateRosterRequest $request, Roster $roster, Report $report, Teacher $teacher, Course $courseTypes)
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
+        $courseTypes = Course::all();
 
         $data = $request->validated();
         $roster->update($data);
