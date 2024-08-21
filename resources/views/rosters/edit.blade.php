@@ -44,6 +44,7 @@ select:-webkit-autofill:focus {
   <div class="form-group">
     <label for="inputTime">Длительность урока</label>
     <select class="form-control" id="inputTime" name="time">
+        <option value="30"  {{ $roster->time == '30' ? 'selected' : '' }}>30 минут</option>
         <option value="40"  {{ $roster->time == '40' ? 'selected' : '' }}>40 минут</option>
         <option value="60"  {{ $roster->time == '60' ? 'selected' : '' }}>60 минут</option>
         <option value="90"  {{ $roster->time == '90' ? 'selected' : '' }}>90 минут</option>
