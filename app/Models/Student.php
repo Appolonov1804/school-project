@@ -15,14 +15,14 @@ class Student extends Model
     protected $guarded = [];
     protected $fillable = ['student','group_id'];
 
-    public function group() 
+    public function group()
     {
-        return $this->belongsTo(Group::class);   
+        return $this->belongsTo(Group::class);
     }
 
-    public function groupLessons() 
+    public function groupLessons()
     {
         return $this->belongsToMany(GroupLesson::class, 'group_lesson_student')
-                    ->withPivot('attendance');
+                    ->withPivot('attendance', 'score');
     }
 }

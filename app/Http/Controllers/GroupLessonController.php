@@ -13,7 +13,7 @@ use App\Models\Teacher;
 
 class GroupLessonController extends Controller
 {
-    public function create($groupId) 
+    public function create($groupId)
     {
         $group = Group::findOrFail($groupId);
         $students = $group->students;
@@ -23,30 +23,31 @@ class GroupLessonController extends Controller
     public function store(StoreGroupLessonRequest $request, Group $group, LessonController $lessonController)
     {
         $data = $request->validated();
-         
+
         $groupLesson = GroupLesson::create([
             'date' => $data['date'],
             'topic' => $data['topic'],
             'time' => $data['time'],
             'group_id' => $group->id,
         ]);
-        
+
         foreach ($data['attendance'] as $studentId => $attendanceData) {
             if (isset($attendanceData['attendance'])) {
- 
+
                 GroupLessonStudent::create([
                     'group_lesson_id' => $groupLesson->id,
                     'student_id' => $studentId,
                     'attendance' => $attendanceData['attendance'],
+                    'score' => isset($data['score'][$studentId]['score']) ? $data['score'][$studentId]['score'] : null,
                 ]);
             } else {
                 return redirect()->back()->with('error', 'Отметьте посещаемость для всех студентов');
             }
         }
-    
+
         $attendances = $groupLesson->attendance;
         $teacherId = $group->teachers_id;
-        
+
         return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
     }
 
@@ -55,51 +56,53 @@ class GroupLessonController extends Controller
 
         $lesson = GroupLesson::where('group_id', $group->id)
                             ->findOrFail($group_lesson_id);
-
+        
         return view('groupsLessons.edit', [
             'group' => $group,
             'lesson' => $lesson,
         ]);
     }
-    
+
     public function updateLesson(UpdateGroupLessonRequest $request, Group $group, GroupLesson $lesson)
     {
         $data = $request->validated();
-    
+
         $lesson->update([
             'date' => $data['date'],
             'topic' => $data['topic'],
             'time' => $data['time'],
         ]);
-    
+
         foreach ($data['attendance'] as $studentId => $attendanceData) {
-    
+
             $attendance = GroupLessonStudent::where('group_lesson_id', $lesson->id)
                                              ->where('student_id', $studentId)
                                              ->first();
-    
+
             if ($attendance) {
-  
+
                 $attendance->update([
                     'attendance' => $attendanceData['attendance'],
+                    'score' => isset($data['score'][$studentId]['score']) ? $data['score'][$studentId]['score'] : null,
+
                 ]);
             }
         }
-        
+
         $teacherId = $group->teachers_id;
 
         return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
     }
 
-    public function updatePaidStatus(Teacher $teacher) 
+    public function updatePaidStatus(Teacher $teacher)
     {
         $teacher->groups()->each(function ($group) {
             $group->groupLessons()->where('paid', 0)->update(['paid' => 1]);
         });
     }
-    
 
-    public function salary($groupLessons, $teacher) 
+
+    public function salary($groupLessons, $teacher)
     {
         $totalSalary = 0;
 
@@ -125,7 +128,7 @@ class GroupLessonController extends Controller
             return $totalSalary;
     }
 
-    public function calculateSalary($teacher, $groupLesson) 
+    public function calculateSalary($teacher, $groupLesson)
     {
         $time = $groupLesson->time;
 
@@ -136,7 +139,7 @@ class GroupLessonController extends Controller
                 return 1900;
             } elseif ($time == 90) {
                 return 2500;
-            } 
+            }
         } elseif ($teacher->position == 'senior') {
             if ($time == 40) {
                 return 1550;
@@ -145,19 +148,19 @@ class GroupLessonController extends Controller
             } elseif ($time == 90) {
                 return 2500;
             }
-        } 
+        }
             return 0;
     }
-    
+
     public function delete($groupId, $groupLesson_id)
     {
         $groupLessons = GroupLesson::find($groupLesson_id);
         $group = $groupLessons->group;
         $teacherId = $group->teachers_id;
-        
+
         if ($groupLessons) {
             $groupLessons->delete();
-                
+
             return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
         } else {
                 return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId])->with('error', 'Урок не найден');
@@ -169,10 +172,10 @@ class GroupLessonController extends Controller
         $groupLessons = GroupLesson::find($groupLesson_id);
         $group = $groupLessons->group;
         $teacherId = $group->teachers_id;
-                
+
             if ($groupLessons) {
                 $groupLessons->delete();
-    
+
                 return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
             } else {
                 return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId])->with('error', 'Урок не найден');

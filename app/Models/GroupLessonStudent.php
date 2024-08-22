@@ -13,5 +13,5 @@ class GroupLessonStudent extends Model
 
     protected $table = 'group_lesson_student';
 
-    protected $fillable = ['group_lesson_id', 'student_id', 'attendance'];
+    protected $fillable = ['group_lesson_id', 'student_id', 'attendance', 'score'];
 }

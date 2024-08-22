@@ -84,6 +84,7 @@
                             <th>Время</th>
                             <th>Тема</th>
                             <th>Посещаемость</th>
+                            <th>Баллы</th>
                             <th>Действия</th>
                         </tr>
                     </thead>
@@ -97,6 +98,15 @@
                                     <ul>
                                         @foreach ($groupLesson->students as $student)
                                             <li>{{ $student->student }} - {{ $student->pivot->attendance ?? 'N/A' }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        @foreach ($groupLesson->students as $student)
+                                            @if ($student->pivot->score)
+                                            <li>{{ $student->pivot->score }}</li>
+                                            @endif
                                         @endforeach
                                     </ul>
                                 </td>

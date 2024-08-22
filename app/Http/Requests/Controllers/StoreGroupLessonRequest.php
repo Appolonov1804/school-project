@@ -26,6 +26,7 @@ class StoreGroupLessonRequest extends FormRequest
             'topic' => 'string',
             'time' => 'string',
             'attendance' => 'array',
+            'score' => 'nullable|array|max:255',
             'roster_id' => ['nullable', 'integer'],
         ];
     }

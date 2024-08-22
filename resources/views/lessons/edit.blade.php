@@ -31,11 +31,14 @@ select:-webkit-autofill:focus {
     </div>
     <div class="form-group">
         <label for="inputAttendance">Посещаемость</label>
-        <input type="text" class="form-control" id="inputAttendance" placeholder="был, была, не было" name="attendance" value="{{ $lessonDetail->attendance }}">
+        <select type="text" class="form-control" id="inputAttendance" name="attendance" value="{{ $lessonDetail->attendance }}">
+            <option>был/была</option>
+            <option>не было</option>
+        </select>
     </div>
     <div class="form-group">
         <label for="inputScore">Баллы</label>
-        <input type="text" class="form-control" id="inputScore" name="score">
+        <input type="text" class="form-control" id="inputScore" name="score" value="{{ $lessonDetail->score}}">
     </div>
     <button type="submit" class="btn btn-primary">Сохранить</button>
 </form>
