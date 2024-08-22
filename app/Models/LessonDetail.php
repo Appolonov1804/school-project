@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -13,7 +13,7 @@ class LessonDetail extends Model
 
     protected $table = 'lesson_details';
     protected $guarded = [];
-    protected $fillable = ['date', 'topic', 'attendance','roster_id'];
+    protected $fillable = ['date', 'topic', 'attendance','roster_id', 'score'];
 
     public function roster()
     {

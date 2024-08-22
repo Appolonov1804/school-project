@@ -64,6 +64,7 @@
                             <td>{{ $lessonDetail->date }}</td>
                             <td>{{ $lessonDetail->topic }}</td>
                             <td>{{ $lessonDetail->attendance }}</td>
+                            <td>{{ $lessonDetail->score }}</td>
                             <td><a href="{{ route('lessons.edit', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}">Редактировать урок</a></td>
                             <td>
                             <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}" method="post">

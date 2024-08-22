@@ -3,14 +3,14 @@
 @section('content')
 <style>
     input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
-select:-webkit-autofill:focus { 
+select:-webkit-autofill:focus {
   border: 1px solid green;
   -webkit-text-fill-color: green;
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
@@ -34,6 +34,10 @@ select:-webkit-autofill:focus {
             <option>был/была</option>
             <option>не было</option>
         </select>
+    </div>
+    <div class="form-group">
+        <label for="inputScore">Баллы</label>
+        <input type="text" class="form-control" id="inputScore" name="score">
     </div>
     <button type="submit" class="btn btn-primary">Отметить</button>
 </form>

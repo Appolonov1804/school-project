@@ -25,6 +25,7 @@ class StoreLessonRequest extends FormRequest
             'date' => 'date',
             'topic' => 'string',
             'attendance' => 'string',
+            'score' => 'nullable|string|max:255',
             'roster_id' => ['nullable', 'integer'],
         ];
     }

@@ -33,6 +33,7 @@ class LessonController extends Controller
             'date' => $data['date'],
             'topic' => $data['topic'],
             'attendance' => $data['attendance'],
+            'score' => $data['score'],
             'roster_id' => $data['roster_id'],
         ]);
         $roster = $lessonDetail->roster;
@@ -62,6 +63,7 @@ class LessonController extends Controller
             'date' => $data['date'],
             'topic' => $data['topic'],
             'attendance' => $data['attendance'],
+            'score' => $data['score'],
         ]);
 
         $roster = $lessonDetail->roster;

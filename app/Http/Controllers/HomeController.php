@@ -29,6 +29,6 @@ class HomeController extends Controller
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
-        return view('home', compact('teachers', 'rosters', 'reports'));
+        return view('home', compact('teachers', 'rosters', 'reports', 'teacher'));
     }
 }
