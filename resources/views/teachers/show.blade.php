@@ -22,6 +22,9 @@
     {{ __('Logout') }}
 </a>
 <div>
+    <a href="{{ route('groups.show', $teacher) }}">Группы</a>
+</div>
+<div>
     <a href="{{ route('teachers.edit', $teacher->id) }}">Изменить имя преподавателя</a>
 </div>
 <div>
@@ -100,9 +103,6 @@
 </div>
 <div>
     <a href="{{ route('rosters.create') }}">Добавить индивидуальный журнал</a>
-</div>
-<div>
-    <a href="{{ route('groups.show', $teacher) }}">Группы</a>
 </div>
 <div>
     <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
