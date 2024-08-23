@@ -23,6 +23,7 @@ class StoreGroupRequest extends FormRequest
     {
         return [
             'course' => 'string',
+            'schedule' => 'nullable|string|max:255',
             'teachers_id' => ['nullable', 'integer'],
         ];
     }

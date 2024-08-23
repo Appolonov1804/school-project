@@ -12,12 +12,12 @@ class Group extends Model
     use HasFactory;
     use SoftDeletes;
 
-    
+
     protected $table = 'groups';
     protected $guarded = [];
-    protected $fillable = ['teachers_id', 'course'];
+    protected $fillable = ['teachers_id', 'course', 'schedule'];
 
-    public function teachers() 
+    public function teachers()
     {
         return $this->belongsTo(Teacher::class, 'teachers_id', 'id');
     }
@@ -26,8 +26,8 @@ class Group extends Model
     {
     return $this->hasMany(GroupLesson::class);
     }
-    
-    public function students() 
+
+    public function students()
     {
         return $this->hasMany(Student::class);
     }

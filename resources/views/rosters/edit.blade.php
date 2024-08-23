@@ -31,6 +31,10 @@ select:-webkit-autofill:focus {
     <input type="text" class="form-control" id="inputCourse" placeholder="Введите курс студента" name="course" value=" {{ $roster->course }}">
   </div>
   <div class="form-group">
+    <label for="inputSchedule">Расписание</label>
+    <input type="text" class="form-control" id="inputSchedule" name="schedule" placeholder="Введите расписание студента" value="{{ $roster->schedule ?? '' }}">
+</div>
+  <div class="form-group">
         <label for="inputType">Вид курса</label>
         <select class="form-control" id="inputType" name="type_id" required>
             <option value="">Выберите вид курса</option>

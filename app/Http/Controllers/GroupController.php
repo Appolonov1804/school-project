@@ -29,27 +29,28 @@ class GroupController extends Controller
         $studentData = $storeStudentRequest->validate($storeStudentRequest->rules());
 
         $user = Auth::user();
-        
+
         if ($user->teacher) {
-         
+
             $group = Group::create([
                 'course' => $data['course'],
-                'teachers_id' => $user->teacher->id, 
+                'schedule' => $data['schedule'],
+                'teachers_id' => $user->teacher->id,
             ]);
 
             if (isset($studentData['students'])) {
                 $students = [];
                 foreach ($studentData['students'] as $studentName) {
-                    
+
                     $students[] = new Student(['student' => $studentName]);
                 }
-              
+
                 $group->students()->saveMany($students);
-            }   
-          
+            }
+
             return redirect()->route('groups.show', ['teacher' => $user->teacher->id]);
         } else {
-            
+
             return redirect()->back()->with('error', 'Вы не являетесь учителем.');
         }
 
@@ -58,18 +59,18 @@ class GroupController extends Controller
 
     public function showGroup(Group $group, Teacher $teacher, Student $student, GroupLesson $groupLesson)
     {
-     
+
         $teacher->load('groups');
         $groups = $teacher->groups;
 
         foreach ($groups as $group) {
-            $group->load('students'); 
+            $group->load('students');
         }
-    
+
         $groupLessons = $group->groupLessons;
         $students = $group->students;
         $teachers = Teacher::all();
-      
+
         return view('groups.show', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student', 'groupLessons', 'groupLesson'));
     }
 
@@ -79,7 +80,7 @@ class GroupController extends Controller
         $groups = Group::all();
         $teachers = Teacher::all();
         $students = Student::all();
-        return view('groups.edit', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student')); 
+        return view('groups.edit', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student'));
     }
 
 
@@ -91,12 +92,10 @@ class GroupController extends Controller
 
         $group->update([
             'course' => $data['course'],
+            'schedule' => $data['schedule'],
         ]);
-    
-        $group->update([
-            'course' => $data['course'],
-        ]);
-    
+
+
         if (isset($studentData['students'])) {
             foreach ($studentData['students'] as $studentId => $studentName) {
                 $student = Student::find($studentId);
@@ -105,7 +104,7 @@ class GroupController extends Controller
                 }
             }
         }
-    
+
         $teacher = $group->teacher;
 
         return redirect()->route('groups.show', ['teacher' => $teacherId, 'group' => $group->id]);

@@ -44,6 +44,7 @@
     @if ($rosters->isNotEmpty())
         @foreach($rosters as $roster)
             <h3>{{ $roster->student }}: @if ($roster->courseTypes && $roster->courseTypes->name === 'Персональный') Персональный @endif</h3>
+            <h5>{{ $roster->schedule }}</h5>
             <table>
                 <thead>
                     <tr>

@@ -23,8 +23,9 @@ class UpdateGroupRequest extends FormRequest
     {
         return [
             'course' => 'string',
-            'teachers_id' => ['nullable', 'integer'], 
-            
+            'schedule' => 'nullable|string|max:255',
+            'teachers_id' => ['nullable', 'integer'],
+
         ];
     }
 }

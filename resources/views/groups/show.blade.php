@@ -63,7 +63,7 @@
             <div>
                 <h3>{{ $group->name }}</h3>
                 <p><strong>Курс:</strong> {{ $group->course }}</p>
-
+                <p><strong>{{ $group->schedule }}</strong></p>
                 <div class="students-list">
                     <strong>Студенты:</strong>
                     <table>
@@ -85,7 +85,7 @@
                             <th>Тема</th>
                             <th>Посещаемость</th>
                             <th>Баллы</th>
-                            <th>Действия</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
