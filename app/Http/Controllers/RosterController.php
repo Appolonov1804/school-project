@@ -38,7 +38,7 @@ class RosterController extends Controller
                 'course' => $data['course'],
                 'time' => $data['time'],
                 'type_id' => $data['type_id'],
-                'schedule' => $data['schedule'], 
+                'schedule' => $data['schedule'],
                 'teachers_id' => $user->teacher->id,
             ]);
 
@@ -64,7 +64,9 @@ class RosterController extends Controller
         $reports = Report::all();
         $teachers = Teacher::all();
         $courseTypes = Course::all();
-        return view('rosters.edit', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters', 'courseTypes'));
+        $currentPage = request()->input('page', 1);
+
+        return view('rosters.edit', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters', 'courseTypes', 'currentPage'));
     }
 
 
@@ -78,8 +80,9 @@ class RosterController extends Controller
         $data = $request->validated();
         $roster->update($data);
         $teacherId = $roster->teachers_id;
+        $page = $request->input('page', 1);
 
-        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        return redirect()->route('teachers.show', ['teacher' => $teacherId, 'page' => $page]);
     }
 
 

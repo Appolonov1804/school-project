@@ -84,7 +84,8 @@ class MainController extends Controller
 
     public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController)
     {
-        $rosters = $teacher->rosters()->with('lessonDetails')->get();
+        $currentPage = request()->input('page', 1);
+        $rosters = $teacher->rosters()->with('lessonDetails')->paginate(5, ['*'], 'page', $currentPage);
 
         $filteredLessonDetails = collect();
         foreach ($rosters as $roster) {
@@ -103,9 +104,7 @@ class MainController extends Controller
         $totalSalary = $lessonController->salary($rosters, $teacher);
         $groupTotalSalary = $groupLessonController->salary($filteredGroupLessons, $teacher);
         $totalSalary += $groupTotalSalary;
-
-        $rosters = $teacher->rosters()->with('lessonDetails')->paginate(5);
-
+        
         return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'totalSalary'));
     }
 

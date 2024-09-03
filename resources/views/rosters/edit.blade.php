@@ -20,6 +20,7 @@ select:-webkit-autofill:focus {
 <form action="{{ route('rosters.update', $roster->id) }}" method="post">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 @method('patch')
+<input type="hidden" name="page" value="{{ $currentPage }}">
 
   <div class="form-group">
     <label for="inputName">Студент</label>
@@ -56,7 +57,6 @@ select:-webkit-autofill:focus {
   </div>
 
   <input type="hidden" name="teachers_id" value="{{ $roster->teachers_id }}">
-
   <button type="submit" class="btn btn-primary">Обновить</button>
 </form>
 @endsection

@@ -75,7 +75,7 @@
                             </td>
                             <td>{{ $lessonDetail->score }}</td>
 
-                            <td><a href="{{ route('lessons.edit', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}">Редактировать урок</a></td>
+                            <td><a href="{{ route('lessons.edit', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}">Редактировать урок</a></td>
                             <td>
                             <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}" method="post">
                                 @csrf
@@ -91,7 +91,7 @@
                 <a href="{{ route('lessons.create', ['roster' => $roster->id]) }}">Отметить урок {{ $roster->student }}</a>
             </div>
             <div>
-                <a href="{{ route('rosters.edit', $roster->id) }}">Редактировать журналы {{ $roster->student }}</a>
+                <a href="{{ route('rosters.edit', ['roster' => $roster->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы {{ $roster->student }}</a>
             </div>
             <div>
                 <form action="{{ route('rosters.delete', $roster->id) }}" method="post">
@@ -106,7 +106,7 @@
     @endif
 </div>
 <div>
-    {{ $rosters->links('vendor.pagination.bootstrap-4') }}
+    {{ $rosters->appends(['page' => request()->get('page', 1)])->links('vendor.pagination.bootstrap-4') }}
 </div>
 <div>
     <a href="{{ route('rosters.create') }}">Добавить индивидуальный журнал</a>

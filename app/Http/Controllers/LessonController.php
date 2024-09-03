@@ -11,6 +11,7 @@ use App\Models\LessonDetail;
 use App\Models\Group;
 use App\Http\Requests\Controllers\StoreRosterRequest;
 use App\Http\Requests\Controllers\UpdateRosterRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Controllers\StoreLessonRequest;
 use App\Http\Requests\Controllers\UpdateLessonRequest;
 
@@ -43,15 +44,15 @@ class LessonController extends Controller
         return redirect()->route('teachers.show', ['teacher' => $teacherId]);
     }
 
-    public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail)
+    public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail, Request $request)
     {
-
+        $page = $request->input('page', 1);
         $lessonDetail = $roster->lessonDetails()->findOrFail($lesson_id);
 
         $teachers = Teacher::all();
         $reports = Report::all();
 
-        return view('lessons.edit', compact('roster', 'teachers', 'reports', 'lessonDetail'));
+        return view('lessons.edit', compact('roster', 'teachers', 'reports', 'lessonDetail', 'page'));
     }
 
     public function updateLesson(UpdateLessonRequest $request, Roster $roster, $lesson_id)
@@ -69,7 +70,7 @@ class LessonController extends Controller
         $roster = $lessonDetail->roster;
         $teacherId = $roster->teachers_id;
 
-        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        return redirect()->route('teachers.show', ['teacher' => $teacherId, 'page' => $data['number_page']]);
     }
 
     public function updatePaidStatus(Teacher $teacher)

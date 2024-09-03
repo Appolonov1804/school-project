@@ -19,6 +19,7 @@ select:-webkit-autofill:focus {
 </style>
 <form action="{{ route('lessons.updateLesson', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}" method="post">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="number_page" value="{{ $page }}">
     <input type="hidden" name="_method" value="PATCH">
     <div class="form-group">
         <label for="inputDate">Дата</label>

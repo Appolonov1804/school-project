@@ -27,7 +27,7 @@ class UpdateLessonRequest extends FormRequest
             'attendance' => 'string',
             'score' => 'nullable|string|max:255',
             'roster_id' => ['nullable', 'integer'],
-
+            'number_page' => ['nullable', 'integer'],
         ];
     }
 }
