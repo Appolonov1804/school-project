@@ -15,12 +15,13 @@ use App\Models\Student;
 
 class GroupController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
         $groups = Group::all();
         $students = Student::all();
         $teachers = Teacher::all();
-        return view('groups.create', compact('teachers', 'groups', 'students'));
+        $page = $request->input('page', 1);
+        return view('groups.create', compact('teachers', 'groups', 'students', 'page'));
     }
 
     public function store(StoreGroupRequest $request, StoreStudentRequest $storeStudentRequest)

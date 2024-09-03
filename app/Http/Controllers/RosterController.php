@@ -14,17 +14,19 @@ use App\Http\Requests\Controllers\StoreRosterRequest;
 use App\Http\Requests\Controllers\UpdateRosterRequest;
 use App\Http\Requests\Controllers\StoreLessonRequest;
 use App\Http\Requests\Controllers\UpdateLessonRequest;
+use Illuminate\Http\Request;
 
 class RosterController extends Controller
 {
 
-    public function create()
+    public function create(Request $request)
     {
         $rosters = Roster::all();
         $reports = Report::all();
         $teachers = Teacher::all();
         $courseTypes = Course::all();
-        return view('rosters.create', compact('teachers', 'rosters', 'reports', 'courseTypes'));
+        $page = $request->input('page', 1);
+        return view('rosters.create', compact('teachers', 'rosters', 'reports', 'courseTypes', 'page'));
     }
 
     public function store(StoreRosterRequest $request)
