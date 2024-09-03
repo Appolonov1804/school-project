@@ -111,7 +111,7 @@
                                     </ul>
                                 </td>
                                 <td>
-                                    <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}">Редактировать урок</a>
+                                    <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id, 'page' => request()->get('page', 1)]) }}">Редактировать урок</a>
                                     <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}" method="post">
                                         @csrf
                                         @method('delete')
@@ -125,7 +125,7 @@
                 <div>
                     <a href="{{ route('groupsLessons.create', ['group' => $group->id]) }}">Отметить урок</a>
                     <br>
-                    <a href="{{ route('groups.edit', $group->id) }}">Редактировать журналы</a>
+                    <a href="{{ route('groups.edit', [$group->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы</a>
                     <form action="{{ route('groups.delete', $group->id) }}" method="post">
                         @csrf
                         @method('delete')
@@ -138,7 +138,9 @@
         <p>У этого преподавателя пока нет групп.</p>
     @endif
 </div>
-
+<div>
+    {{ $groups->appends(['page' => request()->get('page', 1)])->links('vendor.pagination.bootstrap-4') }}
+</div>
 <div>
     <a href="{{ route('groups.create') }}">Добавить групповой журнал</a>
 </div>

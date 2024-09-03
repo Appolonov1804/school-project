@@ -20,7 +20,7 @@ select:-webkit-autofill:focus {
 <form action="{{ route('groupLessons.updateLesson', ['group' => $group->id, 'lesson' => $lesson->id]) }}" method="post">
     @csrf
     @method('PATCH')
-
+    <input type="hidden" name="number_page" value="{{ $page }}">
     <div class="form-group">
         <label for="inputDate">Дата</label>
         <input type="date" class="form-control" id="inputDate" name="date" value="{{ $lesson->date }}">

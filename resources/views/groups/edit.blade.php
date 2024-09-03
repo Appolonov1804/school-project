@@ -20,6 +20,7 @@ select:-webkit-autofill:focus {
 <form action="{{ route('groups.update', $group->id) }}" method="post">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 @method('patch')
+<input type="hidden" name="page" value="{{ $groupPage }}">
 <div class="form-group" id="studentsContainer">
     <label for="inputStudents">Студенты</label>
     @foreach ($group->students as $student)

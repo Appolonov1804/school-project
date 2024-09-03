@@ -51,16 +51,19 @@ class GroupLessonController extends Controller
         return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
     }
 
-    public function editLesson(Group $group, $group_lesson_id)
+    public function editLesson(Group $group, $group_lesson_id, Request $request)
     {
 
         $lesson = GroupLesson::where('group_id', $group->id)
                             ->findOrFail($group_lesson_id);
-        
+
+        $page = $request->input('page', 1);
         return view('groupsLessons.edit', [
             'group' => $group,
             'lesson' => $lesson,
+            'page' => $page,
         ]);
+
     }
 
     public function updateLesson(UpdateGroupLessonRequest $request, Group $group, GroupLesson $lesson)
@@ -91,7 +94,7 @@ class GroupLessonController extends Controller
 
         $teacherId = $group->teachers_id;
 
-        return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
+        return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId, 'page' => $data['number_page']]);
     }
 
     public function updatePaidStatus(Teacher $teacher)

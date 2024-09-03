@@ -59,7 +59,6 @@ class GroupController extends Controller
 
     public function showGroup(Group $group, Teacher $teacher, Student $student, GroupLesson $groupLesson)
     {
-
         $teacher->load('groups');
         $groups = $teacher->groups;
 
@@ -70,6 +69,8 @@ class GroupController extends Controller
         $groupLessons = $group->groupLessons;
         $students = $group->students;
         $teachers = Teacher::all();
+        $groupPage = request()->input('page', 1);
+        $groups = $teacher->groups()->with('groupLessons')->paginate(2, ['*'], 'page', $groupPage);
 
         return view('groups.show', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student', 'groupLessons', 'groupLesson'));
     }
@@ -80,7 +81,8 @@ class GroupController extends Controller
         $groups = Group::all();
         $teachers = Teacher::all();
         $students = Student::all();
-        return view('groups.edit', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student'));
+        $groupPage = request()->input('page', 1);
+        return view('groups.edit', compact('group', 'teacher', 'teachers', 'groups', 'students', 'student', 'groupPage'));
     }
 
 
@@ -106,8 +108,9 @@ class GroupController extends Controller
         }
 
         $teacher = $group->teacher;
+        $page = $request->input('page', 1);
 
-        return redirect()->route('groups.show', ['teacher' => $teacherId, 'group' => $group->id]);
+        return redirect()->route('groups.show', ['teacher' => $teacherId, 'group' => $group->id, 'page' => $page]);
     }
 
 
