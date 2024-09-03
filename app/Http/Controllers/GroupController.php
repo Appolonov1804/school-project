@@ -47,8 +47,8 @@ class GroupController extends Controller
 
                 $group->students()->saveMany($students);
             }
-
-            return redirect()->route('groups.show', ['teacher' => $user->teacher->id]);
+            $page = request()->input('page', 1);
+            return redirect()->route('groups.show', ['teacher' => $user->teacher->id, 'page' => $page]);
         } else {
 
             return redirect()->back()->with('error', 'Вы не являетесь учителем.');
@@ -121,7 +121,8 @@ class GroupController extends Controller
         $groupId = $group->id;
         if ($group) {
             $group->delete();
-            return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
+            $page = request()->input('page', 1);
+            return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId, 'page' => $page]);
         } else {
             return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId])->with('error', 'Запись не найдена');
         }
@@ -132,7 +133,8 @@ class GroupController extends Controller
         $group->delete();
         $teacherId = $group->teachers_id;
         $groupId = $group->id;
-        return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId]);
+        $page = request()->input('page', 1);
+        return redirect()->route('groups.show', ['group' => $group->id, 'teacher' => $teacherId, 'page' => $page]);
     }
 
 }

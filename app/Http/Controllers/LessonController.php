@@ -18,10 +18,11 @@ use App\Http\Requests\Controllers\UpdateLessonRequest;
 class LessonController extends Controller
 {
 
-    public function create($rosterId)
+    public function create($rosterId, Request $request)
     {
         $roster = Roster::findOrFail($rosterId);
-        return view('lessons.create', compact('roster'));
+        $page = $request->input('page', 1);
+        return view('lessons.create', compact('roster', 'page'));
     }
 
     public function store(StoreLessonRequest $request, Roster $roster)
@@ -40,8 +41,9 @@ class LessonController extends Controller
         $roster = $lessonDetail->roster;
 
         $teacherId = $roster->teachers_id;
+        $page = $request->input('page', 1);
 
-        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        return redirect()->route('teachers.show', ['teacher' => $teacherId, 'page' => $page]);
     }
 
     public function editLesson(Roster $roster, $lesson_id, LessonDetail $lessonDetail, Request $request)
@@ -159,8 +161,8 @@ class LessonController extends Controller
 
         if ($lessonDetail) {
             $lessonDetail->delete();
-
-            return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+            $page = request()->input('page', 1);
+            return redirect()->route('teachers.show', ['teacher' => $teacherId, 'page' => $page]);
         } else {
             return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
         }
@@ -174,8 +176,8 @@ class LessonController extends Controller
 
         if ($lessonDetail) {
             $lessonDetail->delete();
-
-            return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+            $page = request()->input('page', 1);
+            return redirect()->route('teachers.show', ['teacher' => $teacherId, 'page' => $page]);
         } else {
                 return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Урок не найден');
         }

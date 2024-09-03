@@ -20,6 +20,7 @@ select:-webkit-autofill:focus {
 <form action="{{ route('lessons.store', $roster->id) }}" method="post">
     @csrf
     <input type="hidden" name="roster_id" value="{{ $roster->id }}">
+    <input type="hidden" name="page" value="{{ $page }}">
     <div class="form-group">
         <label for="inputDate">Дата</label>
         <input type="date" class="form-control" id="inputDate" name="date" placeholder="Введите дату">

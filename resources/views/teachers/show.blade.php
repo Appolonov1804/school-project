@@ -77,7 +77,7 @@
 
                             <td><a href="{{ route('lessons.edit', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}">Редактировать урок</a></td>
                             <td>
-                            <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id]) }}" method="post">
+                            <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <input type="submit" value="Удалить урок" class="btn btn-danger">
@@ -88,7 +88,7 @@
                 </tbody>
             </table>
             <div>
-                <a href="{{ route('lessons.create', ['roster' => $roster->id]) }}">Отметить урок {{ $roster->student }}</a>
+                <a href="{{ route('lessons.create', ['roster' => $roster->id, 'page' => request()->get('page', 1)]) }}">Отметить урок {{ $roster->student }}</a>
             </div>
             <div>
                 <a href="{{ route('rosters.edit', ['roster' => $roster->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы {{ $roster->student }}</a>

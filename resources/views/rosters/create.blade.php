@@ -19,6 +19,7 @@ select:-webkit-autofill:focus {
 </style>
 <form action="{{ route('rosters.store') }}" method="post">
     @csrf
+    <input type="hidden" name="page" value="{{ $page }}">
     <div class="form-group">
         <label for="inputStudent">Студент</label>
         <input type="text" class="form-control" id="inputStudent" name="student" placeholder="Введите имя студента">

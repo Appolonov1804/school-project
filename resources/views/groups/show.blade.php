@@ -112,7 +112,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id, 'page' => request()->get('page', 1)]) }}">Редактировать урок</a>
-                                    <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id]) }}" method="post">
+                                    <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id, 'page' => request()->get('page', 1)]) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger">Удалить урок</button>
@@ -123,7 +123,7 @@
                     </tbody>
                 </table>
                 <div>
-                    <a href="{{ route('groupsLessons.create', ['group' => $group->id]) }}">Отметить урок</a>
+                    <a href="{{ route('groupsLessons.create', ['group' => $group->id, 'page' => request()->get('page', 1)]) }}">Отметить урок</a>
                     <br>
                     <a href="{{ route('groups.edit', [$group->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы</a>
                     <form action="{{ route('groups.delete', $group->id) }}" method="post">

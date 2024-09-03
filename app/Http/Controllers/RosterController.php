@@ -41,8 +41,9 @@ class RosterController extends Controller
                 'schedule' => $data['schedule'],
                 'teachers_id' => $user->teacher->id,
             ]);
+            $page = request()->input('page', 1);
 
-            return redirect()->route('teachers.show', ['teacher' => $user->teacher->id]);
+            return redirect()->route('teachers.show', ['teacher' => $user->teacher->id, 'page' => $page]);
         } else {
             return redirect()->back()->with('error', 'Вы не являетесь учителем.');
         }
@@ -92,7 +93,8 @@ class RosterController extends Controller
         $teacherId = $roster->teachers_id;
         if ($roster) {
             $roster->delete();
-            return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+            $page = request()->input('page', 1);
+            return redirect()->route('teachers.show', ['teacher' => $teacherId, 'page' => $page]);
         } else {
             return redirect()->route('teachers.show', ['teacher' => $teacherId])->with('error', 'Запись не найдена');
         }
@@ -102,7 +104,8 @@ class RosterController extends Controller
     {
         $roster->delete();
         $teacherId = $roster->teachers_id;
-        return redirect()->route('teachers.show', ['teacher' => $teacherId]);
+        $page = request()->input('page', 1);
+        return redirect()->route('teachers.show', ['teacher' => $teacherId, 'page' => $page]);
     }
 
 }

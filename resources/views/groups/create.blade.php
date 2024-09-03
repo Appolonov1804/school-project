@@ -19,6 +19,7 @@ select:-webkit-autofill:focus {
 </style>
 <form action="{{ route('groups.store') }}" method="post">
     @csrf
+    <input type="hidden" name="page" value="{{ $page }}">
     <div id="studentsContainer">
     <div class="form-group">
         <label for="inputStudent">Студент</label>
