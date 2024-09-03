@@ -94,7 +94,7 @@
                 <a href="{{ route('rosters.edit', ['roster' => $roster->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы {{ $roster->student }}</a>
             </div>
             <div>
-                <form action="{{ route('rosters.delete', $roster->id) }}" method="post">
+                <form action="{{ route('rosters.delete', [$roster->id, 'page' => request()->get('page', 1)]) }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @method('delete')
                     <input type="submit" value="Удалить журнал" class="btn btn-danger">
@@ -109,7 +109,7 @@
     {{ $rosters->appends(['page' => request()->get('page', 1)])->links('vendor.pagination.bootstrap-4') }}
 </div>
 <div>
-    <a href="{{ route('rosters.create') }}">Добавить индивидуальный журнал</a>
+    <a href="{{ route('rosters.create', ['page' => request()->get('page', 1)]) }}">Добавить индивидуальный журнал</a>
 </div>
 <div>
     <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>

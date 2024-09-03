@@ -125,8 +125,8 @@
                 <div>
                     <a href="{{ route('groupsLessons.create', ['group' => $group->id, 'page' => request()->get('page', 1)]) }}">Отметить урок</a>
                     <br>
-                    <a href="{{ route('groups.edit', [$group->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы</a>
-                    <form action="{{ route('groups.delete', $group->id) }}" method="post">
+                    <a href="{{ route('groups.edit', ['group' => $group->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы</a>
+                    <form action="{{ route('groups.delete', ['group' => $group->id, 'page' => request()->get('page', 1)]) }}" method="post">
                         @csrf
                         @method('delete')
                         <input type="submit" value="Удалить журнал" class="btn btn-danger">
@@ -142,7 +142,7 @@
     {{ $groups->appends(['page' => request()->get('page', 1)])->links('vendor.pagination.bootstrap-4') }}
 </div>
 <div>
-    <a href="{{ route('groups.create') }}">Добавить групповой журнал</a>
+    <a href="{{ route('groups.create', ['page' => request()->get('page', 1)]) }}">Добавить групповой журнал</a>
 </div>
 
 <div>
