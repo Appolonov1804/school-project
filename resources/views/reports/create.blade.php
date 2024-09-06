@@ -3,14 +3,14 @@
 @section('content')
 <style>
     input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
-select:-webkit-autofill:focus { 
+select:-webkit-autofill:focus {
   border: 1px solid green;
   -webkit-text-fill-color: green;
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
@@ -19,6 +19,7 @@ select:-webkit-autofill:focus {
 </style>
 <form action="{{ route('reports.store') }}" method="post">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+<input type="hidden" name="page" value="{{ $page }}">
   <div>
     <label for="name">Студент</label>
     <input type="text" class="form-control" id="inputName" name="student" placeholder="Введите имя студента">

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Teacher;
-use App\Models\Report;
 use App\Models\Roster;
 use App\Models\Course;
 use App\Models\LessonDetail;
@@ -22,7 +21,6 @@ class RosterController extends Controller
     public function create(Request $request)
     {
         $rosters = Roster::all();
-        $reports = Report::all();
         $teachers = Teacher::all();
         $courseTypes = Course::all();
         $page = $request->input('page', 1);
@@ -52,32 +50,29 @@ class RosterController extends Controller
 
     }
 
-    public function show(Roster $roster, Report $report, Teacher $teacher)
+    public function show(Roster $roster, Teacher $teacher)
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();
-        $reports = Report::all();
-        return view('rosters.show', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters'));
+        return view('rosters.show', compact('roster', 'teacher', 'teachers', 'rosters'));
     }
 
 
-    public function edit(Roster $roster, Report $report, Teacher $teacher, Course $courseTypes)
+    public function edit(Roster $roster, Teacher $teacher, Course $courseTypes)
     {
         $rosters = Roster::all();
-        $reports = Report::all();
         $teachers = Teacher::all();
         $courseTypes = Course::all();
         $currentPage = request()->input('page', 1);
 
-        return view('rosters.edit', compact('roster', 'teacher', 'report', 'teachers', 'reports', 'rosters', 'courseTypes', 'currentPage'));
+        return view('rosters.edit', compact('roster', 'teacher', 'teachers', 'rosters', 'courseTypes', 'currentPage'));
     }
 
 
-    public function update(UpdateRosterRequest $request, Roster $roster, Report $report, Teacher $teacher, Course $courseTypes)
+    public function update(UpdateRosterRequest $request, Roster $roster, Teacher $teacher, Course $courseTypes)
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();
-        $reports = Report::all();
         $courseTypes = Course::all();
 
         $data = $request->validated();

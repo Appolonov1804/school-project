@@ -104,17 +104,17 @@ class MainController extends Controller
         $totalSalary = $lessonController->salary($rosters, $teacher);
         $groupTotalSalary = $groupLessonController->salary($filteredGroupLessons, $teacher);
         $totalSalary += $groupTotalSalary;
-        
+
         return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'totalSalary'));
     }
 
 
-    public function showTeachersReports(Teacher $teacher, Roster $roster, Report $report)
+    public function showTeachersReports(Teacher $teacher, Report $report)
     {
         $teachers = Teacher::all();
-        $rosters = Roster::all();
-        $reports = $teacher->reports()->paginate(10);
-       return view('teachers.reportShow', compact('teacher', 'roster', 'report', 'teachers', 'reports', 'rosters'));
+        $page = request()->input('page', 1);
+        $reports = $teacher->reports()->paginate(5, ['*'], 'page', $page);
+       return view('teachers.reportShow', compact('teacher', 'report', 'teachers', 'reports', 'page'));
     }
 
     public function edit(Teacher $teacher, Roster $roster, Report $report)

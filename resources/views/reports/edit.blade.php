@@ -3,14 +3,14 @@
 @section('content')
 <style>
     input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
-select:-webkit-autofill:focus { 
+select:-webkit-autofill:focus {
   border: 1px solid green;
   -webkit-text-fill-color: green;
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
@@ -20,7 +20,7 @@ select:-webkit-autofill:focus {
 <form action="{{ route('reports.update', $report->id) }}" method="post">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 @method('patch')
- 
+<input type="hidden" name="page" value="{{ $page }}">
   <div class="form-group">
     <label for="inputName">Студент</label>
     <input type="text" class="form-control" id="inputName" placeholder="Введите имя студента" name="student" value=" {{ $report->student }}">
@@ -49,8 +49,8 @@ select:-webkit-autofill:focus {
     <label for="inputComments">Замечания</label>
     <input type="text" class="form-control" id="inputComments" placeholder="Введите замечания" name="comments" value="{{ $report->comments }}">
   </div>
-  <input type="hidden" name="teachers_id" value="{{ $report->teaachers_id }}"> 
-  <button type="submit" class="btn btn-primary">Обновить</button> 
+  <input type="hidden" name="teachers_id" value="{{ $report->teaachers_id }}">
+  <button type="submit" class="btn btn-primary">Обновить</button>
 </form>
-        
+
 @endsection

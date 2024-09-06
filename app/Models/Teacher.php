@@ -25,14 +25,19 @@ class Teacher extends Model
         return $this->hasMany(Report::class, 'teachers_id');
     }
 
-    public function user() 
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id'); 
+        return $this->belongsTo(User::class, 'user_id');
     }
-    
-    public function groups() 
+
+    public function groups()
     {
         return $this->hasMany(Group::class, 'teachers_id');
     }
-   
+
+    public function trialLesson()
+    {
+        return $this->hasMany(TrialLesson::class, 'teachers_id');
+    }
+
 }
