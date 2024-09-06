@@ -24,12 +24,12 @@ select:-webkit-autofill:focus {
 
   <div class="form-group">
     <label for="inputName">Студент</label>
-    <input type="text" class="form-control" id="inputName" placeholder="Введите имя студента" name="student" value=" {{ $roster->student }}">
+    <input type="text" class="form-control" id="inputName" placeholder="Введите имя студента" name="student" value="{{ $roster->student }}">
   </div>
 
   <div class="form-group">
     <label for="inputCourse">Курс</label>
-    <input type="text" class="form-control" id="inputCourse" placeholder="Введите курс студента" name="course" value=" {{ $roster->course }}">
+    <input type="text" class="form-control" id="inputCourse" placeholder="Введите курс студента" name="course" value="{{ $roster->course }}">
   </div>
   <div class="form-group">
     <label for="inputSchedule">Расписание</label>

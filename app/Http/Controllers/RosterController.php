@@ -24,7 +24,7 @@ class RosterController extends Controller
         $teachers = Teacher::all();
         $courseTypes = Course::all();
         $page = $request->input('page', 1);
-        return view('rosters.create', compact('teachers', 'rosters', 'reports', 'courseTypes', 'page'));
+        return view('rosters.create', compact('teachers', 'rosters', 'courseTypes', 'page'));
     }
 
     public function store(StoreRosterRequest $request)

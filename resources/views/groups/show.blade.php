@@ -136,7 +136,7 @@
         @endforeach
     @else
         <p>У этого преподавателя пока нет групп.</p>
-    @endif
+    @endif  
 </div>
 <div>
     {{ $groups->appends(['page' => request()->get('page', 1)])->links('vendor.pagination.bootstrap-4') }}

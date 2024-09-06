@@ -25,6 +25,9 @@
     <a href="{{ route('groups.show', $teacher) }}">Группы</a>
 </div>
 <div>
+    <a href="{{ route('trial.show', $teacher) }}">Пробные уроки</a>
+</div>
+<div>
     <a href="{{ route('teachers.edit', $teacher->id) }}">Изменить имя преподавателя</a>
 </div>
 <div>
