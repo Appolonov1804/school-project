@@ -60,6 +60,7 @@
         <label for="inputForm">Вид урока</label>
         <select class="form-control" id="inputForm" name="form">
             <option value="Пробный" {{ old('form', $trialLesson->form ?? '') == 'Пробный' ? 'selected' : '' }}>Пробный</option>
+            <option value="Студент записался" {{ old('form', $trialLesson->form ?? '') == 'Студент записался' ? 'selected' : '' }}>Студент записался</option>
             <option value="Замена" {{ old('form', $trialLesson->form ?? '') == 'Замена' ? 'selected' : '' }}>Замена</option>
             <option value="Отработка" {{ old('form', $trialLesson->form ?? '') == 'Отработка' ? 'selected' : '' }}>Отработка</option>
         </select>

@@ -53,6 +53,7 @@ select:-webkit-autofill:focus {
         <label for="inputForm">Вид урока</label>
         <select class="form-control" id="inputForm" name="form">
             <option value="Пробный">Пробный</option>
+            <option value="Студент записался">Студент записался</option>
             <option value="Замена">Замена</option>
             <option value="Отработка">Отработка</option>
 

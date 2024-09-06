@@ -143,7 +143,7 @@ class GroupLessonController extends Controller
             } elseif ($time == 60) {
                 return 1900;
             } elseif ($time == 90) {
-                return 2500;
+                return 2200;
             }
         } elseif ($teacher->position == 'senior') {
             if ($time == 40) {

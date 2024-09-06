@@ -13,7 +13,7 @@ use App\Models\LessonDetail;
 use App\Models\Group;
 use App\Http\Requests\Controllers\UpdateTeacherRequest;
 use App\Http\Requests\Controllers\StoreTeacherRequest;
-
+use App\Models\TrialLesson;
 
 class MainController extends Controller
 {
@@ -77,12 +77,13 @@ class MainController extends Controller
         if ($teacher->group) {
             $groupLessonController->updatePaidStatus($teacher->group);
         }
+        $teacher->trialLesson()->update(['paid' => 1]);
 
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
 
 
-    public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController)
+    public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController, TrialLessonController $trialLessonController)
     {
         $currentPage = request()->input('page', 1);
         $rosters = $teacher->rosters()->with('lessonDetails')->paginate(5, ['*'], 'page', $currentPage);
@@ -104,6 +105,11 @@ class MainController extends Controller
         $totalSalary = $lessonController->salary($rosters, $teacher);
         $groupTotalSalary = $groupLessonController->salary($filteredGroupLessons, $teacher);
         $totalSalary += $groupTotalSalary;
+
+        $trialLessons = $teacher->trialLesson()->where('paid', 0)->get();
+        $trialTotalSalary = $trialLessonController->salary($trialLessons, $teacher);
+        $totalSalary += $trialTotalSalary;
+
 
         return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'totalSalary'));
     }
