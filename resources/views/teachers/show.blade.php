@@ -79,6 +79,16 @@
                             <td>{{ $lessonDetail->score }}</td>
 
                             <td><a href="{{ route('lessons.edit', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}">Редактировать урок</a></td>
+                            <td><a href="{{ route('reports.create', [
+                                'report' => $report->id,
+                                'lesson_id' => $lessonDetail->id,
+                                'roster' => $roster->id,
+                                'page' => request()->get('page', 1),
+                                'student' => $roster->student,
+                                'course' => $roster->course,
+                                'date' => $lessonDetail->date,
+                                'topic' => $lessonDetail->topic,
+                                ]) }}">Отчёт</a></td>
                             <td>
                             <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}" method="post">
                                 @csrf

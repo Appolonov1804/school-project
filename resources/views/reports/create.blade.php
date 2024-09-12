@@ -22,19 +22,19 @@ select:-webkit-autofill:focus {
 <input type="hidden" name="page" value="{{ $page }}">
   <div>
     <label for="name">Студент</label>
-    <input type="text" class="form-control" id="inputName" name="student" placeholder="Введите имя студента">
+    <input type="text" class="form-control" id="inputName" name="student" value="{{ $student }}" placeholder="Введите имя студента">
   </div>
   <div class="form-group">
     <label for="inputCourse">Курс</label>
-    <input type="text" class="form-control" id="inputCourse" name="course" placeholder="Введите курс студента">
+    <input type="text" class="form-control" id="inputCourse" name="course" value="{{ $course }}" placeholder="Введите курс студента">
   </div>
   <div class="form-group">
     <label for="inputTopic">Тема</label>
-    <input type="text" class="form-control" id="inputTopic" name="topic" placeholder="Введите тему урока">
+    <input type="text" class="form-control" id="inputTopic" name="topic" value="{{ $topic }}" placeholder="Введите тему урока">
   </div>
   <div class="form-group">
     <label for="inputDate">Дата</label>
-    <input type="date" class="form-control" id="inputDate" name="date" placeholder="Введите дату">
+    <input type="date" class="form-control" id="inputDate" name="date" value="{{ $date }}" placeholder="Введите дату">
   </div>
   <div class="form-group">
     <label for="inputDescription">Описание урока</label>

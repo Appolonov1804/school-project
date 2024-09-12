@@ -83,7 +83,7 @@ class MainController extends Controller
     }
 
 
-    public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController, TrialLessonController $trialLessonController)
+    public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController, TrialLessonController $trialLessonController, Report $report)
     {
         $currentPage = request()->input('page', 1);
         $rosters = $teacher->rosters()->with('lessonDetails')->paginate(5, ['*'], 'page', $currentPage);
@@ -111,7 +111,7 @@ class MainController extends Controller
         $totalSalary += $trialTotalSalary;
 
 
-        return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'totalSalary'));
+        return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'totalSalary', 'report'));
     }
 
 

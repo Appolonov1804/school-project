@@ -19,7 +19,11 @@ class ReportController extends Controller
         $reports = Report::all();
         $teachers = Teacher::all();
         $page = $request->input('page', 1);
-        return view('reports.create', compact('teacher', 'reports', 'teachers', 'page'));
+        $student = $request->query('student');
+        $course = $request->query('course');
+        $date = $request->query('date');
+        $topic = $request->query('topic');
+        return view('reports.create', compact('teacher', 'reports', 'teachers', 'page', 'student', 'course', 'date', 'topic'));
 
     }
 
