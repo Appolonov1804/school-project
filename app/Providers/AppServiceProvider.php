@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use App\Services\SalaryCalculator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(SalaryCalculator::class, function ($app) {
+            return new SalaryCalculator(
+                $app->make('App\Services\LessonSalaryService'),
+                $app->make('App\Services\GroupLessonSalaryService'),
+                $app->make('App\Services\TrialLessonSalaryService')
+            );
+        });
     }
 
     /**

@@ -27,6 +27,10 @@
 <div>
     <a href="{{ route('trial.show', $teacher) }}">Пробные уроки</a>
 </div>
+<a href="{{ route('rosters.show', ['teacher' => $teacher->id]) }}" class="nav-link">
+    <i class="fa-solid fa-user"></i>
+    <p>Студенты</p>
+</a>
 <div>
     <a href="{{ route('teachers.edit', $teacher->id) }}">Изменить имя преподавателя</a>
 </div>

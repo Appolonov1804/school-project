@@ -14,14 +14,28 @@ use App\Models\Group;
 use App\Http\Requests\Controllers\UpdateTeacherRequest;
 use App\Http\Requests\Controllers\StoreTeacherRequest;
 use App\Models\TrialLesson;
+use App\Services\SalaryCalculator;
+use App\Services\LessonSalaryService;
+use App\Services\GroupLessonSalaryService;
+use App\Services\TrialLessonSalaryService;
 
 class MainController extends Controller
 {
-    protected $lessonController;
+    protected $salaryCalculator;
+    protected $lessonSalaryService;
+    protected $groupLessonSalaryService;
+    protected $trialLessonSalaryService;
 
-    public function __construct(LessonController $lessonController)
-    {
-        $this->lessonController = $lessonController;
+    public function __construct(
+        LessonSalaryService $lessonSalaryService,
+        GroupLessonSalaryService $groupLessonSalaryService,
+        TrialLessonSalaryService $trialLessonSalaryService,
+        SalaryCalculator $salaryCalculator
+    ) {
+        $this->lessonSalaryService = $lessonSalaryService;
+        $this->groupLessonSalaryService = $groupLessonSalaryService;
+        $this->trialLessonSalaryService = $trialLessonSalaryService;
+        $this->salaryCalculator = $salaryCalculator;
     }
 
     public function create()
@@ -60,30 +74,17 @@ class MainController extends Controller
         });
     }
 
-    public function resetSalary(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController)
+    public function resetSalary(Teacher $teacher)
     {
         $teacher->update(['salary' => 0]);
-
-        $teacher->rosters()->each(function ($roster) {
-            $roster->lessonDetails()->update(['paid' => 1]);
-        });
-
-        $teacher->groups()->each(function ($group) {
-            $group->groupLessons()->update(['paid' => 1]);
-        });
-
-        $lessonController->updatePaidStatus($teacher);
-
-        if ($teacher->group) {
-            $groupLessonController->updatePaidStatus($teacher->group);
-        }
+        $this->lessonSalaryService->updatePaidStatus($teacher);
+        $this->groupLessonSalaryService->updatePaidStatus($teacher);
         $teacher->trialLesson()->update(['paid' => 1]);
 
         return redirect()->route('teachers.show', ['teacher' => $teacher->id]);
     }
 
-
-    public function show(Teacher $teacher, LessonController $lessonController, GroupLessonController $groupLessonController, TrialLessonController $trialLessonController, Report $report)
+    public function show(Teacher $teacher, Report $report)
     {
         $currentPage = request()->input('page', 1);
         $rosters = $teacher->rosters()->with('lessonDetails')->paginate(5, ['*'], 'page', $currentPage);
@@ -93,7 +94,7 @@ class MainController extends Controller
             $filteredLessonDetails = $filteredLessonDetails->merge($roster->lessonDetails->where('paid', 0));
         }
 
-        $groups = $teacher->groups()->with(['groupLessons'=> function($query) {
+        $groups = $teacher->groups()->with(['groupLessons' => function($query) {
             $query->with('attendance');
         }])->get();
 
@@ -102,18 +103,10 @@ class MainController extends Controller
             $filteredGroupLessons = $filteredGroupLessons->merge($group->groupLessons->where('paid', 0));
         }
 
-        $totalSalary = $lessonController->salary($rosters, $teacher);
-        $groupTotalSalary = $groupLessonController->salary($filteredGroupLessons, $teacher);
-        $totalSalary += $groupTotalSalary;
+        $totalSalary = $this->salaryCalculator->calculateTotalSalary($teacher);
 
-        $trialLessons = $teacher->trialLesson()->where('paid', 0)->get();
-        $trialTotalSalary = $trialLessonController->salary($trialLessons, $teacher);
-        $totalSalary += $trialTotalSalary;
-
-
-        return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'totalSalary', 'report'));
+        return view('teachers.show', compact('teacher', 'rosters', 'filteredLessonDetails', 'filteredGroupLessons', 'totalSalary', 'report'));
     }
-
 
     public function showTeachersReports(Teacher $teacher, Report $report)
     {
@@ -121,6 +114,13 @@ class MainController extends Controller
         $page = request()->input('page', 1);
         $reports = $teacher->reports()->paginate(5, ['*'], 'page', $page);
        return view('teachers.reportShow', compact('teacher', 'report', 'teachers', 'reports', 'page'));
+    }
+
+    public function showRosters(Teacher $teacher, Roster $roster, Report $report)
+    {
+        $rosters = $teacher->rosters()->paginate(10);
+
+        return view('teachers.showRosters', compact('teacher', 'rosters', 'roster', 'report'));
     }
 
     public function edit(Teacher $teacher, Roster $roster, Report $report)

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Teacher;
 use App\Models\Roster;
 use App\Models\Course;
+use App\Models\Report;
 use App\Models\LessonDetail;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Controllers\StoreRosterRequest;
@@ -14,9 +15,16 @@ use App\Http\Requests\Controllers\UpdateRosterRequest;
 use App\Http\Requests\Controllers\StoreLessonRequest;
 use App\Http\Requests\Controllers\UpdateLessonRequest;
 use Illuminate\Http\Request;
+use App\Services\SalaryCalculator;
 
 class RosterController extends Controller
 {
+    protected $salaryCalculator;
+
+    public function __construct(SalaryCalculator $salaryCalculator)
+    {
+        $this->salaryCalculator = $salaryCalculator;
+    }
 
     public function create(Request $request)
     {
@@ -50,13 +58,13 @@ class RosterController extends Controller
 
     }
 
-    public function show(Roster $roster, Teacher $teacher)
+    public function show(Teacher $teacher)
     {
-        $teachers = Teacher::all();
-        $rosters = Roster::all();
-        return view('rosters.show', compact('roster', 'teacher', 'teachers', 'rosters'));
-    }
+        $rosters = $teacher->rosters()->paginate(10);
+        $totalSalary = $this->salaryCalculator->calculateTotalSalary($teacher);
 
+        return view('rosters.show', compact('teacher', 'rosters', 'totalSalary'));
+    }
 
     public function edit(Roster $roster, Teacher $teacher, Course $courseTypes)
     {
