@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Report;
 use App\Models\Roster;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -29,6 +30,7 @@ class HomeController extends Controller
         $teachers = Teacher::all();
         $rosters = Roster::all();
         $reports = Report::all();
-        return view('home', compact('teachers', 'rosters', 'reports', 'teacher'));
+        $user = Auth::user();
+        return view('home', compact('teachers', 'rosters', 'reports', 'teacher', 'user'));
     }
 }

@@ -22,6 +22,12 @@
                     </a>
                 </div>
                 <div>
+                    @if ($user && $user->teacher)
+                        <a href="{{ route('teachers.show', ['teacher' => $user->teacher->id]) }}">Моя страница</a>
+                    @else
+                        <span>У вас нет страницы</span>
+                    @endif
+                </div>
                     <a href="{{ route('teachers.create') }}">Добавить страницу учителя</a>
                 </div>
             </div>
