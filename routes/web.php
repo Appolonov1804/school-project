@@ -80,7 +80,7 @@ Route::get('trial/delete', [\App\Http\Controllers\TrialLessonController::class, 
 
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/teachers/{teacher}', [\App\Http\Controllers\MainController::class, 'show'])->name('teachers.show');

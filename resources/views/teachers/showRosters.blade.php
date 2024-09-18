@@ -27,8 +27,8 @@
                 <th>Дата</th>
                 <th>Тема</th>
                 <th>Посещение</th>
-                <th>Оценка</th>
-                <th>Действия</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>

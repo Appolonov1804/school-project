@@ -87,7 +87,7 @@ class MainController extends Controller
     public function show(Teacher $teacher, Report $report)
     {
         $currentPage = request()->input('page', 1);
-        $rosters = $teacher->rosters()->with('lessonDetails')->paginate(5, ['*'], 'page', $currentPage);
+        $rosters = $teacher->rosters()->with('lessonDetails')->paginate(3, ['*'], 'page', $currentPage);
 
         $filteredLessonDetails = collect();
         foreach ($rosters as $roster) {
