@@ -13,12 +13,22 @@
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
+    .lesson-container {
+        justify-content: flex-end;
+    }
+    .lesson-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
 </style>
 
 <h1>Журнал: {{ $roster->student }}</h1>
 
 <h2>Курс: {{ $roster->course }}</h2>
-<p>Время: {{ $roster->schedule }}</p>
+<p>Расписание: {{ $roster->schedule }}</p>
+<p>Время: {{ $roster->time }} минут</p>
 
 @if ($roster->lessonDetails->isNotEmpty())
     <table>
@@ -44,22 +54,24 @@
                     </td>
                     <td>{{ $lessonDetail->score }}</td>
                     <td>
-                        <a href="{{ route('lessons.edit', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}">Редактировать урок</a>
-                        <a href="{{ route('reports.create', [
-                            'report' => $report->id,
-                            'lesson_id' => $lessonDetail->id,
-                            'roster' => $roster->id,
-                            'page' => request()->get('page', 1),
-                            'student' => $roster->student,
-                            'course' => $roster->course,
-                            'date' => $lessonDetail->date,
-                            'topic' => $lessonDetail->topic,
-                        ]) }}">Отчёт</a>
-                        <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}" method="post" style="display:inline;">
-                            @csrf
-                            @method('delete')
-                            <input type="submit" value="Удалить урок" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот урок?');">
-                        </form>
+                        <div class="lesson-actions">
+                            <a href="{{ route('lessons.edit', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}">Редактировать урок</a>
+                            <a href="{{ route('reports.create', [
+                                'report' => $report->id,
+                                'lesson_id' => $lessonDetail->id,
+                                'roster' => $roster->id,
+                                'page' => request()->get('page', 1),
+                                'student' => $roster->student,
+                                'course' => $roster->course,
+                                'date' => $lessonDetail->date,
+                                'topic' => $lessonDetail->topic,
+                            ]) }}">Отчёт</a>
+                            <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}" method="post" onsubmit="return lessonDelete()">
+                                @csrf
+                                @method('delete')
+                                <input type="submit" value="Удалить урок" class="btn btn-danger">
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @endforeach
@@ -86,4 +98,10 @@
 <div>
     <a href="{{ route('rosters.show', ['teacher' => $teacher->id]) }}">Назад к списку журналов</a>
 </div>
+
+<script>
+    function lessonDelete() {
+        return confirm('Подтвердите удаление');
+    }
+</script>
 @endsection

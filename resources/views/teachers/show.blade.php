@@ -15,6 +15,21 @@
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
+    .link-container {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .form-container {
+        text-align: right;
+        justify-content: flex-end;
+    }
+    .lesson-container {
+        justify-content: flex-end;
+    }
+    .salary-container {
+        justify-content: flex-end;
+    }
 </style>
 <a class="dropdown-item" href="{{ route('logout') }}"
     onclick="event.preventDefault();
@@ -22,24 +37,19 @@
     {{ __('Logout') }}
 </a>
 <div>
-    <a href="{{ route('groups.show', $teacher) }}">Группы</a>
-</div>
-<div>
-    <a href="{{ route('trial.show', $teacher) }}">Пробные уроки</a>
-</div>
 <a href="{{ route('rosters.show', ['teacher' => $teacher->id]) }}" class="nav-link">
     <i class="fa-solid fa-user"></i>
     <p>Студенты</p>
 </a>
-<div>
-    <a href="{{ route('teachers.edit', $teacher->id) }}">Изменить имя преподавателя</a>
+</div>
+<div class="link-container">
+    <a href="{{ route('groups.show', $teacher) }}">Группы</a>
+    <a href="{{ route('trial.show', $teacher) }}">Пробные уроки</a>
+    <a href="{{ route('rosters.create', ['page' => request()->get('page', 1)]) }}">Добавить индивидуальный журнал</a>
+    <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
 </div>
 <div>
-    <form action="{{ route('teachers.delete', $teacher->id) }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        @method('delete')
-        <input type="submit" value="Удалить преподавателя" class="btn btn-danger">
-    </form>
+    <a href="{{ route('teachers.edit', $teacher->id) }}">Изменить имя</a>
 </div>
 <div>
     <div> {{ $teacher->email }}</div>
@@ -94,11 +104,13 @@
                                 'topic' => $lessonDetail->topic,
                                 ]) }}">Отчёт</a></td>
                             <td>
-                            <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}" method="post">
-                                @csrf
-                                @method('delete')
-                                <input type="submit" value="Удалить урок" class="btn btn-danger">
-                            </form>
+                            <div class="lesson-container">
+                                <form action="{{ route('lessons.delete', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}" method="post" onsubmit="return lessonDelete()">
+                                    @csrf
+                                    @method('delete')
+                                    <input type="submit" value="Удалить урок" class="btn btn-danger">
+                                </form>
+                            </div>
                             </td>
                         </tr>
                     @endforeach
@@ -110,8 +122,8 @@
             <div>
                 <a href="{{ route('rosters.edit', ['roster' => $roster->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы {{ $roster->student }}</a>
             </div>
-            <div>
-                <form action="{{ route('rosters.delete', [$roster->id, 'page' => request()->get('page', 1)]) }}" method="post">
+            <div class="lesson-container">
+                <form action="{{ route('rosters.delete', [$roster->id, 'page' => request()->get('page', 1)]) }}" method="post" onsubmit="return lessonDelete()">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @method('delete')
                     <input type="submit" value="Удалить журнал" class="btn btn-danger">
@@ -126,19 +138,35 @@
     {{ $rosters->appends(['page' => request()->get('page', 1)])->links('vendor.pagination.bootstrap-4') }}
 </div>
 <div>
-    <a href="{{ route('rosters.create', ['page' => request()->get('page', 1)]) }}">Добавить индивидуальный журнал</a>
-</div>
-<div>
-    <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
-</div>
-<div>
     <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
 </div>
 <div>
     <h4>Заработано: {{ $totalSalary }}</h4>
 </div>
-<form method="POST" action="{{ route('teachers.resetSalary', ['teacher' => $teacher->id]) }}">
+<div class="salary-container">
+<form method="POST" action="{{ route('teachers.resetSalary', ['teacher' => $teacher->id]) }}" onsubmit="return resetSalary()">
     @csrf
     <button type="submit">Обнулить зарплату</button>
 </form>
+</div>
+<div class="form-container">
+    <form action="{{ route('teachers.delete', $teacher->id) }}" method="post" onsubmit="return confirmDelete()">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        @method('delete')
+        <input type="submit" value="Удалить аккаунт" class="btn btn-danger">
+    </form>
+</div>
+
+<script>
+    function confirmDelete() {
+        return confirm('Вы уверены, что хотите удалить Ваш аккаунт?');
+    }
+
+    function lessonDelete() {
+        return confirm('Подтвердите удаление');
+    }
+    function resetSalary() {
+        return confirm('Обнулить зарплату?');
+    }
+</script>
 @endsection
