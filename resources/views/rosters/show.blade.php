@@ -1,5 +1,9 @@
 @extends('layouts.admin')
-
+    <style>
+        .salary-container {
+            justify-content: flex-end;
+        }
+    </style>
 @section('content')
 <div>
     <a href="{{ route('groups.show', $teacher) }}">Группы</a>
@@ -30,9 +34,16 @@
 <div>
     <h4>Заработано: {{ $totalSalary }}</h4>
 </div>
-<form method="POST" action="{{ route('teachers.resetSalary', ['teacher' => $teacher->id]) }}">
-    @csrf
-    <button type="submit">Обнулить зарплату</button>
-</form>
+<div class="salary-container">
+    <form method="POST" action="{{ route('teachers.resetSalary', ['teacher' => $teacher->id]) }}" onsubmit="return resetSalary()">
+        @csrf
+        <button type="submit">Обнулить зарплату</button>
+    </form>
+</div>
+<script>
+    function resetSalary() {
+        return confirm('Обнулить зарплату?');
+    }
+</script>
 @endsection
 
