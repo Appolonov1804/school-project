@@ -13,6 +13,9 @@
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
+    .report-container {
+        justify-content: flex-end;
+    }
 </style>
 <div>
     <div> {{ $teacher->email }}</div>
@@ -46,12 +49,13 @@
                         <td>{{ $report->lesson_description }}</td>
                         <td>{{ $report->comments }}</td>
                         <td><a href="{{ route('reports.edit', ['report' => $report->id, 'page' => request()->get('page', 1)]) }}">Редактировать отчёты</a></td>
-
-                        <td><form action="{{ route('reports.delete', [$report->id, 'page' => request()->get('page', 1)]) }}" method="post">
+                    <div class="report-container">
+                        <td><form action="{{ route('reports.delete', [$report->id, 'page' => request()->get('page', 1)]) }}" method="post" onsubmit="return reportDelete()">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 @method('delete')
                                 <input type="submit" value="Удалить" class="btn btn-danger">
                         </form></td>
+                    </div>
                     </tr>
                 @endforeach
 
@@ -71,4 +75,10 @@
 <div>
     <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
 </div>
+
+<script>
+    function reportDelete() {
+        return confirm('Вы уверены, что хотите удалить отчет?');
+    }
+</script>
 @endsection

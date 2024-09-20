@@ -124,7 +124,7 @@
                 <a href="{{ route('rosters.edit', ['roster' => $roster->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы {{ $roster->student }}</a>
             </div>
             <div class="lesson-container">
-                <form action="{{ route('rosters.delete', [$roster->id, 'page' => request()->get('page', 1)]) }}" method="post" onsubmit="return lessonDelete()">
+                <form action="{{ route('rosters.delete', [$roster->id, 'page' => request()->get('page', 1)]) }}" method="post" onsubmit="return rosterDelete()">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @method('delete')
                     <input type="submit" value="Удалить журнал" class="btn btn-danger">
@@ -163,9 +163,14 @@
         return confirm('Вы уверены, что хотите удалить Ваш аккаунт?');
     }
 
-    function lessonDelete() {
-        return confirm('Подтвердите удаление');
+    function rosterDelete() {
+        return confirm('Вы уверены, что хотите удалить журнал?');
     }
+
+    function lessonDelete() {
+        return confirm('Вы уверены, что хотите удалить урок?');
+    }
+
     function resetSalary() {
         return confirm('Обнулить зарплату?');
     }

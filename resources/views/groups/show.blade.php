@@ -30,23 +30,26 @@
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
+    .link-container {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .lesson-container {
+        justify-content: flex-end;
+    }
 </style>
 
 <a class="dropdown-item" href="{{ route('logout') }}"
     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
     {{ __('Logout') }}
 </a>
-
+<div class="link-container">
+    <a href="{{ route('groups.create', ['page' => request()->get('page', 1)]) }}">Добавить групповой журнал</a>
+    <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
+</div>
 <div>
     <a href="{{ route('teachers.edit', $teacher->id) }}">Изменить имя преподавателя</a>
-</div>
-
-<div>
-    <form action="{{ route('teachers.delete', $teacher->id) }}" method="post">
-        @csrf
-        @method('delete')
-        <input type="submit" value="Удалить преподавателя" class="btn btn-danger">
-    </form>
 </div>
 
 <div>
@@ -112,7 +115,9 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('groupsLessons.edit', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id, 'page' => request()->get('page', 1)]) }}">Редактировать урок</a>
-                                    <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id, 'page' => request()->get('page', 1)]) }}" method="post">
+                                </td>
+                                <td class="lesson-container">
+                                    <form action="{{ route('groupsLessons.delete', ['group' => $group->id, 'group_lesson_id' => $groupLesson->id, 'page' => request()->get('page', 1)]) }}" method="post" onsubmit="return lessonDelete()">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger">Удалить урок</button>
@@ -126,31 +131,34 @@
                     <a href="{{ route('groupsLessons.create', ['group' => $group->id, 'page' => request()->get('page', 1)]) }}">Отметить урок</a>
                     <br>
                     <a href="{{ route('groups.edit', ['group' => $group->id, 'page' => request()->get('page', 1)]) }}">Редактировать журналы</a>
-                    <form action="{{ route('groups.delete', ['group' => $group->id, 'page' => request()->get('page', 1)]) }}" method="post">
+                <div class="lesson-container">
+                    <form action="{{ route('groups.delete', ['group' => $group->id, 'page' => request()->get('page', 1)]) }}" method="post" onsubmit="return groupDelete()">
                         @csrf
                         @method('delete')
                         <input type="submit" value="Удалить журнал" class="btn btn-danger">
+                </div>
                     </form>
                 </div>
             </div>
         @endforeach
     @else
         <p>У этого преподавателя пока нет групп.</p>
-    @endif  
+    @endif
 </div>
 <div>
     {{ $groups->appends(['page' => request()->get('page', 1)])->links('vendor.pagination.bootstrap-4') }}
 </div>
 <div>
-    <a href="{{ route('groups.create', ['page' => request()->get('page', 1)]) }}">Добавить групповой журнал</a>
-</div>
-
-<div>
-    <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
-</div>
-
-<div>
     <a href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">Назад</a>
 </div>
 
+<script>
+    function lessonDelete() {
+        return confirm('Вы уверены, что хотите удалить урок?');
+    }
+
+    function groupDelete() {
+        return confirm('Вы уверены, что хотите удалить группу?');
+    }
+</script>
 @endsection
