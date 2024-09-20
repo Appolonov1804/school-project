@@ -66,6 +66,16 @@ class RosterController extends Controller
         return view('rosters.show', compact('teacher', 'rosters', 'totalSalary'));
     }
 
+    public function showSchedule(Teacher $teacher)
+    {
+        $rosters = $teacher->rosters()->paginate(10);
+        $teacher->load('groups');
+        $groups = $teacher->groups;
+
+
+        return view('rosters.showSchedule', compact('teacher', 'rosters', 'groups'));
+    }
+
     public function edit(Roster $roster, Teacher $teacher, Course $courseTypes)
     {
         $rosters = Roster::all();

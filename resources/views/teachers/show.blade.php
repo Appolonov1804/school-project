@@ -47,6 +47,7 @@
     <a href="{{ route('trial.show', $teacher) }}">Пробные уроки</a>
     <a href="{{ route('rosters.create', ['page' => request()->get('page', 1)]) }}">Добавить индивидуальный журнал</a>
     <a href="{{ route('teachers.reportShow', $teacher) }}">Отчёты учителя</a>
+    <a href="{{ route('rosters.showSchedule', [$teacher->id]) }}">Расписание</a>
 </div>
 <div>
     <a href="{{ route('teachers.edit', $teacher->id) }}">Изменить имя</a>
