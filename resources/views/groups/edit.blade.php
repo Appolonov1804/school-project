@@ -16,6 +16,9 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
   transition: background-color 5000s ease-in-out 0s;
 }
+    .student-input {
+        justify-content: flex-end;
+    }
 </style>
 <form action="{{ route('groups.update', $group->id) }}" method="post">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -44,22 +47,22 @@ select:-webkit-autofill:focus {
     <button type="submit" class="btn btn-primary">Обновить</button>
 </form>
 <script>
+   document.getElementById('studentsContainer').addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('remove-student')) {
+            if (confirm('Вы уверены, что хотите удалить студента?')) {
+                e.target.parentElement.remove();
+            }
+        }
+    });
     document.getElementById('addStudent').addEventListener('click', function() {
         var container = document.getElementById('studentsContainer');
         var newStudentInput = document.createElement('div');
         newStudentInput.classList.add('form-group', 'student-input');
-        newStudentInput.innerHTML = `<input type="text" class="form-control" name="new_students[]" placeholder="Введите студента">
+        newStudentInput.innerHTML = `
+            <input type="text" class="form-control" name="new_students[]" placeholder="Введите студента">
+            <button type="button" class="btn btn-danger remove-student">Удалить</button>
         `;
         container.appendChild(newStudentInput);
-
-        newStudentInput.querySelectorAll('.remove-student').addEventListener('click', function() {
-            newStudentInput.remove();
-        });
     });
-        document.querySelectorAll('.remove-student').forEach(function(button) {
-            button.addEventListener('click', function() {
-                button.parentElement.remove();
-            });
-        });
 </script>
 @endsection
