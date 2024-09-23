@@ -100,6 +100,8 @@ class GroupController extends Controller
 
 
         if (isset($studentData['students'])) {
+            $existingStudentId = array_keys($studentData['students']);
+            $group->students()->whereNotIn('id', $existingStudentId)->delete();
             foreach ($studentData['students'] as $studentId => $studentName) {
                 $student = Student::find($studentId);
                 if ($student) {
@@ -108,6 +110,13 @@ class GroupController extends Controller
             }
         }
 
+        if ($request->has('new_students')) {
+            $newStudents = [];
+            foreach ($request->input('new_students') as $newStudentName) {
+                $newStudents[] = new Student(['student' => $newStudentName]);
+            }
+            $group->students()->saveMany($newStudents);
+        }
         $teacher = $group->teacher;
         $page = $request->input('page', 1);
 

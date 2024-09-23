@@ -24,7 +24,7 @@ class GroupLesson extends Model
     public function students()
     {
         return $this->belongsToMany(Student::class, 'group_lesson_student')
-                    ->withPivot('attendance', 'score');
+                    ->withPivot('attendance', 'score')->withTrashed();
     }
 
     public function attendance()
