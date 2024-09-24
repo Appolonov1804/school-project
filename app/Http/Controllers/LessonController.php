@@ -9,11 +9,9 @@ use App\Models\Report;
 use App\Models\Roster;
 use App\Models\LessonDetail;
 use App\Models\Group;
-use App\Http\Requests\Controllers\StoreRosterRequest;
-use App\Http\Requests\Controllers\UpdateRosterRequest;
+use App\Http\Requests\Controllers\RosterRequest;
 use Illuminate\Http\Request;
-use App\Http\Requests\Controllers\StoreLessonRequest;
-use App\Http\Requests\Controllers\UpdateLessonRequest;
+use App\Http\Requests\Controllers\LessonRequest;
 
 class LessonController extends Controller
 {
@@ -25,7 +23,7 @@ class LessonController extends Controller
         return view('lessons.create', compact('roster', 'page'));
     }
 
-    public function store(StoreLessonRequest $request, Roster $roster)
+    public function store(LessonRequest $request, Roster $roster)
     {
         $rosters = Roster::all();
         $lessonDetails = LessonDetail::all();
@@ -57,7 +55,7 @@ class LessonController extends Controller
         return view('lessons.edit', compact('roster', 'teachers', 'reports', 'lessonDetail', 'page'));
     }
 
-    public function updateLesson(UpdateLessonRequest $request, Roster $roster, $lesson_id)
+    public function updateLesson(LessonRequest $request, Roster $roster, $lesson_id)
     {
         $lessonDetail = LessonDetail::findOrFail($lesson_id);
         $data = $request->validated();

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Controllers;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateLessonRequest extends FormRequest
+class ReportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,13 @@ class UpdateLessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => 'date',
+            'student' => 'string',
+            'course' => 'string',
             'topic' => 'string',
-            'attendance' => 'string',
-            'score' => 'nullable|string|max:255',
-            'roster_id' => ['nullable', 'integer'],
-            'number_page' => ['nullable', 'integer'],
+            'date' => 'date',
+            'lesson_description' => 'string',
+            'comments' => 'nullable',
+            'teachers_id' => ['nullable', 'integer'],
         ];
     }
 }

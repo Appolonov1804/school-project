@@ -7,8 +7,7 @@ use App\Models\GroupLesson;
 use App\Models\Group;
 use App\Models\Student;
 use App\Models\GroupLessonStudent;
-use App\Http\Requests\Controllers\StoreGroupLessonRequest;
-use App\Http\Requests\Controllers\UpdateGroupLessonRequest;
+use App\Http\Requests\Controllers\GroupLessonRequest;
 use App\Models\Teacher;
 
 class GroupLessonController extends Controller
@@ -21,7 +20,7 @@ class GroupLessonController extends Controller
         return view('groupsLessons.create', compact('group', 'students', 'page'));
     }
 
-    public function store(StoreGroupLessonRequest $request, Group $group, LessonController $lessonController)
+    public function store(GroupLessonRequest $request, Group $group, LessonController $lessonController)
     {
         $data = $request->validated();
 
@@ -68,7 +67,7 @@ class GroupLessonController extends Controller
 
     }
 
-    public function updateLesson(UpdateGroupLessonRequest $request, Group $group, GroupLesson $lesson)
+    public function updateLesson(GroupLessonRequest $request, Group $group, GroupLesson $lesson)
     {
         $data = $request->validated();
 

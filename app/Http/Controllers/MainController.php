@@ -11,8 +11,7 @@ use App\Models\Report;
 use App\Models\User;
 use App\Models\LessonDetail;
 use App\Models\Group;
-use App\Http\Requests\Controllers\UpdateTeacherRequest;
-use App\Http\Requests\Controllers\StoreTeacherRequest;
+use App\Http\Requests\Controllers\TeacherRequest;
 use App\Models\TrialLesson;
 use App\Services\SalaryCalculator;
 use App\Services\LessonSalaryService;
@@ -47,7 +46,7 @@ class MainController extends Controller
 
     }
 
-    public function store(StoreTeacherRequest $request)
+    public function store(TeacherRequest $request)
     {
         $data = $request->validate([
             'name' => 'required|string',
@@ -132,7 +131,7 @@ class MainController extends Controller
         return view('teachers.edit', compact('teacher', 'roster', 'report', 'teachers', 'rosters', 'reports'));
     }
 
-    public function update(UpdateTeacherRequest $request, Teacher $teacher, Roster $roster, Report $report)
+    public function update(TeacherRequest $request, Teacher $teacher, Roster $roster, Report $report)
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();

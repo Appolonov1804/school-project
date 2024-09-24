@@ -7,10 +7,8 @@ use App\Models\Teacher;
 use App\Models\Group;
 use App\Models\GroupLesson;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Controllers\StoreGroupRequest;
-use App\Http\Requests\Controllers\UpdateGroupRequest;
-use App\Http\Requests\Controllers\StoreStudentRequest;
-use App\Http\Requests\Controllers\UpdateStudentRequest;
+use App\Http\Requests\Controllers\GroupRequest;
+use App\Http\Requests\Controllers\StudentRequest;
 use App\Models\Student;
 
 class GroupController extends Controller
@@ -24,7 +22,7 @@ class GroupController extends Controller
         return view('groups.create', compact('teachers', 'groups', 'students', 'page'));
     }
 
-    public function store(StoreGroupRequest $request, StoreStudentRequest $storeStudentRequest)
+    public function store(GroupRequest $request, StudentRequest $storeStudentRequest)
     {
         $data = $request->validate($request->rules());
         $studentData = $storeStudentRequest->validate($storeStudentRequest->rules());
@@ -87,7 +85,7 @@ class GroupController extends Controller
     }
 
 
-    public function update(UpdateGroupRequest $request, UpdateStudentRequest $updateStudentRequest, Group $group, Teacher $teacher, Student $student)
+    public function update(GroupRequest $request, StudentRequest $updateStudentRequest, Group $group, Teacher $teacher, Student $student)
     {
         $data = $request->validate($request->rules());
         $studentData = $updateStudentRequest->validate($updateStudentRequest->rules());

@@ -10,10 +10,8 @@ use App\Models\Course;
 use App\Models\Report;
 use App\Models\LessonDetail;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Controllers\StoreRosterRequest;
-use App\Http\Requests\Controllers\UpdateRosterRequest;
-use App\Http\Requests\Controllers\StoreLessonRequest;
-use App\Http\Requests\Controllers\UpdateLessonRequest;
+use App\Http\Requests\Controllers\RosterRequest;
+use App\Http\Requests\Controllers\LessonRequest;
 use Illuminate\Http\Request;
 use App\Services\SalaryCalculator;
 
@@ -35,7 +33,7 @@ class RosterController extends Controller
         return view('rosters.create', compact('teachers', 'rosters', 'courseTypes', 'page'));
     }
 
-    public function store(StoreRosterRequest $request)
+    public function store(RosterRequest $request)
     {
         $data = $request->validated();
         $user = Auth::user();
@@ -87,7 +85,7 @@ class RosterController extends Controller
     }
 
 
-    public function update(UpdateRosterRequest $request, Roster $roster, Teacher $teacher, Course $courseTypes)
+    public function update(RosterRequest $request, Roster $roster, Teacher $teacher, Course $courseTypes)
     {
         $teachers = Teacher::all();
         $rosters = Roster::all();

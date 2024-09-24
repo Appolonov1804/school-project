@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Controllers\StoreReportRequest;
-use App\Http\Requests\Controllers\UpdateReportRequest;
+use App\Http\Requests\Controllers\ReportRequest;
 use Illuminate\Http\Request;
 use App\Models\Report;
 use App\Models\Teacher;
@@ -27,7 +26,7 @@ class ReportController extends Controller
 
     }
 
-    public function store(StoreReportRequest $request, Report $report, Teacher $teacher)
+    public function store(ReportRequest $request, Report $report, Teacher $teacher)
     {
         $reports = Report::all();
         $teachers = Teacher::all();
@@ -65,7 +64,7 @@ class ReportController extends Controller
         return view('reports.edit', compact('report', 'teacher',  'teachers', 'page'));
     }
 
-    public function update(UpdateReportRequest $request, Report $report,  Teacher $teacher)
+    public function update(ReportRequest $request, Report $report,  Teacher $teacher)
     {
         $reports = Report::all();
         $teachers = Teacher::all();
