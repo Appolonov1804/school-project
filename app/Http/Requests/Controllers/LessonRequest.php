@@ -25,6 +25,7 @@ class LessonRequest extends FormRequest
             'date' => 'date',
             'topic' => 'string',
             'attendance' => 'string',
+            'time' => 'string',
             'score' => 'nullable|string|max:255',
             'roster_id' => ['nullable', 'integer'],
             'number_page' => ['nullable', 'integer'],

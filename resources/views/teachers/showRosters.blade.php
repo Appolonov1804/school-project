@@ -28,7 +28,6 @@
 
 <h2>Курс: {{ $roster->course }}</h2>
 <p>Расписание: {{ $roster->schedule }}</p>
-<p>Время: {{ $roster->time }} минут</p>
 
 @if ($roster->lessonDetails->isNotEmpty())
     <table>
@@ -37,7 +36,7 @@
                 <th>Дата</th>
                 <th>Тема</th>
                 <th>Посещение</th>
-                <th></th>
+                <th>Время</th>
                 <th></th>
             </tr>
         </thead>
@@ -52,6 +51,7 @@
                                 оплачено
                         @endif
                     </td>
+                    <td>{{ $lessonDetail->time }}</td>
                     <td>{{ $lessonDetail->score }}</td>
                     <td>
                         <div class="lesson-actions">

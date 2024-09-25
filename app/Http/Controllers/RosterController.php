@@ -42,7 +42,6 @@ class RosterController extends Controller
             $roster = Roster::create([
                 'student' => $data['student'],
                 'course' => $data['course'],
-                'time' => $data['time'],
                 'type_id' => $data['type_id'],
                 'schedule' => $data['schedule'],
                 'teachers_id' => $user->teacher->id,

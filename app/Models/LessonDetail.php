@@ -13,7 +13,7 @@ class LessonDetail extends Model
 
     protected $table = 'lesson_details';
     protected $guarded = [];
-    protected $fillable = ['date', 'topic', 'attendance','roster_id', 'score'];
+    protected $fillable = ['date', 'topic', 'attendance', 'time', 'roster_id', 'score'];
 
     public function roster()
     {

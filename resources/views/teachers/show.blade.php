@@ -67,21 +67,19 @@
                 <thead>
                     <tr>
                         <th>Курс</th>
-                        <th>Время</th>
                         <th>Дата</th>
                         <th>Тема</th>
                         <th>Посещение</th>
+                        <th>Время</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{ $roster->course }}</td>
-                        <td>{{ $roster->time }} минут</td>
                     </tr>
                     @foreach($roster->lessonDetails as $lessonDetail)
                         <tr>
-                            <td></td>
                             <td></td>
                             <td>{{ $lessonDetail->date }}</td>
                             <td>{{ $lessonDetail->topic }}</td>
@@ -91,6 +89,7 @@
                                 оплачено
                             @endif
                             </td>
+                            <td>{{ $lessonDetail->time }} минут</td>
                             <td>{{ $lessonDetail->score }}</td>
 
                             <td><a href="{{ route('lessons.edit', ['roster' => $roster->id, 'lesson_id' => $lessonDetail->id, 'page' => request()->get('page', 1)]) }}">Редактировать урок</a></td>

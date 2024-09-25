@@ -14,7 +14,7 @@ class Roster extends Model
 
     protected $table = 'rosters';
     protected $guarded = [];
-    protected $fillable = ['teachers_id', 'type_id', 'student','course', 'time', 'schedule'];
+    protected $fillable = ['teachers_id', 'type_id', 'student','course', 'schedule'];
 
     public function teachers()
     {
