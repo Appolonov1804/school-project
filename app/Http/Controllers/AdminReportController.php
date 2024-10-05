@@ -7,14 +7,13 @@ use App\Http\Controllers\AdminTeacherController;
 use App\Models\Report;
 use App\Models\Roster;
 use App\Models\Teacher;
-use App\Http\Requests\Controllers\StoreReportRequest;
-use App\Http\Requests\Controllers\UpdateReportRequest;
+use App\Http\Requests\Controllers\ReportRequest;
 
 
 
 class AdminReportController extends Controller
 {
-    public function store(StoreReportRequest $request) 
+    public function store(ReportRequest $request)
     {
         $data = $request->validated();
         $teachers = Teacher::all();
