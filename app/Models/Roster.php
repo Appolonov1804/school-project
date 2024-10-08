@@ -30,4 +30,9 @@ class Roster extends Model
     {
         return $this->belongsTo(Course::class, 'type_id', 'id');
     }
+
+    public function membership()
+    {
+        return $this->hasOne(Membership::class, 'roster_id');
+    }
 }

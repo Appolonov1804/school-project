@@ -12,6 +12,7 @@ use App\Models\LessonDetail;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Controllers\RosterRequest;
 use App\Http\Requests\Controllers\LessonRequest;
+use App\Models\Membership;
 use Illuminate\Http\Request;
 use App\Services\SalaryCalculator;
 
@@ -55,12 +56,12 @@ class RosterController extends Controller
 
     }
 
-    public function show(Teacher $teacher)
+    public function show(Teacher $teacher, Roster $roster, Membership $membership)
     {
-        $rosters = $teacher->rosters()->paginate(10);
+        $rosters = $teacher->rosters()->with('membership')->paginate(10);
         $totalSalary = $this->salaryCalculator->calculateTotalSalary($teacher);
 
-        return view('rosters.show', compact('teacher', 'rosters', 'totalSalary'));
+        return view('rosters.show', compact('teacher', 'rosters', 'totalSalary', 'roster', 'membership'));
     }
 
     public function showSchedule(Teacher $teacher)

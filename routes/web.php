@@ -46,7 +46,6 @@ Route::get('/groups/{group}/edit', [\App\Http\Controllers\GroupController::class
 Route::patch('/groups/{group}', [\App\Http\Controllers\GroupController::class, 'update'])->name('groups.update');
 Route::delete('/groups/{group}', [\App\Http\Controllers\GroupController::class, 'destroy'])->name('groups.delete');
 Route::get('/groups/delete', [\App\Http\Controllers\GroupController::class, 'delete']);
-Route::get('/teachers/{teacher}/groups', [\App\Http\Controllers\GroupController::class, 'showGroup'])->name('groups.show');
 
 Route::get('/rosters/{roster}/edit/{lesson_id}', [\App\Http\Controllers\LessonController::class, 'editLesson'])->name('lessons.edit');
 Route::patch('/rosters/{roster}/update_lesson/{lesson_id}', [\App\Http\Controllers\LessonController::class, 'updateLesson'])->name('lessons.updateLesson');
@@ -112,6 +111,19 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/teachers/{teacher}/reports', [\App\Http\Controllers\MainController::class, 'showTeachersReports'])->name('teachers.reportShow');
+Route::get('/teacher/{teacher}', [\App\Http\Controllers\RosterController::class, 'show'])->name('rosters.show');
+Route::get('/teacher/{teacher}/rosters/{roster}', [\App\Http\Controllers\MainController::class, 'showRosters'])->name('teachers.showRosters');
+Route::get('/teacher/{teacher}/schedule', [App\Http\Controllers\RosterController::class, 'showSchedule'])->name('rosters.showSchedule');
+Route::get('/teachers/{teacher}/groups', [\App\Http\Controllers\GroupController::class, 'showGroup'])->name('groups.show');
+
+Route::middleware('admin')->group(function () {
+Route::get('/membership/{roster}/create', [\App\Http\Controllers\MembershipController::class, 'create'])->name('membership.create');
+Route::post('/membership', [\App\Http\Controllers\MembershipController::class, 'store'])->name('membership.store');
+Route::get('/edit/{roster}/membership/{membership}', [\App\Http\Controllers\MembershipController::class, 'edit'])->name('membership.edit');
+Route::patch('/membership/{membership}/roster/{roster}', [\App\Http\Controllers\MembershipController::class, 'update'])->name('membership.update');
+Route::delete('/membership/{roster}', [\App\Http\Controllers\MembershipController::class, 'destroy'])->name('membership.delete');
+Route::get('membership/delete', [\App\Http\Controllers\MembershipController::class, 'delete']);
+});
 
 Route::post('/upload', [App\Http\Controllers\UploadController::class, 'store'])->name('upload.store');
 Route::get('/upload', function () {

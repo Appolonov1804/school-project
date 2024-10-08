@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\LessonDetail;
 use App\Models\Group;
 use App\Http\Requests\Controllers\TeacherRequest;
+use App\Models\Membership;
 use App\Models\TrialLesson;
 use App\Services\SalaryCalculator;
 use App\Services\LessonSalaryService;

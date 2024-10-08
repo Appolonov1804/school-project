@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LessonDetail extends Model
+class Membership extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'lesson_details';
+    protected $table = 'membership';
     protected $guarded = [];
-    protected $fillable = ['date', 'topic', 'attendance', 'time', 'roster_id', 'score'];
+    protected $fillable = ['roster_id', 'membership'];
 
     public function roster()
     {
-        return $this->belongsTo(Roster::class);
+        return $this->belongsTo(Roster::class, 'roster_id');
     }
 
 }

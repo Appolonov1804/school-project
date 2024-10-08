@@ -20,7 +20,16 @@
         <ul>
             @foreach($rosters as $roster)
                 <li>
-                    <a href="{{ route('teachers.showRosters', ['teacher' => $teacher->id, 'roster' => $roster->id]) }}">{{ $roster->student }} - {{ $roster->course }}</a>
+                    <a href="{{ route('teachers.showRosters', ['teacher' => $teacher->id, 'roster' => $roster->id]) }}">{{ $roster->student }} - {{ $roster->course }}</a><br>
+                    @if (auth()->check() && auth()->user()->role === 'admin')
+                    <a href="{{ route('membership.create', ['roster' => $roster->id]) }}">создать новый абонемент:</a>
+                    @endif
+                        @if ($roster->membership && isset($roster->membership->membership))
+                       оплачено {{ $roster->membership->membership }} уроков
+                        @endif
+                            @if ($roster->membership && auth()->check() && auth()->user()->role === 'admin')
+                            <a href="{{ route('membership.edit', ['roster' => $roster->id, 'membership' => $roster->membership->id]) }}">перейти к оплате</a>
+                            @endif
                 </li>
             @endforeach
         </ul>

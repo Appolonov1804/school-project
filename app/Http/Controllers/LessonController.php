@@ -39,6 +39,11 @@ class LessonController extends Controller
         ]);
         $roster = $lessonDetail->roster;
 
+        $membership = $roster->membership;
+        if ($membership && $membership->membership > 0) {
+            $membership->decrement('membership', 1);
+        }
+
         $teacherId = $roster->teachers_id;
         $page = $request->input('page', 1);
 
